@@ -1,0 +1,1 @@
+export const getSingers = state => state.singers.singersList;
