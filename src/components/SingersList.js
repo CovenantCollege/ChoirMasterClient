@@ -1,15 +1,47 @@
 import { connect } from 'react-redux';
 import { Component } from 'react';
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { addSinger } from '../actions/singers';
-import { getSingers } from '../selectors/singers';
+import { Button, Modal, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers';
+import { getSingers, getAddSingerModalOpen } from '../selectors/singers';
 
 class SingersList extends Component {
   render() {
     return (
       <div>
-        <Button bsStyle="primary" onClick={() => this.props.dispatch(addSinger({ name: 'Josh Humpherys', height: '6\'4"'}))}>Add Singer</Button>
+        <Button bsStyle="success" onClick={() => this.props.dispatch(openAddSingerModal())}>Add Singer</Button>
+        <Modal show={this.props.showModal}>
+          <Modal.Header>
+            <Modal.Title>Add Singer</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form>
+              <FormGroup>
+                <ControlLabel>Name</ControlLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Enter name"
+                  onChange={e => this.setState({ nameInput: e.target.value })}
+                />
+                <br />
+                <ControlLabel>Height</ControlLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Enter height"
+                  onChange={e => this.setState({ heightInput: e.target.value })}
+                />
+              </FormGroup>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="success" onClick={() => this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput }))}>
+              Submit
+            </Button>
+            <Button onClick={() => this.props.dispatch(closeAddSingerModal())}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <p>{this.props.singersList.map(singer => <div>{singer.name + ', ' + singer.height}</div>)}</p>
       </div>
     );
@@ -18,6 +50,7 @@ class SingersList extends Component {
 
 export default connect(
   state => ({
-    singersList: getSingers(state)
+    singersList: getSingers(state),
+    showModal: getAddSingerModalOpen(state)
   })
 )(SingersList);

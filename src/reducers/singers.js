@@ -1,8 +1,11 @@
 export default function singers(state = { singersList: [] }, action) {
-  console.log(action);
   switch (action.type) {
     case 'SINGER_ADDED':
-      return { ...state, singersList: state.singersList.concat(action.payload.singer) };
+      return { ...state, singersList: state.singersList.concat(action.payload.singer), addSingerModalOpen: false };
+    case 'ADD_SINGER_MODAL_OPENED':
+      return { ...state, addSingerModalOpen: true };
+    case 'ADD_SINGER_MODAL_CLOSED':
+      return { ...state, addSingerModalOpen: false };
     default:
       return state;
   }
