@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Component } from 'react';
 import React from 'react';
-import { Button, Modal, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
+import { Button, Modal, FormGroup, FormControl, ControlLabel, Table } from 'react-bootstrap';
 import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers';
 import { getSingers, getAddSingerModalOpen } from '../selectors/singers';
 
@@ -42,7 +42,26 @@ class SingersList extends Component {
             </Button>
           </Modal.Footer>
         </Modal>
-        <p>{this.props.singersList.map(singer => <div>{singer.name + ', ' + singer.height}</div>)}</p>
+        <Table striped borderer condensed hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Height</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.props.singersList.map(singer => {
+                return (
+                  <tr>
+                    <td>{singer.name}</td>
+                    <td>{singer.height}</td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </Table>
       </div>
     );
   };
