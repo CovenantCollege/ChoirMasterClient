@@ -21,7 +21,7 @@ export function addSinger(singer) {
     let response = await fetch('http://localhost:4567/singers', {
       method: 'POST',
       headers: {
-        'Authorization': 'jwt fakejwtTODOimplementlogin',
+        'Authorization': 'jwt ' + localStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -39,7 +39,7 @@ export function fetchSingers() {
     let response = await fetch('http://localhost:4567/singers', {
       method: 'GET',
       headers: {
-        'Authorization': 'jwt fakejwtTODOimplementlogin',
+        'Authorization': 'jwt ' + localStorage.getItem('token'),
         'Content-Type': 'application/json'
       },
     });

@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers/index';
 import SingersList from './components/SingersList';
 import './App.css';
-import { fetchSingers } from './actions/singers';
+import { authenticateUser } from './actions/user'
 import 'babel-polyfill';
 
 const middleware = compose(
@@ -18,9 +18,7 @@ const store = createStore(
   middleware
 );
 
-store.dispatch(fetchSingers()).then(() =>
-  console.log(store.getState())
-);
+store.dispatch(authenticateUser('joshhumpherys', 'password'));
 
 class App extends Component {
   render() {
