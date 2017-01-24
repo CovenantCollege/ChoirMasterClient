@@ -53,7 +53,7 @@ class SingersList extends Component {
             {
               this.props.singersList.map(singer => {
                 return (
-                  <tr>
+                  <tr key={singer.id}>
                     <td>{singer.name}</td>
                     <td>{singer.height}</td>
                   </tr>
