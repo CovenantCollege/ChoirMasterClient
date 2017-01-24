@@ -5,6 +5,24 @@ import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/s
 import { getSingers, getAddSingerModalOpen } from '../selectors/singers';
 
 class SingersList extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.submit = this.submit.bind(this);
+  }
+
+  onKeyDown(e) {
+    if(e.which === 13) {
+      this.submit();
+    }
+  }
+
+  submit() {
+    this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput }));
+  }
+
   render() {
     return (
       <div>
@@ -21,6 +39,7 @@ class SingersList extends Component {
                   type="text"
                   placeholder="Enter name"
                   onChange={e => this.setState({ nameInput: e.target.value })}
+                  onKeyDown={this.onKeyDown}
                 />
                 <br />
                 <ControlLabel>Height</ControlLabel>
@@ -28,12 +47,13 @@ class SingersList extends Component {
                   type="text"
                   placeholder="Enter height"
                   onChange={e => this.setState({ heightInput: e.target.value })}
+                  onKeyDown={this.onKeyDown}
                 />
               </FormGroup>
             </form>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="success" onClick={() => this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput }))}>
+            <Button bsStyle="success" onClick={this.submit}>
               Submit
             </Button>
             <Button onClick={() => this.props.dispatch(closeAddSingerModal())}>
