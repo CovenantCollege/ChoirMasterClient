@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Component } from 'react';
 import React from 'react';
-import { Button, Modal, FormGroup, FormControl, ControlLabel, Table } from 'react-bootstrap';
+import { Button, Modal, FormGroup, FormControl, ControlLabel, Table, Glyphicon } from 'react-bootstrap';
 import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers';
 import { getSingers, getAddSingerModalOpen } from '../selectors/singers';
 
@@ -9,7 +9,7 @@ class SingersList extends Component {
   render() {
     return (
       <div>
-        <Button bsStyle="success" onClick={() => this.props.dispatch(openAddSingerModal())}>Add Singer</Button>
+        <Button bsStyle="success" onClick={() => this.props.dispatch(openAddSingerModal())}><Glyphicon glyph="plus" /> Add Singer</Button>
         <Modal show={this.props.showModal}>
           <Modal.Header>
             <Modal.Title>Add Singer</Modal.Title>
@@ -42,7 +42,7 @@ class SingersList extends Component {
             </Button>
           </Modal.Footer>
         </Modal>
-        <Table striped borderer condensed hover>
+        <Table striped bordered condensed hover>
           <thead>
             <tr>
               <th>Name</th>

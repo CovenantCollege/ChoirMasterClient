@@ -5,6 +5,8 @@ import thunk from 'redux-thunk';
 import rootReducer from './reducers/index';
 import SingersList from './components/SingersList';
 import './App.css';
+import { fetchSingers } from './actions/singers';
+import 'babel-polyfill';
 
 const middleware = compose(
   applyMiddleware(thunk),
@@ -14,6 +16,10 @@ const middleware = compose(
 const store = createStore(
   rootReducer,
   middleware
+);
+
+store.dispatch(fetchSingers()).then(() =>
+  console.log(store.getState())
 );
 
 class App extends Component {
