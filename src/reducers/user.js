@@ -1,7 +1,7 @@
 export default function authentication(state = {
   isAuthenticated: localStorage.getItem('token') ? true : false,
   isAuthenticationFailed: false,
-  user: false,
+  email: null,
   token: localStorage.getItem('token')
 }, action) {
   switch (action.type) {
@@ -9,7 +9,7 @@ export default function authentication(state = {
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload.user,
+        email: action.payload.email,
         token: action.payload.token,
         isAuthenticationFailed: false
       };

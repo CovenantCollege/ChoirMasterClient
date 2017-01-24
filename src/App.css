@@ -1,8 +1,11 @@
 .container {
   width: 800px;
-  margin-top: 40px;
 }
 
 .container :not(:last-child) {
   margin-bottom: 20px;
+}
+
+.form-group :not(:last-child) {
+  margin-right: 6px;
 }

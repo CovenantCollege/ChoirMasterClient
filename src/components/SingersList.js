@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { Component } from 'react';
-import React from 'react';
+import React, { Component } from 'react';
 import { Button, Modal, FormGroup, FormControl, ControlLabel, Table, Glyphicon } from 'react-bootstrap';
 import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers';
 import { getSingers, getAddSingerModalOpen } from '../selectors/singers';

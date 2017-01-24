@@ -1,35 +1,29 @@
-import React, { Component } from 'react';
-import { createStore, compose, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import rootReducer from './reducers/index';
-import SingersList from './components/SingersList';
-import './App.css';
-import { authenticateUser } from './actions/user'
-import 'babel-polyfill';
-
-const middleware = compose(
-  applyMiddleware(thunk),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
-);
-
-const store = createStore(
-  rootReducer,
-  middleware
-);
-
-store.dispatch(authenticateUser('joshhumpherys', 'password'));
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import SingersList from './components/SingersList'
+import './App.css'
+import 'babel-polyfill'
+import Navbar from './components/Navbar'
+import { getIsAuthenticated } from './selectors/user'
 
 class App extends Component {
   render() {
-    return (
+    const container = !this.props.isAuthenticated ? null : (
       <div className="container">
-        <Provider store={store}>
-          <SingersList />
-        </Provider>
+        <SingersList />
+      </div>
+    );
+    return (
+      <div>
+        <Navbar />
+        {container}
       </div>
     );
   }
 }
 
-export default App;
+export default connect(
+  state => ({
+    isAuthenticated: getIsAuthenticated(state)
+  })
+)(App);
