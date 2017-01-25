@@ -18,7 +18,7 @@ export function loadSingers(singers) {
 
 export function addSinger(singer) {
   return async dispatch => {
-    let response = await fetch('http://localhost:4567/singers', {
+    let response = await fetch('/singers', {
       method: 'POST',
       headers: {
         'Authorization': 'jwt ' + localStorage.getItem('token'),
@@ -36,7 +36,7 @@ export function addSinger(singer) {
 
 export function fetchSingers() {
   return async dispatch => {
-    let response = await fetch('http://localhost:4567/singers', {
+    let response = await fetch('/singers', {
       method: 'GET',
       headers: {
         'Authorization': 'jwt ' + localStorage.getItem('token'),

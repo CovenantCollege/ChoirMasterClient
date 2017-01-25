@@ -3,7 +3,7 @@ import { fetchSingers } from './singers';
 
 export function authenticateUser(email, password) {
   return async dispatch => {
-    let response = await fetch('http://localhost:4567/sessions', {
+    let response = await fetch('/sessions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
