@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import config from '../configuration';
 
 export function openAddSingerModal() {
   return { type: 'ADD_SINGER_MODAL_OPENED' };
@@ -18,7 +19,7 @@ export function loadSingers(singers) {
 
 export function addSinger(singer) {
   return async dispatch => {
-    let response = await fetch('singers', {
+    let response = await fetch(config.baseApiUrl + '/singers', {
       method: 'POST',
       headers: {
         'Authorization': 'jwt ' + localStorage.getItem('token'),
@@ -36,7 +37,7 @@ export function addSinger(singer) {
 
 export function fetchSingers() {
   return async dispatch => {
-    let response = await fetch('singers', {
+    let response = await fetch(config.baseApiUrl + '/singers', {
       method: 'GET',
       headers: {
         'Authorization': 'jwt ' + localStorage.getItem('token'),

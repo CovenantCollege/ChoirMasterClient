@@ -1,9 +1,10 @@
 import fetch from 'isomorphic-fetch';
 import { fetchSingers } from './singers';
+import config from '../configuration';
 
 export function authenticateUser(email, password) {
   return async dispatch => {
-    let response = await fetch('sessions', {
+    let response = await fetch(config.baseApiUrl + '/sessions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
