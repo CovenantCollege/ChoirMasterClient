@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { logoutUser } from '../actions/user'
 
-class Logout extends Component {
+class LogoutButton extends Component {
   render() {
     return (
       <Button bsStyle="primary" onClick={() => this.props.dispatch(logoutUser())}>
@@ -15,4 +15,4 @@ class Logout extends Component {
 
 export default connect(
   state => ({})
-)(Logout);
+)(LogoutButton);

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Login from './Login'
-import Logout from './Logout'
-import { authenticateUser, logoutUser } from '../actions/user'
+import LoginButton from './LoginButton'
+import LogoutButton from './LogoutButton'
 import { getIsAuthenticated } from '../selectors/user'
 
 class Navbar extends Component {
@@ -12,7 +11,7 @@ class Navbar extends Component {
         <div className='container-fluid'>
           <a className="navbar-brand" href="#">Choir Master</a>
           <div className='navbar-form'>
-            {this.props.isAuthenticated ? <Logout /> : <Login />}
+            {this.props.isAuthenticated ? <LogoutButton /> : <LoginButton />}
           </div>
         </div>
       </nav>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, FormGroup, FormControl } from 'react-bootstrap'
+import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap'
 import { authenticateUser } from '../actions/user'
 
-class Login extends Component {
+class LoginPage extends Component {
   constructor(props) {
     super(props);
 
@@ -23,15 +23,17 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <form>
           <FormGroup>
+            <ControlLabel>Email:</ControlLabel>
             <FormControl
               type="email"
               placeholder="Email"
               onChange={e => this.setState({ emailInput: e.target.value })}
               onKeyDown={this.onKeyDown}
             />
+            <ControlLabel>Password:</ControlLabel>
             <FormControl
               type="password"
               placeholder="Password"
@@ -50,4 +52,4 @@ class Login extends Component {
 
 export default connect(
   state => ({})
-)(Login);
+)(LoginPage);

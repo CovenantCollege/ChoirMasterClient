@@ -3,20 +3,24 @@ import { connect } from 'react-redux'
 import SingersList from './components/SingersList'
 import './App.css'
 import 'babel-polyfill'
-import Navbar from './components/Navbar'
 import { getIsAuthenticated } from './selectors/user'
+import { RouteHandler } from 'react-router'
+import { Jumbotron } from 'react-bootstrap'
 
 class App extends Component {
   render() {
-    const container = !this.props.isAuthenticated ? null : (
-      <div className="container">
-        <SingersList />
-      </div>
+    const contents = this.props.isAuthenticated ? (
+      <SingersList />
+    ) : (
+      <Jumbotron>
+        <h2>
+          Welcome to Choir Master!
+        </h2>
+      </Jumbotron>
     );
     return (
-      <div>
-        <Navbar />
-        {container}
+      <div className="container">
+        {contents}
       </div>
     );
   }

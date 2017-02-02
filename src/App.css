@@ -2,10 +2,14 @@
   width: 800px;
 }
 
-.container :not(:last-child) {
-  margin-bottom: 20px;
-}
+/*.container :not(:last-child) {
+  margin-bottom: 10px;
+}*/
 
-.form-group :not(:last-child) {
+/*.form-group :not(:last-child) {
   margin-right: 6px;
+}*/
+
+.form-group input {
+  margin-bottom: 15px;
 }
