@@ -5,16 +5,15 @@ import { hashHistory } from 'react-router'
 import { getIsAuthenticated } from '../selectors/user'
 import { getOrganizations } from '../selectors/organizations'
 import { fetchOrganizations } from '../actions/organizations'
-// import { selectOrganization } from '../actions/organizations'
+import { selectOrganization } from '../actions/organizations'
 
 class DashboardPage extends Component {
 
-  selectOrganization(organization) {
-    // this.props.dispatch(selectOrganization(organization));
+  selectOrganization(orgId) {
+    this.props.dispatch(selectOrganization(orgId));
   }
 
   componentDidMount() {
-    console.log(this.props.organizations);
     if(this.props.organizations.length === 0) {
       this.props.dispatch(fetchOrganizations());
     }
@@ -31,7 +30,7 @@ class DashboardPage extends Component {
       for(let j = 0; j < Math.min(this.props.organizations.length - i * 3, 3); j++) {
         organizationsRowArray[j] = (
           <Col xs={6} md={4}>
-            <Button bsClass="btn btn-default organization-btn">
+            <Button bsClass="btn btn-default organization-btn" onClick={() => this.selectOrganization(this.props.organizations[j + i * 3].orgId)}>
               {this.props.organizations[j + i * 3].name}
             </Button>
           </Col>

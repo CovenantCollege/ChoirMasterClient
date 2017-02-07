@@ -9,11 +9,13 @@ import thunk from 'redux-thunk'
 import rootReducer from './reducers/index'
 import { loginUser } from './actions/user'
 import { fetchSingers } from './actions/singers'
+import { selectOrganization } from './actions/organizations'
 import jwtDecode from 'jwt-decode'
 import { Router, Route, hashHistory } from 'react-router'
 
 import LoginPage from './components/LoginPage'
 import DashboardPage from './components/DashboardPage'
+import OrganizationPage from './components/OrganizationPage'
 
 const middleware = compose(
   applyMiddleware(thunk),
@@ -29,6 +31,7 @@ const token = localStorage.getItem('token');
 if(token) {
   store.dispatch(loginUser(token, jwtDecode(token).email));
   store.dispatch(fetchSingers());
+  // store.dispatch(selectOrganization(5));
 }
 
 ReactDOM.render(
@@ -39,6 +42,7 @@ ReactDOM.render(
         <Route path="/" component={App} />
         <Route path="/login" component={LoginPage} />
         <Route path="/dashboard" component={DashboardPage} />
+        <Route path="/organizations/:orgId" component={OrganizationPage} />
       </Router>
     </div>
   </Provider>,
