@@ -1,0 +1,1 @@
+export const getOrganizations = state => state.organizations.organizationsList;
