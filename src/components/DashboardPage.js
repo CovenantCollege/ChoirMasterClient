@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {  } from 'react-bootstrap'
+import { Grid, Row, Col, Button } from 'react-bootstrap'
 import { hashHistory } from 'react-router'
 import { getIsAuthenticated } from '../selectors/user'
 import { getOrganizations } from '../selectors/organizations'
@@ -25,10 +25,29 @@ class DashboardPage extends Component {
       hashHistory.push('');
       return null;
     }
+    let organizationsGrid = [];
+    for(let i = 0; i * 3 < this.props.organizations.length; i++) {
+      let organizationsRowArray = [];
+      for(let j = 0; j < Math.min(this.props.organizations.length - i * 3, 3); j++) {
+        organizationsRowArray[j] = (
+          <Col xs={6} md={4}>
+            <Button bsClass="btn btn-default organization-btn">
+              {this.props.organizations[j + i * 3].name}
+            </Button>
+          </Col>
+        );
+      }
+      organizationsGrid[i] = (
+        <Row className="show-grid">
+          {organizationsRowArray}
+        </Row>
+      );
+    }
     return (
       <div className="container">
-        select organization!
-        {this.props.organizations.toString()}
+        <Grid>
+          {organizationsGrid}
+        </Grid>
       </div>
     );
   }

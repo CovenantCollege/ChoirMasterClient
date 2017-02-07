@@ -13,3 +13,10 @@
 .form-group input {
   margin-bottom: 15px;
 }
+
+.organization-btn {
+  width: 100%;
+  height: 100%;
+  white-space: normal;
+  margin-bottom: 20px;
+}
