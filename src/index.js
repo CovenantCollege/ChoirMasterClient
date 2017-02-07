@@ -10,9 +10,10 @@ import rootReducer from './reducers/index'
 import { loginUser } from './actions/user'
 import { fetchSingers } from './actions/singers'
 import jwtDecode from 'jwt-decode'
-import { Router, Route, browserHistory } from 'react-router'
+import { Router, Route, hashHistory } from 'react-router'
 
 import LoginPage from './components/LoginPage'
+import DashboardPage from './components/DashboardPage'
 
 const middleware = compose(
   applyMiddleware(thunk),
@@ -34,9 +35,10 @@ ReactDOM.render(
   <Provider store={store}>
     <div>
       <Navbar />
-      <Router history={browserHistory}>
+      <Router history={hashHistory}>
         <Route path="/" component={App} />
-        <Route path="login" component={LoginPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/dashboard" component={DashboardPage} />
       </Router>
     </div>
   </Provider>,

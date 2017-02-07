@@ -4,7 +4,6 @@ import SingersList from './components/SingersList'
 import './App.css'
 import 'babel-polyfill'
 import { getIsAuthenticated } from './selectors/user'
-import { RouteHandler } from 'react-router'
 import { Jumbotron } from 'react-bootstrap'
 
 class App extends Component {

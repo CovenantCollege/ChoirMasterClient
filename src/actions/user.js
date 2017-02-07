@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { fetchSingers } from './singers';
 import config from '../configuration';
+import { hashHistory } from 'react-router'
 
 export function authenticateUser(email, password) {
   return async dispatch => {
@@ -15,6 +16,7 @@ export function authenticateUser(email, password) {
     if(json.result === 'success') {
       localStorage.setItem('token', json.token);
       dispatch(loginUser(json.token, email));
+      hashHistory.push('dashboard')
       dispatch(fetchSingers());
     } else {
       dispatch(failAuthentication());
