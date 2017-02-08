@@ -2,23 +2,25 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
 import { getIsAuthenticated } from '../selectors/user'
-import { getSelectedOrganization } from '../selectors/organizations'
-import { selectOrganization } from '../actions/organizations'
+import { getOrganizations } from '../selectors/organizations'
+import { fetchOrganizations } from '../actions/organizations'
 
 class OrganizationPage extends Component {
   componentWillMount() {
-    // if(this.props.organization === undefined) {
-    //   this.props.dispatch(selectOrganization(parseInt(this.props.params.orgId, 10)));
-    // }
+    if(this.props.organizations.length == 0) {
+      this.props.dispatch(fetchOrganizations());
+    }
   }
   render() {
     if(!this.props.isAuthenticated) {
       hashHistory.push('');
       return null;
     }
+    let selectedOrganization = this.props.organizations[parseInt(this.props.params.orgId, 10)];
+    let name = selectedOrganization ? selectedOrganization.name : null;
     return (
       <div className="container">
-        {this.props.organization ? this.props.organization.name : null}
+        {name}
       </div>
     );
   }
@@ -27,6 +29,6 @@ class OrganizationPage extends Component {
 export default connect(
   state => ({
     isAuthenticated: getIsAuthenticated(state),
-    organization: getSelectedOrganization(state)
+    organizations: getOrganizations(state)
   })
 )(OrganizationPage);
