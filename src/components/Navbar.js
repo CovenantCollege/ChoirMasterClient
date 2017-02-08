@@ -8,6 +8,9 @@ import { getIsAuthenticated } from '../selectors/user'
 
 class Navbar extends Component {
   render() {
+    let links = this.props.isAuthenticated ? [
+      <NavItem key="1" eventKey={1} href="#/dashboard">Organizations</NavItem>
+    ] : null;
     return (
       <NavbarReactBootstrap>
         <NavbarReactBootstrap.Header>
@@ -16,7 +19,7 @@ class Navbar extends Component {
           </NavbarReactBootstrap.Brand>
         </NavbarReactBootstrap.Header>
         <Nav>
-          <NavItem eventKey={1} href="#/dashboard">Organizations</NavItem>
+          {links}
         </Nav>
         <NavbarReactBootstrap.Collapse>
           <NavbarReactBootstrap.Form pullRight>

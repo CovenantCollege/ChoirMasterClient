@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
+import SingersList from './SingersList'
 import { getIsAuthenticated } from '../selectors/user'
 import { getOrganizations } from '../selectors/organizations'
 import { fetchOrganizations } from '../actions/organizations'
 
 class OrganizationPage extends Component {
   componentWillMount() {
-    if(this.props.organizations.length == 0) {
+    if(this.props.organizations.length === 0) {
       this.props.dispatch(fetchOrganizations());
     }
   }
@@ -20,7 +21,10 @@ class OrganizationPage extends Component {
     let name = selectedOrganization ? selectedOrganization.name : null;
     return (
       <div className="container">
-        {name}
+        <h2>
+          {name}
+        </h2>
+        <SingersList />
       </div>
     );
   }

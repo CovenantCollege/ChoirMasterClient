@@ -25,7 +25,7 @@ class SingersList extends Component {
 
   render() {
     return (
-      <div>
+      <div className="margined-children">
         <Button bsStyle="success" onClick={() => this.props.dispatch(openAddSingerModal())}><Glyphicon glyph="plus" /> Add Singer</Button>
         <Modal show={this.props.showModal}>
           <Modal.Header>

@@ -29,7 +29,7 @@ class DashboardPage extends Component {
       let organizationsRowArray = [];
       for(let j = 0; j < Math.min(this.props.organizations.length - i * 3, 3); j++) {
         organizationsRowArray[j] = (
-          <Col xs={6} md={4}>
+          <Col xs={6} md={4} key={j + i * 3}>
             <Button bsClass="btn btn-default organization-btn" onClick={() => this.selectOrganization(this.props.organizations[j + i * 3].orgId)}>
               {this.props.organizations[j + i * 3].name}
             </Button>
@@ -37,7 +37,7 @@ class DashboardPage extends Component {
         );
       }
       organizationsGrid[i] = (
-        <Row className="show-grid">
+        <Row className="show-grid" key={i}>
           {organizationsRowArray}
         </Row>
       );

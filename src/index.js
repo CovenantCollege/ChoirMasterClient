@@ -9,7 +9,6 @@ import thunk from 'redux-thunk'
 import rootReducer from './reducers/index'
 import { loginUser } from './actions/user'
 import { fetchSingers } from './actions/singers'
-import { selectOrganization } from './actions/organizations'
 import jwtDecode from 'jwt-decode'
 import { Router, Route, hashHistory } from 'react-router'
 
@@ -30,8 +29,6 @@ const store = createStore(
 const token = localStorage.getItem('token');
 if(token) {
   store.dispatch(loginUser(token, jwtDecode(token).email));
-  store.dispatch(fetchSingers());
-  // store.dispatch(selectOrganization(5));
 }
 
 ReactDOM.render(

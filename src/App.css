@@ -20,3 +20,7 @@
   white-space: normal;
   margin-bottom: 20px;
 }
+
+.margined-children :not(:last-child) {
+  margin-bottom: 10px;
+}
