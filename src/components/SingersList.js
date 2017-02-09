@@ -20,7 +20,7 @@ class SingersList extends Component {
   }
 
   submit() {
-    this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput }, this.props.selectedOrganization.orgId));
+    this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput, voice: this.state.voiceInput }, this.props.selectedOrganization.orgId));
   }
 
   render() {
@@ -35,9 +35,6 @@ class SingersList extends Component {
           </tr>
         );
       });
-    } else {
-      // TODO fetch singers
-      console.log('TODO fetch singers');
     }
     return (
       <div className="margined-children">
@@ -56,12 +53,18 @@ class SingersList extends Component {
                   onChange={e => this.setState({ nameInput: e.target.value })}
                   onKeyDown={this.onKeyDown}
                 />
-                <br />
                 <ControlLabel>Height</ControlLabel>
                 <FormControl
                   type="text"
                   placeholder="Enter height"
                   onChange={e => this.setState({ heightInput: e.target.value })}
+                  onKeyDown={this.onKeyDown}
+                />
+                <ControlLabel>Voice</ControlLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Enter voice"
+                  onChange={e => this.setState({ voiceInput: e.target.value })}
                   onKeyDown={this.onKeyDown}
                 />
               </FormGroup>

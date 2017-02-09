@@ -27,7 +27,8 @@ export function addSinger(singer, orgId) {
       },
       body: JSON.stringify({
         'name': singer.name,
-        'height': singer.height
+        'height': singer.height,
+        'voice': singer.voice
       })
     });
     let json = await response.json();
