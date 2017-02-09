@@ -21,11 +21,21 @@ export function fetchOrganizations() {
       },
     });
     let json = await response.json();
-    dispatch(loadOrganizations(json));
-    /*dispatch(loadOrganizations([
+    // dispatch(loadOrganizations(json));
+    dispatch(loadOrganizations([
       {
         orgId: 0,
-        name: 'Covenant College'
+        name: 'Covenant College',
+        singers:
+        [
+          {
+            singerId: 0,
+            name: "Josh Humpherys",
+            height: 67,
+            voice: "Tenor 1",
+            orgId: 0
+          }
+        ]
       },
       {
         orgId: 1,
@@ -51,6 +61,6 @@ export function fetchOrganizations() {
         orgId: 6,
         name: 'running out of names'
       }
-    ]));*/
+    ]));
   }
 }

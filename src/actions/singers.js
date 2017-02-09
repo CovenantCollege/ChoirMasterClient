@@ -9,17 +9,17 @@ export function closeAddSingerModal() {
   return { type: 'ADD_SINGER_MODAL_CLOSED' };
 }
 
-export function loadSinger(singer) {
-  return { type: 'SINGER_ADDED', payload: { singer }};
+export function loadSinger(singer, orgId) {
+  return { type: 'SINGER_ADDED', payload: { singer, orgId }};
 }
 
-export function loadSingers(singers) {
-  return { type: 'SINGERS_LOADED', payload: { singers }};
+export function loadSingers(singers, orgId) {
+  return { type: 'SINGERS_LOADED', payload: { singers, orgId }};
 }
 
-export function addSinger(singer) {
+export function addSinger(singer, orgId) {
   return async dispatch => {
-    let response = await fetch(config.baseApiUrl + '/singers', {
+    let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/singers', {
       method: 'POST',
       headers: {
         'Authorization': 'jwt ' + localStorage.getItem('token'),
@@ -35,9 +35,9 @@ export function addSinger(singer) {
   }
 }
 
-export function fetchSingers() {
+export function fetchSingers(orgId) {
   return async dispatch => {
-    let response = await fetch(config.baseApiUrl + '/singers', {
+    let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/singers', {
       method: 'GET',
       headers: {
         'Authorization': 'jwt ' + localStorage.getItem('token'),

@@ -7,24 +7,35 @@ import { getOrganizations } from '../selectors/organizations'
 import { fetchOrganizations } from '../actions/organizations'
 
 class OrganizationPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.getOrgId = this.getOrgId.bind(this);
+  }
+
+  getOrgId() {
+    return parseInt(this.props.params.orgId, 10);
+  }
+
   componentWillMount() {
     if(this.props.organizations.length === 0) {
-      this.props.dispatch(fetchOrganizations());
+      this.props.dispatch(fetchOrganizations(this.getOrgId()));
     }
   }
+
   render() {
     if(!this.props.isAuthenticated) {
       hashHistory.push('');
       return null;
     }
-    let selectedOrganization = this.props.organizations[parseInt(this.props.params.orgId, 10)];
+    let selectedOrganization = this.props.organizations[this.getOrgId()];
     let name = selectedOrganization ? selectedOrganization.name : null;
     return (
       <div className="container">
         <h2>
           {name}
         </h2>
-        <SingersList />
+        <SingersList orgId={this.getOrgId()} />
       </div>
     );
   }

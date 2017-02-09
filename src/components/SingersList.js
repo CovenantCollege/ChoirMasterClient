@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { Button, Modal, FormGroup, FormControl, ControlLabel, Table, Glyphicon } from 'react-bootstrap';
 import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers';
-import { getSingers, getAddSingerModalOpen } from '../selectors/singers';
+import { getAddSingerModalOpen } from '../selectors/singers';
+import { getOrganizations } from '../selectors/organizations'
 
 class SingersList extends Component {
-
   constructor(props) {
     super(props);
 
@@ -20,7 +20,7 @@ class SingersList extends Component {
   }
 
   submit() {
-    this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput }));
+    this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput }, this.props.orgId));
   }
 
   render() {
@@ -66,18 +66,20 @@ class SingersList extends Component {
             <tr>
               <th>Name</th>
               <th>Height</th>
+              <th>Voice</th>
             </tr>
           </thead>
           <tbody>
             {
-              this.props.singersList.map(singer => {
+              this.props.organizations[this.props.orgId] ? this.props.organizations[this.props.orgId].singers.map(singer => {
                 return (
-                  <tr key={singer.id}>
+                  <tr key={singer.singerId}>
                     <td>{singer.name}</td>
                     <td>{singer.height}</td>
+                    <td>{singer.voice}</td>
                   </tr>
                 );
-              })
+              }) : null
             }
           </tbody>
         </Table>
@@ -88,7 +90,7 @@ class SingersList extends Component {
 
 export default connect(
   state => ({
-    singersList: getSingers(state),
+    organizations: getOrganizations(state),
     showModal: getAddSingerModalOpen(state)
   })
 )(SingersList);

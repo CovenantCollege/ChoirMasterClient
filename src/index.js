@@ -8,7 +8,6 @@ import { createStore, compose, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import rootReducer from './reducers/index'
 import { loginUser } from './actions/user'
-import { fetchSingers } from './actions/singers'
 import jwtDecode from 'jwt-decode'
 import { Router, Route, hashHistory } from 'react-router'
 

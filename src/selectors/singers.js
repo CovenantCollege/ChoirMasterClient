@@ -1,3 +1,3 @@
-export const getSingers = state => state.singers.singersList;
+export const getSingers = (state, orgId) => state.organizations.organizationsList[orgId].singers;
 
-export const getAddSingerModalOpen = state => state.singers.addSingerModalOpen;
+export const getAddSingerModalOpen = state => state.organizations.addSingerModalOpen;
