@@ -1,13 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Grid, Row, Col, Button } from 'react-bootstrap'
+import { Grid, Row, Col, Button, Glyphicon, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import { hashHistory } from 'react-router'
 import { getIsAuthenticated } from '../selectors/user'
 import { getOrganizations } from '../selectors/organizations'
 import { fetchOrganizations } from '../actions/organizations'
 import { selectOrganization } from '../actions/organizations'
+import { openAddOrganizationModal, closeAddOrganizationModal, addOrganization } from '../actions/organizations'
+import { getAddOrganizationModalOpen } from '../selectors/organizations'
 
 class DashboardPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.submit = this.submit.bind(this);
+  }
+
+  onKeyDown(e) {
+    if(e.which === 13) {
+      this.submit();
+    }
+  }
+
+  submit() {
+    this.props.dispatch(addOrganization({ name: this.state.nameInput }));
+  }
 
   selectOrganization(orgId) {
     this.props.dispatch(selectOrganization(orgId));
@@ -43,8 +61,35 @@ class DashboardPage extends Component {
       );
     }
     return (
-      <div className="container">
-        <Grid>
+      <div className="container fixed-width-container margined-children">
+        <Button bsStyle="success" onClick={() => this.props.dispatch(openAddOrganizationModal())}><Glyphicon glyph="plus" /> Add Organization</Button>
+        <Modal show={this.props.showModal}>
+          <Modal.Header>
+            <Modal.Title>Add Organization</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form>
+              <FormGroup>
+                <ControlLabel>Name</ControlLabel>
+                <FormControl
+                  type="text"
+                  placeholder="Enter name"
+                  onChange={e => this.setState({ nameInput: e.target.value })}
+                  onKeyDown={this.onKeyDown}
+                />
+              </FormGroup>
+            </form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="success" onClick={this.submit}>
+              Submit
+            </Button>
+            <Button onClick={() => this.props.dispatch(closeAddOrganizationModal())}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Grid bsClass="">
           {organizationsGrid}
         </Grid>
       </div>
@@ -55,6 +100,7 @@ class DashboardPage extends Component {
 export default connect(
   state => ({
     isAuthenticated: getIsAuthenticated(state),
-    organizations: getOrganizations(state)
+    organizations: getOrganizations(state),
+    showModal: getAddOrganizationModalOpen(state)
   })
 )(DashboardPage);
