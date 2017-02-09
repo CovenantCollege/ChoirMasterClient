@@ -1,8 +1,9 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
-import { Button, Modal, FormGroup, FormControl, ControlLabel, Table, Glyphicon } from 'react-bootstrap';
-import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers';
-import { getAddSingerModalOpen } from '../selectors/singers';
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
+import { hashHistory } from 'react-router'
+import { Button, Modal, FormGroup, FormControl, ControlLabel, Table, Glyphicon } from 'react-bootstrap'
+import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers'
+import { getAddSingerModalOpen } from '../selectors/singers'
 import { getOrganizations } from '../selectors/organizations'
 
 class SingersList extends Component {
@@ -24,6 +25,21 @@ class SingersList extends Component {
   }
 
   render() {
+    let singers = null;
+    if(this.props.selectedOrganization.singers !== undefined) {
+      singers = this.props.selectedOrganization.singers.map(singer => {
+        return (
+          <tr key={singer.singerId}>
+            <td>{singer.name}</td>
+            <td>{singer.height}</td>
+            <td>{singer.voice}</td>
+          </tr>
+        );
+      });
+    } else {
+      // TODO fetch singers
+      console.log('TODO fetch singers');
+    }
     return (
       <div className="margined-children">
         <Button bsStyle="success" onClick={() => this.props.dispatch(openAddSingerModal())}><Glyphicon glyph="plus" /> Add Singer</Button>
@@ -70,17 +86,7 @@ class SingersList extends Component {
             </tr>
           </thead>
           <tbody>
-            {
-              this.props.organizations[this.props.orgId] ? this.props.organizations[this.props.orgId].singers.map(singer => {
-                return (
-                  <tr key={singer.singerId}>
-                    <td>{singer.name}</td>
-                    <td>{singer.height}</td>
-                    <td>{singer.voice}</td>
-                  </tr>
-                );
-              }) : null
-            }
+            {singers}
           </tbody>
         </Table>
       </div>

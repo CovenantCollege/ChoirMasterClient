@@ -1,4 +1,4 @@
-export default function organizations(state = { organizationsList: [] }, action) {
+export default function organizations(state = { organizationsList: [], fetchingOrganizations: false }, action) {
   switch (action.type) {
     case 'ORGANIZATION_ADDED':
       return {
@@ -6,18 +6,34 @@ export default function organizations(state = { organizationsList: [] }, action)
         organizationsList: state.organizationsList.concat(action.payload.organization),
         addOrganizationModalOpen: false
       };
+    case 'ORGANIZATIONS_FETCHED':
+      return { ...state, fetchingOrganizations: true };
     case 'ORGANIZATIONS_LOADED':
-      return { ...state, organizationsList: action.payload.organizations };
+      return { ...state, organizationsList: action.payload.organizations, fetchingOrganizations: false };
     case 'ORGANIZATION_SELECTED':
-      return { ...state, orgIdSelected: action.payload.orgId };
+      return state;
     case 'SINGER_ADDED':
-      return {
-        ...state,
-        singersList: state.organizationsList[action.payload.orgId].singersList.concat(action.payload.singer),
-        addSingerModalOpen: false
-      };
+      var organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.orgId) {
+          let updatedOrganization = Object.assign({}, organization);
+          updatedOrganization.singers = updatedOrganization.singers.concat(action.payload.singer);
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList, addSingerModalOpen: false };
     case 'SINGERS_LOADED':
-      return { ...state, singersList: action.payload.singers };
+      var organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.orgId) {
+          let updatedOrganization = Object.assign({}, organization);
+          updatedOrganization.singers = action.payload.singers;
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList };
     case 'ADD_SINGER_MODAL_OPENED':
       return { ...state, addSingerModalOpen: true };
     case 'ADD_SINGER_MODAL_CLOSED':
