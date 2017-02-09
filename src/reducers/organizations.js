@@ -1,4 +1,5 @@
 export default function organizations(state = { organizationsList: [], fetchingOrganizations: false }, action) {
+  let organizationsList = [];
   switch (action.type) {
     case 'ORGANIZATION_ADDED':
       return {
@@ -13,8 +14,9 @@ export default function organizations(state = { organizationsList: [], fetchingO
     case 'ORGANIZATION_SELECTED':
       return state;
     case 'SINGER_ADDED':
-      var organizationsList = state.organizationsList.map(organization => {
-        if(organization.orgId === action.payload.orgId) {
+      organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.singer.orgId) {
+          console.log(action.payload.singer);
           let updatedOrganization = Object.assign({}, organization);
           updatedOrganization.singers = updatedOrganization.singers.concat(action.payload.singer);
           return updatedOrganization;
@@ -24,7 +26,7 @@ export default function organizations(state = { organizationsList: [], fetchingO
       });
       return { ...state, organizationsList, addSingerModalOpen: false };
     case 'SINGERS_LOADED':
-      var organizationsList = state.organizationsList.map(organization => {
+      organizationsList = state.organizationsList.map(organization => {
         if(organization.orgId === action.payload.orgId) {
           let updatedOrganization = Object.assign({}, organization);
           updatedOrganization.singers = action.payload.singers;

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { hashHistory } from 'react-router'
 import { Button, Modal, FormGroup, FormControl, ControlLabel, Table, Glyphicon } from 'react-bootstrap'
 import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers'
 import { getAddSingerModalOpen } from '../selectors/singers'
@@ -21,7 +20,7 @@ class SingersList extends Component {
   }
 
   submit() {
-    this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput }, this.props.orgId));
+    this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput }, this.props.selectedOrganization.orgId));
   }
 
   render() {
