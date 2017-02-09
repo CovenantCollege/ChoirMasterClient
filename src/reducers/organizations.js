@@ -18,7 +18,7 @@ export default function organizations(state = { organizationsList: [], fetchingO
         if(organization.orgId === action.payload.singer.orgId) {
           console.log(action.payload.singer);
           let updatedOrganization = Object.assign({}, organization);
-          updatedOrganization.singers = updatedOrganization.singers.concat(action.payload.singer);
+          updatedOrganization.singers = (updatedOrganization.singers ? updatedOrganization.singers : []).concat(action.payload.singer);
           return updatedOrganization;
         } else {
           return organization;
