@@ -16,7 +16,6 @@ export default function organizations(state = { organizationsList: [], fetchingO
     case 'SINGER_ADDED':
       organizationsList = state.organizationsList.map(organization => {
         if(organization.orgId === action.payload.singer.orgId) {
-          console.log(action.payload.singer);
           let updatedOrganization = Object.assign({}, organization);
           updatedOrganization.singers = (updatedOrganization.singers ? updatedOrganization.singers : []).concat(action.payload.singer);
           return updatedOrganization;

@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { Button, Modal, FormGroup, FormControl, ControlLabel, Table, Glyphicon } from 'react-bootstrap'
-import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers'
+import { Button, Table, Glyphicon } from 'react-bootstrap'
+import AddSingerModal from './AddSingerModal'
+import { openAddSingerModal } from '../actions/singers'
 import { getToken } from '../selectors/user'
 import { getAddSingerModalOpen } from '../selectors/singers'
 import { getOrganizations } from '../selectors/organizations'
@@ -10,20 +11,9 @@ class SingersList extends Component {
   constructor(props) {
     super(props);
 
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.submit = this.submit.bind(this);
+    this.state = { numAddSingerButtonClicks: 0 };
   }
-
-  onKeyDown(e) {
-    if(e.which === 13) {
-      this.submit();
-    }
-  }
-
-  submit() {
-    this.props.dispatch(addSinger(this.props.token, { name: this.state.nameInput, height: this.state.heightInput, voice: this.state.voiceInput }, this.props.selectedOrganization.orgId));
-  }
-
+  
   render() {
     let singers = null;
     if(this.props.selectedOrganization.singers !== undefined) {
@@ -39,51 +29,11 @@ class SingersList extends Component {
     }
     return (
       <div className="margined-children">
-        <Button bsStyle="success" onClick={() => this.props.dispatch(openAddSingerModal())}><Glyphicon glyph="plus" /> Add Singer</Button>
-        <Modal show={this.props.showModal}>
-          <Modal.Header>
-            <Modal.Title>Add Singer</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form>
-              <FormGroup>
-                <ControlLabel>Name</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Enter name"
-                  onChange={e => this.setState({ nameInput: e.target.value })}
-                  onKeyDown={this.onKeyDown}
-                />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Height</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Enter height"
-                  onChange={e => this.setState({ heightInput: e.target.value })}
-                  onKeyDown={this.onKeyDown}
-                />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Voice</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Enter voice"
-                  onChange={e => this.setState({ voiceInput: e.target.value })}
-                  onKeyDown={this.onKeyDown}
-                />
-              </FormGroup>
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button bsStyle="success" onClick={this.submit}>
-              Submit
-            </Button>
-            <Button onClick={() => this.props.dispatch(closeAddSingerModal())}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <Button bsStyle="success" onClick={() => {
+          this.props.dispatch(openAddSingerModal());
+          this.setState({ numAddSingerButtonClicks: this.state.numAddSingerButtonClicks + 1 });
+        }}><Glyphicon glyph="plus" /> Add Singer</Button>
+        <AddSingerModal showModal={this.props.showModal} orgId={this.props.selectedOrganization.orgId} key={this.state.numAddSingerButtonClicks} />
         <Table striped bordered condensed hover>
           <thead>
             <tr>

@@ -28,7 +28,8 @@ export function addSinger(token, singer, orgId) {
       body: JSON.stringify({
         'name': singer.name,
         'height': singer.height,
-        'voice': singer.voice
+        'voice': singer.voice,
+        'gender': singer.gender
       })
     });
     let json = await response.json();
@@ -43,7 +44,7 @@ export function fetchSingers(token, orgId) {
       headers: {
         'Authorization': 'jwt ' + token,
         'Content-Type': 'application/json'
-      },
+      }
     });
     let json = await response.json();
     dispatch(loadSingers(json));
