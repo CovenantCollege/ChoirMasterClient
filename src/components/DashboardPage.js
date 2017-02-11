@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Grid, Row, Col, Button, Glyphicon, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import { hashHistory } from 'react-router'
-import { getIsAuthenticated } from '../selectors/user'
+import { getIsAuthenticated, getToken } from '../selectors/user'
 import { getOrganizations } from '../selectors/organizations'
 import { fetchOrganizations } from '../actions/organizations'
 import { selectOrganization } from '../actions/organizations'
@@ -24,7 +24,7 @@ class DashboardPage extends Component {
   }
 
   submit() {
-    this.props.dispatch(addOrganization({ name: this.state.nameInput }));
+    this.props.dispatch(addOrganization(this.props.token, { name: this.state.nameInput }));
   }
 
   selectOrganization(orgId) {
@@ -33,7 +33,7 @@ class DashboardPage extends Component {
 
   componentDidMount() {
     if(this.props.organizations.length === 0) {
-      this.props.dispatch(fetchOrganizations());
+      this.props.dispatch(fetchOrganizations(this.props.token));
     }
   }
 
@@ -100,6 +100,7 @@ class DashboardPage extends Component {
 export default connect(
   state => ({
     isAuthenticated: getIsAuthenticated(state),
+    token: getToken(state),
     organizations: getOrganizations(state),
     showModal: getAddOrganizationModalOpen(state)
   })

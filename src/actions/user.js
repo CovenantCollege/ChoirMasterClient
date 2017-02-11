@@ -3,7 +3,7 @@ import { fetchSingers } from './singers';
 import config from '../configuration';
 import { hashHistory } from 'react-router'
 
-export function authenticateUser(email, password) {
+export function authenticateUser(email, password, remember) {
   return async dispatch => {
     let response = await fetch(config.baseApiUrl + '/sessions', {
       method: 'POST',
@@ -14,9 +14,11 @@ export function authenticateUser(email, password) {
     });
     let json = await response.json();
     if(json.result === 'success') {
-      localStorage.setItem('token', json.token);
+      if(remember) {
+        localStorage.setItem('token', json.token);
+      }
       dispatch(loginUser(json.token, email));
-      hashHistory.push('dashboard')
+      hashHistory.push('dashboard');
       dispatch(fetchSingers());
     } else {
       dispatch(failAuthentication());

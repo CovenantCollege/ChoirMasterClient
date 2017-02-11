@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Button, Modal, FormGroup, FormControl, ControlLabel, Table, Glyphicon } from 'react-bootstrap'
 import { addSinger, openAddSingerModal, closeAddSingerModal } from '../actions/singers'
+import { getToken } from '../selectors/user'
 import { getAddSingerModalOpen } from '../selectors/singers'
 import { getOrganizations } from '../selectors/organizations'
 
@@ -20,7 +21,7 @@ class SingersList extends Component {
   }
 
   submit() {
-    this.props.dispatch(addSinger({ name: this.state.nameInput, height: this.state.heightInput, voice: this.state.voiceInput }, this.props.selectedOrganization.orgId));
+    this.props.dispatch(addSinger(this.props.token, { name: this.state.nameInput, height: this.state.heightInput, voice: this.state.voiceInput }, this.props.selectedOrganization.orgId));
   }
 
   render() {
@@ -53,6 +54,8 @@ class SingersList extends Component {
                   onChange={e => this.setState({ nameInput: e.target.value })}
                   onKeyDown={this.onKeyDown}
                 />
+              </FormGroup>
+              <FormGroup>
                 <ControlLabel>Height</ControlLabel>
                 <FormControl
                   type="text"
@@ -60,6 +63,8 @@ class SingersList extends Component {
                   onChange={e => this.setState({ heightInput: e.target.value })}
                   onKeyDown={this.onKeyDown}
                 />
+              </FormGroup>
+              <FormGroup>
                 <ControlLabel>Voice</ControlLabel>
                 <FormControl
                   type="text"
@@ -98,6 +103,7 @@ class SingersList extends Component {
 
 export default connect(
   state => ({
+    token: getToken(state),
     organizations: getOrganizations(state),
     showModal: getAddSingerModalOpen(state)
   })

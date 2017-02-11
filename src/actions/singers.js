@@ -17,12 +17,12 @@ export function loadSingers(singers, orgId) {
   return { type: 'SINGERS_LOADED', payload: { singers, orgId }};
 }
 
-export function addSinger(singer, orgId) {
+export function addSinger(token, singer, orgId) {
   return async dispatch => {
     let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/singers', {
       method: 'POST',
       headers: {
-        'Authorization': 'jwt ' + localStorage.getItem('token'),
+        'Authorization': 'jwt ' + token,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -36,12 +36,12 @@ export function addSinger(singer, orgId) {
   }
 }
 
-export function fetchSingers(orgId) {
+export function fetchSingers(token, orgId) {
   return async dispatch => {
     let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/singers', {
       method: 'GET',
       headers: {
-        'Authorization': 'jwt ' + localStorage.getItem('token'),
+        'Authorization': 'jwt ' + token,
         'Content-Type': 'application/json'
       },
     });

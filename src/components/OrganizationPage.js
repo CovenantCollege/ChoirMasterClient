@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
 import SingersList from './SingersList'
-import { getIsAuthenticated } from '../selectors/user'
+import { getIsAuthenticated, getToken } from '../selectors/user'
 import { getOrganizations, getFetchingOrganizations } from '../selectors/organizations'
 import { fetchOrganizations } from '../actions/organizations'
 
@@ -24,7 +24,7 @@ class OrganizationPage extends Component {
 
   componentWillMount() {
     if (this.props.organizations.length === 0 && !this.props.fetchingOrganizations) {
-      this.props.dispatch(fetchOrganizations(this.getOrgId()));
+      this.props.dispatch(fetchOrganizations(this.props.token, this.getOrgId()));
     }
   }
 
@@ -57,6 +57,7 @@ class OrganizationPage extends Component {
 export default connect(
   state => ({
     isAuthenticated: getIsAuthenticated(state),
+    token: getToken(state),
     organizations: getOrganizations(state),
     fetchingOrganizations: getFetchingOrganizations(state)
   })
