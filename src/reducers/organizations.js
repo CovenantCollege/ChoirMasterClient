@@ -4,8 +4,7 @@ export default function organizations(state = { organizationsList: [], fetchingO
     case 'ORGANIZATION_ADDED':
       return {
         ...state,
-        organizationsList: state.organizationsList.concat(action.payload.organization),
-        addOrganizationModalOpen: false
+        organizationsList: state.organizationsList.concat(action.payload.organization)
       };
     case 'ORGANIZATIONS_FETCHED':
       return { ...state, fetchingOrganizations: true };
@@ -23,7 +22,7 @@ export default function organizations(state = { organizationsList: [], fetchingO
           return organization;
         }
       });
-      return { ...state, organizationsList, addSingerModalOpen: false };
+      return { ...state, organizationsList };
     case 'SINGERS_LOADED':
       organizationsList = state.organizationsList.map(organization => {
         if(organization.orgId === action.payload.orgId) {

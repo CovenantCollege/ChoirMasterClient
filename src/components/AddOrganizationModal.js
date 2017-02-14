@@ -29,6 +29,7 @@ class AddOrganizationModal extends Component {
     if(nameInputInvalid) {
       this.setState({ nameInputInvalid });
     } else {
+      this.props.dispatch(closeAddOrganizationModal());
       this.props.dispatch(addOrganization(
         this.props.token,
         {

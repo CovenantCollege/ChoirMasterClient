@@ -73,6 +73,7 @@ class AddSingerModal extends Component {
     if(nameInputInvalid || heightInputInvalid) {
       this.setState({ nameInputInvalid, heightInputInvalid });
     } else {
+      this.props.dispatch(closeAddSingerModal());
       this.props.dispatch(addSinger(
         this.props.token,
         {
