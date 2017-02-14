@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Grid, Row, Col, Button, Glyphicon, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
-import { hashHistory } from 'react-router'
+import { Alert, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap'
 import AddOrganizationModal from './AddOrganizationModal'
+import { fetchOrganizations, selectOrganization, openAddOrganizationModal, clearAddOrganizationFailed } from '../actions/organizations'
+import { changePage } from '../actions/page'
+import { getOrganizations, getAddOrganizationModalOpen } from '../selectors/organizations'
 import { getIsAuthenticated, getToken } from '../selectors/user'
-import { getOrganizations } from '../selectors/organizations'
-import { fetchOrganizations } from '../actions/organizations'
-import { selectOrganization } from '../actions/organizations'
-import { openAddOrganizationModal } from '../actions/organizations'
-import { getAddOrganizationModalOpen } from '../selectors/organizations'
+import { getAddOrganizationFailed } from '../selectors/failedRequests'
 
 class DashboardPage extends Component {
   constructor(props) {
@@ -29,7 +27,7 @@ class DashboardPage extends Component {
 
   render() {
     if(!this.props.isAuthenticated) {
-      hashHistory.push('');
+      this.props.dispatch(changePage(''));
       return null;
     }
     let organizationsGrid = [];
@@ -52,9 +50,18 @@ class DashboardPage extends Component {
     }
     return (
       <div className="container fixed-width-container margined-children">
+        {
+          this.props.addOrganizationFailed ?
+            (
+              <Alert bsStyle="danger">
+                <strong>Error!</strong> We were unable to add the organization.
+              </Alert>
+            ) : null
+        }
         <Button bsStyle="success" onClick={() => {
           this.props.dispatch(openAddOrganizationModal());
-          this.setState({ numAddOrganizationButtonClicks: this.state.numAddOrganizationButtonClicks + 1 })
+          this.setState({ numAddOrganizationButtonClicks: this.state.numAddOrganizationButtonClicks + 1 });
+          this.props.dispatch(clearAddOrganizationFailed());
         }}><Glyphicon glyph="plus" /> Add Organization</Button>
         <AddOrganizationModal showModal={this.props.showModal} key={this.state.numAddOrganizationButtonClicks} />
         <Grid bsClass="">
@@ -70,6 +77,7 @@ export default connect(
     isAuthenticated: getIsAuthenticated(state),
     token: getToken(state),
     organizations: getOrganizations(state),
-    showModal: getAddOrganizationModalOpen(state)
+    showModal: getAddOrganizationModalOpen(state),
+    addOrganizationFailed: getAddOrganizationFailed(state)
   })
 )(DashboardPage);

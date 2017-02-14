@@ -19,7 +19,7 @@ export default function authentication(state = {
         isAuthenticated: false,
         user: false,
         token: null
-      }
+      };
     case 'AUTHENTICATION_FAILED':
       return { ...state, isAuthenticationFailed: true };
     default:

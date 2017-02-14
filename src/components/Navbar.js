@@ -4,18 +4,19 @@ import { Nav, NavItem } from 'react-bootstrap'
 import { Navbar as NavbarReactBootstrap } from 'react-bootstrap'
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
+import { changePage } from '../actions/page'
 import { getIsAuthenticated } from '../selectors/user'
 
 class Navbar extends Component {
   render() {
     let links = this.props.isAuthenticated ? [
-      <NavItem key="1" eventKey={1} href="#/dashboard">Organizations</NavItem>
+      <NavItem key="1" eventKey={1} onClick={() => this.props.dispatch(changePage('dashboard'))}>Organizations</NavItem>
     ] : null;
     return (
       <NavbarReactBootstrap>
         <NavbarReactBootstrap.Header>
           <NavbarReactBootstrap.Brand>
-            <a href="#">Choir Master</a>
+            <a onClick={() => this.props.dispatch(changePage(''))}>Choir Master</a>
           </NavbarReactBootstrap.Brand>
         </NavbarReactBootstrap.Header>
         <Nav>

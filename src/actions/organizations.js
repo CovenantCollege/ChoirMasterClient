@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import config from '../configuration';
-import { hashHistory } from 'react-router'
+import { changePage } from './page'
 
 export function openAddOrganizationModal() {
   return { type: 'ADD_ORGANIZATION_MODAL_OPENED' };
@@ -11,7 +11,7 @@ export function closeAddOrganizationModal() {
 }
 
 export function selectOrganization(orgId) {
-  hashHistory.push('organizations/' + orgId);
+  changePage('organizations/' + orgId);
   return { type: 'ORGANIZATION_SELECTED', payload: { orgId }};
 }
 
@@ -21,6 +21,14 @@ export function loadOrganization(organization) {
 
 export function loadOrganizations(organizations) {
   return { type: 'ORGANIZATIONS_LOADED', payload: { organizations }};
+}
+
+export function failAddOrganization(error) {
+  return { type: 'ADD_ORGANIZATION_FAILED', payload: { error }};
+}
+
+export function clearAddOrganizationFailed() {
+  return { type: 'ADD_ORGANIZATION_FAILED_CLEARED' };
 }
 
 export function addOrganization(token, organization) {
@@ -36,7 +44,11 @@ export function addOrganization(token, organization) {
       })
     });
     let json = await response.json();
-    dispatch(loadOrganization(json));
+    if(json.error) {
+      dispatch(failAddOrganization(json.error));
+    } else {
+      dispatch(loadOrganization(json));
+    }
   }
 }
 

@@ -17,6 +17,14 @@ export function loadSingers(singers, orgId) {
   return { type: 'SINGERS_LOADED', payload: { singers, orgId }};
 }
 
+export function failAddSinger(error) {
+  return { type: 'ADD_SINGER_FAILED', payload: { error }};
+}
+
+export function clearAddSingerFailed() {
+  return { type: 'ADD_SINGER_FAILED_CLEARED' };
+}
+
 export function addSinger(token, singer, orgId) {
   return async dispatch => {
     let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/singers', {
@@ -33,7 +41,11 @@ export function addSinger(token, singer, orgId) {
       })
     });
     let json = await response.json();
-    dispatch(loadSinger(json));
+    if(json.error) {
+      dispatch(failAddSinger(json.error));
+    } else {
+      dispatch(loadSinger(json));
+    }
   }
 }
 

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
-import { hashHistory } from 'react-router'
+import { changePage } from '../actions/page'
 
 class Login extends Component {
   render() {
     return (
-      <Button bsStyle="primary" onClick={() => hashHistory.push('login')}>
+      <Button bsStyle="primary" onClick={() => changePage('login')}>
         Login
       </Button>
     );

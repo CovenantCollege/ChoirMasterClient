@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { hashHistory } from 'react-router'
 import SingersList from './SingersList'
+import { fetchOrganizations } from '../actions/organizations'
+import { changePage } from '../actions/page'
 import { getIsAuthenticated, getToken } from '../selectors/user'
 import { getOrganizations, getFetchingOrganizations } from '../selectors/organizations'
-import { fetchOrganizations } from '../actions/organizations'
 
 class OrganizationPage extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class OrganizationPage extends Component {
 
   render() {
     if(!this.props.isAuthenticated) {
-      hashHistory.push('');
+      this.props.dispatch(changePage(''));
       return null;
     }
     let selectedOrganization = this.getSelectedOrganization();
