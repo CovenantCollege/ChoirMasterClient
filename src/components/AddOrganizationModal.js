@@ -15,6 +15,7 @@ class AddOrganizationModal extends Component {
 
     this.onKeyDown = this.onKeyDown.bind(this);
     this.submit = this.submit.bind(this);
+    this.focusNameInput = this.focusNameInput.bind(this);
   }
 
   onKeyDown(e) {
@@ -35,6 +36,14 @@ class AddOrganizationModal extends Component {
         }
       ));
     }
+  }
+
+  focusNameInput() {
+    document.getElementById('nameInput').focus();
+  }
+
+  componentDidUpdate() {
+    this.focusNameInput();
   }
 
   render() {
@@ -59,6 +68,8 @@ class AddOrganizationModal extends Component {
                 placeholder="Enter name"
                 onChange={e => this.setState({ nameInput: e.target.value })}
                 onKeyDown={this.onKeyDown}
+                id="nameInput"
+                autoFocus
               />
               <FormControl.Feedback />
             </FormGroup>

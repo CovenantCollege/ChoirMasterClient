@@ -86,6 +86,19 @@ class AddSingerModal extends Component {
     }
   }
 
+  focusFirstInvalidInput() {
+    let heightInputElement = document.getElementById('heightInput');
+    if((this.state.nameInputInvalid || !this.state.heightInputInvalid) && !(heightInputElement === document.activeElement)) {
+      document.getElementById('nameInput').focus();
+    } else if (!(document.getElementById('nameInput') === document.activeElement)) {
+      heightInputElement.focus();
+    }
+  }
+
+  componentDidUpdate() {
+    this.focusFirstInvalidInput();
+  }
+
   render() {
     return (
       <Modal show={this.props.showModal}>
@@ -113,6 +126,8 @@ class AddSingerModal extends Component {
                 placeholder="Enter name"
                 onChange={e => this.setState({ nameInput: e.target.value })}
                 onKeyDown={this.onKeyDown}
+                id="nameInput"
+                autoFocus
               />
               <FormControl.Feedback />
             </FormGroup>
@@ -123,19 +138,23 @@ class AddSingerModal extends Component {
                 placeholder="Enter height"
                 onChange={e => this.setState({ heightInput: e.target.value })}
                 onKeyDown={this.onKeyDown}
+                id="heightInput"
               />
               <FormControl.Feedback />
             </FormGroup>
             <FormGroup>
               <ControlLabel>Voice</ControlLabel>
-              <FormControl componentClass="select" placeholder="S1" onChange={e => this.setState({ voiceInput: e.target.value, genderInput: this.voiceTypes[e.target.value].gender })}>
-                {
-                  Object.keys(this.voiceTypes).map(voiceType =>
-                    <option value={voiceType} key={voiceType}>
-                      {this.voiceTypes[voiceType].name}
-                    </option>
-                  )
-                }
+              <FormControl
+                componentClass="select"
+                placeholder="S1"
+                onChange={e => this.setState({ voiceInput: e.target.value, genderInput: this.voiceTypes[e.target.value].gender })}>
+                  {
+                    Object.keys(this.voiceTypes).map(voiceType =>
+                      <option value={voiceType} key={voiceType}>
+                        {this.voiceTypes[voiceType].name}
+                      </option>
+                    )
+                  }
               </FormControl>
             </FormGroup>
             <FormGroup>
