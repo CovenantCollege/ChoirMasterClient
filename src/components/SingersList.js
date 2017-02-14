@@ -13,7 +13,7 @@ class SingersList extends Component {
 
     this.state = { numAddSingerButtonClicks: 0 };
   }
-  
+
   render() {
     let singers = null;
     if(this.props.selectedOrganization.singers !== undefined) {

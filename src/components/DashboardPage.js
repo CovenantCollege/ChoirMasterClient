@@ -2,29 +2,19 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Grid, Row, Col, Button, Glyphicon, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import { hashHistory } from 'react-router'
+import AddOrganizationModal from './AddOrganizationModal'
 import { getIsAuthenticated, getToken } from '../selectors/user'
 import { getOrganizations } from '../selectors/organizations'
 import { fetchOrganizations } from '../actions/organizations'
 import { selectOrganization } from '../actions/organizations'
-import { openAddOrganizationModal, closeAddOrganizationModal, addOrganization } from '../actions/organizations'
+import { openAddOrganizationModal } from '../actions/organizations'
 import { getAddOrganizationModalOpen } from '../selectors/organizations'
 
 class DashboardPage extends Component {
   constructor(props) {
     super(props);
 
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.submit = this.submit.bind(this);
-  }
-
-  onKeyDown(e) {
-    if(e.which === 13) {
-      this.submit();
-    }
-  }
-
-  submit() {
-    this.props.dispatch(addOrganization(this.props.token, { name: this.state.nameInput }));
+    this.state = { numAddOrganizationButtonClicks: 0 };
   }
 
   selectOrganization(orgId) {
@@ -62,33 +52,11 @@ class DashboardPage extends Component {
     }
     return (
       <div className="container fixed-width-container margined-children">
-        <Button bsStyle="success" onClick={() => this.props.dispatch(openAddOrganizationModal())}><Glyphicon glyph="plus" /> Add Organization</Button>
-        <Modal show={this.props.showModal}>
-          <Modal.Header>
-            <Modal.Title>Add Organization</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form>
-              <FormGroup>
-                <ControlLabel>Name</ControlLabel>
-                <FormControl
-                  type="text"
-                  placeholder="Enter name"
-                  onChange={e => this.setState({ nameInput: e.target.value })}
-                  onKeyDown={this.onKeyDown}
-                />
-              </FormGroup>
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button bsStyle="success" onClick={this.submit}>
-              Submit
-            </Button>
-            <Button onClick={() => this.props.dispatch(closeAddOrganizationModal())}>
-              Cancel
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <Button bsStyle="success" onClick={() => {
+          this.props.dispatch(openAddOrganizationModal());
+          this.setState({ numAddOrganizationButtonClicks: this.state.numAddOrganizationButtonClicks + 1 })
+        }}><Glyphicon glyph="plus" /> Add Organization</Button>
+        <AddOrganizationModal showModal={this.props.showModal} key={this.state.numAddOrganizationButtonClicks} />
         <Grid bsClass="">
           {organizationsGrid}
         </Grid>
