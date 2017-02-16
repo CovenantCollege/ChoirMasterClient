@@ -1,34 +1,35 @@
 import fetch from 'isomorphic-fetch';
 import config from '../configuration';
 import { changePage } from './page'
+import * as actionTypes from '../constants/actionTypes'
 
 export function openAddOrganizationModal() {
-  return { type: 'ADD_ORGANIZATION_MODAL_OPENED' };
+  return { type: actionTypes.ADD_ORGANIZATION_MODAL_OPENED };
 }
 
 export function closeAddOrganizationModal() {
-  return { type: 'ADD_ORGANIZATION_MODAL_CLOSED' };
+  return { type: actionTypes.ADD_ORGANIZATION_MODAL_CLOSED };
 }
 
 export function selectOrganization(orgId) {
   changePage('organizations/' + orgId);
-  return { type: 'ORGANIZATION_SELECTED', payload: { orgId }};
+  return { type: actionTypes.ORGANIZATION_SELECTED, payload: { orgId }};
 }
 
 export function loadOrganization(organization) {
-  return { type: 'ORGANIZATION_ADDED', payload: { organization }};
+  return { type: actionTypes.ORGANIZATION_ADDED, payload: { organization }};
 }
 
 export function loadOrganizations(organizations) {
-  return { type: 'ORGANIZATIONS_LOADED', payload: { organizations }};
+  return { type: actionTypes.ORGANIZATIONS_LOADED, payload: { organizations }};
 }
 
 export function failAddOrganization(error) {
-  return { type: 'ADD_ORGANIZATION_FAILED', payload: { error }};
+  return { type: actionTypes.ADD_ORGANIZATION_FAILED, payload: { error }};
 }
 
 export function clearAddOrganizationFailed() {
-  return { type: 'ADD_ORGANIZATION_FAILED_CLEARED' };
+  return { type: actionTypes.ADD_ORGANIZATION_FAILED_CLEARED };
 }
 
 export function addOrganization(token, organization) {

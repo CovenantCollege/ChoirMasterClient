@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import config from '../configuration';
 import { changePage } from './page'
+import * as actionTypes from '../constants/actionTypes'
 
 export function authenticateUser(email, password, remember) {
   return async dispatch => {
@@ -25,14 +26,14 @@ export function authenticateUser(email, password, remember) {
 }
 
 export function loginUser(token, email) {
-  return { type: 'LOGIN_REQUESTED', payload: { token, email }};
+  return { type: actionTypes.LOGIN_REQUESTED, payload: { token, email }};
 }
 
 export function logoutUser() {
   localStorage.removeItem('token');
-  return { type: 'LOGOUT_REQUESTED' };
+  return { type: actionTypes.LOGOUT_REQUESTED };
 }
 
 export function failAuthentication() {
-  return { type: 'AUTHENTICATION_FAILED' };
+  return { type: actionTypes.AUTHENTICATION_FAILED };
 }

@@ -1,28 +1,29 @@
 import fetch from 'isomorphic-fetch';
 import config from '../configuration';
+import * as actionTypes from '../constants/actionTypes'
 
 export function openAddSingerModal() {
-  return { type: 'ADD_SINGER_MODAL_OPENED' };
+  return { type: actionTypes.ADD_SINGER_MODAL_OPENED };
 }
 
 export function closeAddSingerModal() {
-  return { type: 'ADD_SINGER_MODAL_CLOSED' };
+  return { type: actionTypes.ADD_SINGER_MODAL_CLOSED };
 }
 
 export function loadSinger(singer, orgId) {
-  return { type: 'SINGER_ADDED', payload: { singer, orgId }};
+  return { type: actionTypes.SINGER_ADDED, payload: { singer, orgId }};
 }
 
 export function loadSingers(singers, orgId) {
-  return { type: 'SINGERS_LOADED', payload: { singers, orgId }};
+  return { type: actionTypes.SINGERS_LOADED, payload: { singers, orgId }};
 }
 
 export function failAddSinger(error) {
-  return { type: 'ADD_SINGER_FAILED', payload: { error }};
+  return { type: actionTypes.ADD_SINGER_FAILED, payload: { error }};
 }
 
 export function clearAddSingerFailed() {
-  return { type: 'ADD_SINGER_FAILED_CLEARED' };
+  return { type: actionTypes.ADD_SINGER_FAILED_CLEARED };
 }
 
 export function addSinger(token, singer, orgId) {
