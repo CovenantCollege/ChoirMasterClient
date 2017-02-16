@@ -54,7 +54,8 @@ class AddSingerModal extends Component {
       voiceInput: 'S1',
       genderInput: this.genders.FEMALE,
       nameInputInvalid: false,
-      heightInputInvalid: false
+      heightInputInvalid: false,
+      needsToFocusFirstInvalidInput: false
     };
 
     this.onKeyDown = this.onKeyDown.bind(this);
@@ -71,7 +72,7 @@ class AddSingerModal extends Component {
     let nameInputInvalid = this.state.nameInput === undefined || this.state.nameInput.length === 0;
     let heightInputInvalid = this.state.heightInput % 1 !== 0 || this.state.heightInput <= 0;
     if(nameInputInvalid || heightInputInvalid) {
-      this.setState({ nameInputInvalid, heightInputInvalid });
+      this.setState({ nameInputInvalid, heightInputInvalid, needsToFocusFirstInvalidInput: true });
     } else {
       this.props.dispatch(closeAddSingerModal());
       this.props.dispatch(addSinger(
@@ -97,7 +98,10 @@ class AddSingerModal extends Component {
   }
 
   componentDidUpdate() {
-    this.focusFirstInvalidInput();
+    if(this.state.needsToFocusFirstInvalidInput) {
+      this.focusFirstInvalidInput();
+      this.setState({ needsToFocusFirstInvalidInput: false });
+    }
   }
 
   render() {
