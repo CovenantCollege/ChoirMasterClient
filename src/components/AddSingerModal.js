@@ -4,7 +4,7 @@ import { Button, Modal, Form, FormGroup, FormControl, ControlLabel, Radio, Alert
 import { addSinger, closeAddSingerModal } from '../actions/singers'
 import { getToken } from '../selectors/user'
 
-class AddSingerModal extends Component {
+export class AddSingerModal extends Component {
   constructor(props) {
     super(props);
 

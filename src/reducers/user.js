@@ -1,10 +1,18 @@
 import * as actionTypes from '../constants/actionTypes'
 
+function getToken() {
+  if(!(Window.localStorage === undefined)) {
+    return Window.localStorage.getItem('token');
+  } else {
+   return null;
+  }
+}
+
 export default function authentication(state = {
-  isAuthenticated: localStorage.getItem('token') ? true : false,
+  isAuthenticated: getToken() ? true : false,
   isAuthenticationFailed: false,
   email: null,
-  token: localStorage.getItem('token')
+  token: getToken()
 }, action) {
   switch (action.type) {
     case actionTypes.LOGIN_REQUESTED:

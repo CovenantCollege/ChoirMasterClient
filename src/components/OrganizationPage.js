@@ -6,7 +6,7 @@ import { changePage } from '../actions/page'
 import { getIsAuthenticated, getToken } from '../selectors/user'
 import { getOrganizations, getFetchingOrganizations } from '../selectors/organizations'
 
-class OrganizationPage extends Component {
+export class OrganizationPage extends Component {
   constructor(props) {
     super(props);
 
@@ -23,7 +23,7 @@ class OrganizationPage extends Component {
   }
 
   componentWillMount() {
-    if (this.props.organizations.length === 0 && !this.props.fetchingOrganizations) {
+    if(this.props.organizations.length === 0 && !this.props.fetchingOrganizations) {
       this.props.dispatch(fetchOrganizations(this.props.token, this.getOrgId()));
     }
   }

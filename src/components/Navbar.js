@@ -7,7 +7,7 @@ import LogoutButton from './LogoutButton'
 import { changePage } from '../actions/page'
 import { getIsAuthenticated } from '../selectors/user'
 
-class Navbar extends Component {
+export class Navbar extends Component {
   render() {
     let links = this.props.isAuthenticated ? [
       <NavItem key="1" eventKey={1} onClick={() => this.props.dispatch(changePage('dashboard'))}>Organizations</NavItem>

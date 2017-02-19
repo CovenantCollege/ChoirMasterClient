@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { changePage } from '../actions/page'
 
-class Login extends Component {
+export class LoginButton extends Component {
   render() {
     return (
       <Button bsStyle="primary" onClick={() => changePage('login')}>
@@ -15,4 +15,4 @@ class Login extends Component {
 
 export default connect(
   state => ({})
-)(Login);
+)(LoginButton);

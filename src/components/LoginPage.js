@@ -4,7 +4,7 @@ import { Button, Form, FormGroup, FormControl, ControlLabel, Col, Checkbox, Aler
 import { authenticateUser } from '../actions/user'
 import { getIsAuthenticationFailed } from '../selectors/user'
 
-class LoginPage extends Component {
+export class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = { checkboxInput: true };

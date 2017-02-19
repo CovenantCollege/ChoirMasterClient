@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { logoutUser } from '../actions/user'
 
-class LogoutButton extends Component {
+export class LogoutButton extends Component {
   render() {
     return (
       <Button bsStyle="primary" onClick={() => this.props.dispatch(logoutUser())}>

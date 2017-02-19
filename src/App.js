@@ -5,7 +5,7 @@ import 'babel-polyfill'
 import { getIsAuthenticated } from './selectors/user'
 import { Jumbotron } from 'react-bootstrap'
 
-class App extends Component {
+export class App extends Component {
   render() {
     return (
       <div className="container">

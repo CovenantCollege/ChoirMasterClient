@@ -4,7 +4,7 @@ import { Button, Modal, Form, FormGroup, FormControl, ControlLabel, Radio, Alert
 import { addOrganization, closeAddOrganizationModal } from '../actions/organizations'
 import { getToken } from '../selectors/user'
 
-class AddOrganizationModal extends Component {
+export class AddOrganizationModal extends Component {
   constructor(props) {
     super(props);
 

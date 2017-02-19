@@ -8,7 +8,7 @@ import { getAddSingerModalOpen } from '../selectors/singers'
 import { getOrganizations } from '../selectors/organizations'
 import { getAddSingerFailed } from '../selectors/failedRequests'
 
-class SingersList extends Component {
+export class SingersList extends Component {
   constructor(props) {
     super(props);
 

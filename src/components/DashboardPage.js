@@ -8,7 +8,7 @@ import { getOrganizations, getAddOrganizationModalOpen } from '../selectors/orga
 import { getIsAuthenticated, getToken } from '../selectors/user'
 import { getAddOrganizationFailed } from '../selectors/failedRequests'
 
-class DashboardPage extends Component {
+export class DashboardPage extends Component {
   constructor(props) {
     super(props);
 
