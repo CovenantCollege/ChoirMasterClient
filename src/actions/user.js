@@ -30,7 +30,9 @@ export function loginUser(token, email) {
 }
 
 export function logoutUser() {
-  localStorage.removeItem('token');
+  if(!(Window.localStorage === undefined)) {
+    Window.localStorage.removeItem('token');
+  }
   return { type: actionTypes.LOGOUT_REQUESTED };
 }
 
