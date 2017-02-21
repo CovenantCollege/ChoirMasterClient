@@ -20,6 +20,7 @@ export class AddOrganizationModal extends Component {
 
   onKeyDown(e) {
     if(e.which === 13) {
+      e.preventDefault();
       this.submit();
     }
   }
