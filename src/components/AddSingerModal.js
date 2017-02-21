@@ -80,7 +80,7 @@ export class AddSingerModal extends Component {
         {
           name: this.state.nameInput,
           height: this.state.heightInput,
-          voice: this.state.voiceInput,
+          voice: this.voiceTypes[this.state.voiceInput].name,
           gender: Object.keys(this.genders).find(gender => this.genders[gender] === this.state.genderInput).toLowerCase()
         },
         this.props.orgId
