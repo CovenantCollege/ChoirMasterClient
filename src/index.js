@@ -14,6 +14,7 @@ import { Router, Route, hashHistory } from 'react-router'
 import LoginPage from './components/LoginPage'
 import DashboardPage from './components/DashboardPage'
 import OrganizationPage from './components/OrganizationPage'
+import DummyChoirPage from './components/DummyChoirPage'
 
 const middleware = compose(
   applyMiddleware(thunk),
@@ -36,6 +37,7 @@ ReactDOM.render(
       <Navbar />
       <Router history={hashHistory}>
         <Route path="/" component={App} />
+        <Route path="/dummy-choir" component={DummyChoirPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/organizations/:orgId" component={OrganizationPage} />

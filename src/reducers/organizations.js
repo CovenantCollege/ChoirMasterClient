@@ -25,7 +25,7 @@ export default function organizations(state = { organizationsList: [], fetchingO
         }
       });
       return { ...state, organizationsList };
-    case actionTypes.INGERS_LOADED:
+    case actionTypes.SINGERS_LOADED:
       organizationsList = state.organizationsList.map(organization => {
         if(organization.orgId === action.payload.orgId) {
           let updatedOrganization = Object.assign({}, organization);
