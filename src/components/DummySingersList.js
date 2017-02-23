@@ -3,6 +3,10 @@ import { connect } from 'react-redux'
 import { Table } from 'react-bootstrap'
 import { getToken } from '../selectors/user'
 
+/**
+ * This class will eventually be the drag and drop demo
+ * It will get passed a list of dummy singers from the DummyChoirPage component
+ */
 export class DummySingersList extends Component {
 
 	render() {

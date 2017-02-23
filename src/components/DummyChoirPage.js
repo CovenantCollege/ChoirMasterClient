@@ -5,6 +5,10 @@ import { fetchDummySingers } from '../actions/dummySingers'
 import { getDummySingers, getFetchingDummySingers } from '../selectors/dummySingers'
 import { getIsAuthenticated, getToken } from '../selectors/user'
 
+/**
+ * This page will demo the drag and drop choir
+ * It pulls dummy data from the server and sends it to the DummySingersList component
+ */
 export class DummyChoirPage extends Component {
 
 	componentWillMount() {
