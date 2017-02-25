@@ -2,9 +2,8 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { Alert, Button, Table, Glyphicon } from 'react-bootstrap'
 import { clearAddSingerFailed } from '../actions/singers'
-import { getToken } from '../selectors/user'
-import { getAddSingerFailed } from '../selectors/failedRequests'
 import { showModal } from '../actions/modal'
+import { getAddSingerFailed } from '../selectors/failedRequests'
 import * as modalTypes from '../constants/modalTypes'
 
 export class SingersList extends Component {
@@ -17,6 +16,9 @@ export class SingersList extends Component {
             <td>{singer.name}</td>
             <td>{singer.height}</td>
             <td>{singer.voice}</td>
+            <td><Button bsStyle="danger" bsSize="xsmall" onClick={() => {
+              this.props.dispatch(showModal(modalTypes.DELETE_SINGER_MODAL, { singerName: singer.name, singerId: singer.singerId }));
+            }}><span><Glyphicon glyph="remove"/></span></Button></td>
           </tr>
         );
       });
@@ -41,6 +43,7 @@ export class SingersList extends Component {
               <th>Name</th>
               <th>Height</th>
               <th>Voice</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -54,7 +57,6 @@ export class SingersList extends Component {
 
 export default connect(
   state => ({
-    token: getToken(state),
     addSingerFailed: getAddSingerFailed(state)
   })
 )(SingersList);

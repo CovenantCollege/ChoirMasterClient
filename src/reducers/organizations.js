@@ -36,10 +36,20 @@ export default function organizations(state = { organizationsList: [], isFetchin
         }
       });
       return { ...state, organizationsList };
-    case actionTypes.ADD_SINGER_MODAL_OPENED:
-      return { ...state, addSingerModalOpen: true };
-    case actionTypes.ADD_SINGER_MODAL_CLOSED:
-      return { ...state, addSingerModalOpen: false };
+    case actionTypes.SINGER_DELETED_FROM_ORGANIZATION:
+      organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.orgId) {
+          let updatedOrganization = JSON.parse(JSON.stringify(organization));
+          let index = updatedOrganization.singers.findIndex(singer => singer.singerId === action.payload.singerId);
+          if(index !== -1) {
+            updatedOrganization.singers.splice(index, 1);
+          }
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList };
     default:
       return state;
   }

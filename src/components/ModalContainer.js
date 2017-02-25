@@ -6,6 +6,7 @@ import * as modalTypes from '../constants/modalTypes'
 
 import AddOrganizationModal from '../components/AddOrganizationModal'
 import AddSingerModal from '../components/AddSingerModal'
+import DeleteSingerModal from '../components/DeleteSingerModal'
 
 export class ModalContainer extends Component {
 
@@ -15,6 +16,8 @@ export class ModalContainer extends Component {
         return <AddOrganizationModal />;
       case modalTypes.ADD_SINGER_MODAL:
         return <AddSingerModal />;
+      case modalTypes.DELETE_SINGER_MODAL:
+        return <DeleteSingerModal />;
       default:
         return null;
     }
