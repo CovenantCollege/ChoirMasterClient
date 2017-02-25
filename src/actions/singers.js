@@ -2,14 +2,6 @@ import fetch from 'isomorphic-fetch';
 import config from '../configuration';
 import * as actionTypes from '../constants/actionTypes'
 
-export function openAddSingerModal() {
-  return { type: actionTypes.ADD_SINGER_MODAL_OPENED };
-}
-
-export function closeAddSingerModal() {
-  return { type: actionTypes.ADD_SINGER_MODAL_CLOSED };
-}
-
 export function loadSinger(singer, orgId) {
   return { type: actionTypes.SINGER_ADDED, payload: { singer, orgId }};
 }

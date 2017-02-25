@@ -2,9 +2,29 @@ import * as userActions from '../actions/user'
 import * as organizationsActions from '../actions/organizations'
 import * as singersActions from '../actions/singers'
 import * as pageActions from '../actions/page'
+import * as modalActions from '../actions/modal'
 import * as actionTypes from '../constants/actionTypes'
+import * as modalTypes from '../constants/modalTypes'
 
 describe('actions', () => {
+  describe('modal.js', () => {
+    it('creates an action to show a modal', () => {
+      const modalType = modalTypes.ADD_ORGANIZATION_MODAL;
+      const expectedAction = {
+        type: actionTypes.SHOW_MODAL,
+        payload: { modalType }
+      };
+      expect(modalActions.showModal(modalType)).toEqual(expectedAction);
+    });
+
+    it('creates an action to hide a modal', () => {
+      const expectedAction = {
+        type: actionTypes.HIDE_MODAL
+      };
+      expect(modalActions.hideModal()).toEqual(expectedAction);
+    });
+  });
+
   describe('user.js', () => {
     it('creates an action to login a user', () => {
       const token = 'tokan';
@@ -36,20 +56,6 @@ describe('actions', () => {
   });
 
   describe('organizations.js', () => {
-    it('creates an action to open a modal for adding an organization', () => {
-      const expectedAction = {
-        type: actionTypes.ADD_ORGANIZATION_MODAL_OPENED
-      };
-      expect(organizationsActions.openAddOrganizationModal()).toEqual(expectedAction);
-    });
-
-    it('creates an action to close a modal for adding an organization', () => {
-      const expectedAction = {
-        type: actionTypes.ADD_ORGANIZATION_MODAL_CLOSED
-      };
-      expect(organizationsActions.closeAddOrganizationModal()).toEqual(expectedAction);
-    });
-
     it('creates an action to select an organization', () => {
       const orgId = 0;
       const expectedAction = {
@@ -120,20 +126,6 @@ describe('actions', () => {
   });
 
   describe('singer.js', () => {
-    it('creates an action to open a modal for adding a singer', () => {
-      const expectedAction = {
-        type: actionTypes.ADD_SINGER_MODAL_OPENED
-      };
-      expect(singersActions.openAddSingerModal()).toEqual(expectedAction);
-    });
-
-    it('creates an action to close a modal for adding a singer', () => {
-      const expectedAction = {
-        type: actionTypes.ADD_SINGER_MODAL_CLOSED
-      };
-      expect(singersActions.closeAddSingerModal()).toEqual(expectedAction);
-    });
-
     it('creates an action to load a singer', () => {
       const singer = {
         name: 'name',

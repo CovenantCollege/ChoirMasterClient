@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Modal, Form, FormGroup, FormControl, ControlLabel, Radio, Alert } from 'react-bootstrap'
-import { addOrganization, closeAddOrganizationModal } from '../actions/organizations'
+import { Button, Modal, Form, FormGroup, FormControl, ControlLabel, Alert } from 'react-bootstrap'
+import { addOrganization } from '../actions/organizations'
 import { getToken } from '../selectors/user'
+import { shouldShowModal } from '../selectors/modal'
+import { hideModal } from '../actions/modal'
 
 export class AddOrganizationModal extends Component {
   constructor(props) {
@@ -30,7 +32,7 @@ export class AddOrganizationModal extends Component {
     if(nameInputInvalid) {
       this.setState({ nameInputInvalid });
     } else {
-      this.props.dispatch(closeAddOrganizationModal());
+      this.props.dispatch(hideModal());
       this.props.dispatch(addOrganization(
         this.props.token,
         {
@@ -81,7 +83,7 @@ export class AddOrganizationModal extends Component {
           <Button bsStyle="success" onClick={this.submit}>
             Submit
           </Button>
-          <Button onClick={() => this.props.dispatch(closeAddOrganizationModal())}>
+          <Button onClick={() => this.props.dispatch(hideModal())}>
             Cancel
           </Button>
         </Modal.Footer>
@@ -92,6 +94,7 @@ export class AddOrganizationModal extends Component {
 
 export default connect(
   state => ({
-    token: getToken(state)
+    token: getToken(state),
+    showModal: shouldShowModal(state)
   })
 )(AddOrganizationModal);

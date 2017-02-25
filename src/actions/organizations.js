@@ -3,29 +3,21 @@ import config from '../configuration';
 import { changePage } from './page'
 import * as actionTypes from '../constants/actionTypes'
 
-export function openAddOrganizationModal() {
-  return { type: actionTypes.ADD_ORGANIZATION_MODAL_OPENED };
-}
-
-export function closeAddOrganizationModal() {
-  return { type: actionTypes.ADD_ORGANIZATION_MODAL_CLOSED };
-}
-
 export function selectOrganization(orgId) {
   changePage('organizations/' + orgId);
-  return { type: actionTypes.ORGANIZATION_SELECTED, payload: { orgId }};
+  return { type: actionTypes.ORGANIZATION_SELECTED, payload: { orgId } };
 }
 
 export function loadOrganization(organization) {
-  return { type: actionTypes.ORGANIZATION_ADDED, payload: { organization }};
+  return { type: actionTypes.ORGANIZATION_ADDED, payload: { organization } };
 }
 
 export function loadOrganizations(organizations) {
-  return { type: actionTypes.ORGANIZATIONS_LOADED, payload: { organizations }};
+  return { type: actionTypes.ORGANIZATIONS_LOADED, payload: { organizations } };
 }
 
 export function failAddOrganization(error) {
-  return { type: actionTypes.ADD_ORGANIZATION_FAILED, payload: { error }};
+  return { type: actionTypes.ADD_ORGANIZATION_FAILED, payload: { error } };
 }
 
 export function clearAddOrganizationFailed() {
@@ -53,9 +45,17 @@ export function addOrganization(token, organization) {
   }
 }
 
-export function fetchOrganizations(token) {
+function requestOrganizations() {
+  return { type: actionTypes.ORGANIZATIONS_REQUESTED };
+}
+
+function receiveOrganizations(organizations) {
+  return { type: actionTypes.ORGANIZATIONS_RECEIVED, payload: { organizations } };
+}
+
+function fetchOrganizations(token) {
   return async dispatch => {
-    dispatch({ type: 'ORGANIZATIONS_FETCHED' });
+    dispatch(requestOrganizations());
     let organizationsResponse = await fetch(config.baseApiUrl + '/organizations', {
       method: 'GET',
       headers: {
@@ -76,6 +76,19 @@ export function fetchOrganizations(token) {
       organization.singers = singersJSON;
       return organization;
     }));
-    dispatch(loadOrganizations(organizationsJSONWithSingers));
+    dispatch(receiveOrganizations(organizationsJSONWithSingers));
+  }
+}
+
+function shouldFetchOrganizations(state) {
+  const organizations = state.organizations;
+  return organizations.organizationsList.length === 0 && organizations.isFetching === false;
+}
+
+export function fetchOrganizationsIfNeeded(token) {
+  return (dispatch, getState) => {
+    if(shouldFetchOrganizations(getState())) {
+      return dispatch(fetchOrganizations(token));
+    }
   }
 }

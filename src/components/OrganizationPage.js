@@ -1,31 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SingersList from './SingersList'
-import { fetchOrganizations } from '../actions/organizations'
+import { fetchOrganizationsIfNeeded } from '../actions/organizations'
 import { changePage } from '../actions/page'
-import { getIsAuthenticated, getToken } from '../selectors/user'
-import { getOrganizations, getFetchingOrganizations } from '../selectors/organizations'
+import { isAuthenticated, getToken } from '../selectors/user'
+import { getSelectedOrganization, isFetchingOrganizations } from '../selectors/organizations'
 
 export class OrganizationPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.getOrgId = this.getOrgId.bind(this);
-    this.getSelectedOrganization = this.getSelectedOrganization.bind(this);
-  }
-
-  getOrgId() {
-    return parseInt(this.props.params.orgId, 10);
-  }
-
-  getSelectedOrganization() {
-    return this.props.organizations.filter(organization => organization.orgId === this.getOrgId())[0];
-  }
-
   componentWillMount() {
-    if(this.props.organizations.length === 0 && !this.props.fetchingOrganizations) {
-      this.props.dispatch(fetchOrganizations(this.props.token, this.getOrgId()));
-    }
+    this.props.dispatch(fetchOrganizationsIfNeeded(this.props.token));
   }
 
   render() {
@@ -33,32 +16,35 @@ export class OrganizationPage extends Component {
       this.props.dispatch(changePage(''));
       return null;
     }
-    let selectedOrganization = this.getSelectedOrganization();
-    if(selectedOrganization === undefined) {
-      if(this.props.organizations.length > 0) {
-        // TODO redirect to dashboard or show that organization does not exist
-        // hashHistory.push('dashboard');
-        return null;
-      } else {
-        return null;
-      }
+    // TODO redirect to dashboard is selected organization does not exist
+    // if(this.props.selectedOrganization === undefined && !this.props.isFetchingOrganizations) {
+    //   console.log('selected organization is null');
+    //   this.props.dispatch(changePage('dashboard'));
+    //   return null;
+    // }
+    if(this.props.selectedOrganization === undefined) {
+      return null;
     }
     return (
       <div className="container">
         <h2>
-          {selectedOrganization.name}
+          {this.props.selectedOrganization.name}
         </h2>
-        <SingersList selectedOrganization={selectedOrganization} />
+        <SingersList selectedOrganization={this.props.selectedOrganization} />
       </div>
     );
   }
 }
 
 export default connect(
-  state => ({
-    isAuthenticated: getIsAuthenticated(state),
-    token: getToken(state),
-    organizations: getOrganizations(state),
-    fetchingOrganizations: getFetchingOrganizations(state)
-  })
+  (state, props) => {
+    const orgId = parseInt(props.params.orgId, 10);
+    return {
+      isAuthenticated: isAuthenticated(state),
+      token: getToken(state),
+      selectedOrganization: getSelectedOrganization(state, orgId),
+      orgId,
+      isFetchingOrganizations: isFetchingOrganizations(state)
+    };
+  }
 )(OrganizationPage);

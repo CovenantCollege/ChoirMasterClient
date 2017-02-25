@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './App.css'
 import 'babel-polyfill'
-import { getIsAuthenticated } from './selectors/user'
+import { isAuthenticated } from './selectors/user'
 import { Jumbotron } from 'react-bootstrap'
 
 export class App extends Component {
@@ -21,6 +21,6 @@ export class App extends Component {
 
 export default connect(
   state => ({
-    isAuthenticated: getIsAuthenticated(state)
+    isAuthenticated: isAuthenticated(state)
   })
 )(App);
