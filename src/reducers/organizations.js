@@ -40,10 +40,6 @@ export default function organizations(state = { organizationsList: [], isFetchin
       return { ...state, addSingerModalOpen: true };
     case actionTypes.ADD_SINGER_MODAL_CLOSED:
       return { ...state, addSingerModalOpen: false };
-    case actionTypes.ADD_ORGANIZATION_MODAL_OPENED:
-      return { ...state, addOrganizationModalOpen: true };
-    case actionTypes.ADD_ORGANIZATION_MODAL_CLOSED:
-      return { ...state, addOrganizationModalOpen: false };
     default:
       return state;
   }

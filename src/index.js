@@ -12,6 +12,7 @@ import jwtDecode from 'jwt-decode'
 import { Router, Route, hashHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 
+import ModalContainer from './components/ModalContainer'
 import LoginPage from './components/LoginPage'
 import DashboardPage from './components/DashboardPage'
 import OrganizationPage from './components/OrganizationPage'
@@ -37,6 +38,7 @@ ReactDOM.render(
   <Provider store={store}>
     <div>
       <Navbar />
+      <ModalContainer />
       <Router history={history}>
         <Route path="/" component={App} />
         <Route path="/login" component={LoginPage} />

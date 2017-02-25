@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Modal, Form, FormGroup, FormControl, ControlLabel, Radio, Alert } from 'react-bootstrap'
-import { addSinger, closeAddSingerModal } from '../actions/singers'
+import { addSinger } from '../actions/singers'
 import { getToken } from '../selectors/user'
+import { hideModal } from '../actions/modal'
+import { shouldShowModal } from '../selectors/modal'
+import { getOrgId } from '../selectors/path'
 
 export class AddSingerModal extends Component {
   constructor(props) {
@@ -75,7 +78,7 @@ export class AddSingerModal extends Component {
     if(nameInputInvalid || heightInputInvalid) {
       this.setState({ nameInputInvalid, heightInputInvalid, needsToFocusFirstInvalidInput: true });
     } else {
-      this.props.dispatch(closeAddSingerModal());
+      this.props.dispatch(hideModal());
       this.props.dispatch(addSinger(
         this.props.token,
         {
@@ -178,7 +181,7 @@ export class AddSingerModal extends Component {
           <Button bsStyle="success" onClick={this.submit}>
             Submit
           </Button>
-          <Button onClick={() => this.props.dispatch(closeAddSingerModal())}>
+          <Button onClick={() => this.props.dispatch(hideModal())}>
             Cancel
           </Button>
         </Modal.Footer>
@@ -189,6 +192,8 @@ export class AddSingerModal extends Component {
 
 export default connect(
   state => ({
-    token: getToken(state)
+    token: getToken(state),
+    showModal: shouldShowModal(state),
+    orgId: getOrgId(state)
   })
 )(AddSingerModal);

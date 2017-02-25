@@ -3,14 +3,6 @@ import config from '../configuration';
 import { changePage } from './page'
 import * as actionTypes from '../constants/actionTypes'
 
-export function openAddOrganizationModal() {
-  return { type: actionTypes.ADD_ORGANIZATION_MODAL_OPENED };
-}
-
-export function closeAddOrganizationModal() {
-  return { type: actionTypes.ADD_ORGANIZATION_MODAL_CLOSED };
-}
-
 export function selectOrganization(orgId) {
   changePage('organizations/' + orgId);
   return { type: actionTypes.ORGANIZATION_SELECTED, payload: { orgId } };
