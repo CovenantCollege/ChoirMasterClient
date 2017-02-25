@@ -5,7 +5,7 @@ import { Navbar as NavbarReactBootstrap } from 'react-bootstrap'
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
 import { changePage } from '../actions/page'
-import { getIsAuthenticated } from '../selectors/user'
+import { isAuthenticated } from '../selectors/user'
 
 export class Navbar extends Component {
   render() {
@@ -34,6 +34,6 @@ export class Navbar extends Component {
 
 export default connect(
   state => ({
-    isAuthenticated: getIsAuthenticated(state)
+    isAuthenticated: isAuthenticated(state)
   })
 )(Navbar);

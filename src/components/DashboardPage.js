@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Alert, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap'
 import AddOrganizationModal from './AddOrganizationModal'
-import { fetchOrganizations, selectOrganization, openAddOrganizationModal, clearAddOrganizationFailed } from '../actions/organizations'
+import { fetchOrganizationsIfNeeded, selectOrganization, openAddOrganizationModal, clearAddOrganizationFailed } from '../actions/organizations'
 import { changePage } from '../actions/page'
 import { getOrganizations, getAddOrganizationModalOpen } from '../selectors/organizations'
-import { getIsAuthenticated, getToken } from '../selectors/user'
+import { isAuthenticated, getToken } from '../selectors/user'
 import { getAddOrganizationFailed } from '../selectors/failedRequests'
 
 export class DashboardPage extends Component {
@@ -20,9 +20,7 @@ export class DashboardPage extends Component {
   }
 
   componentDidMount() {
-    if(this.props.organizations.length === 0) {
-      this.props.dispatch(fetchOrganizations(this.props.token));
-    }
+    this.props.dispatch(fetchOrganizationsIfNeeded(this.props.token));
   }
 
   render() {
@@ -74,7 +72,7 @@ export class DashboardPage extends Component {
 
 export default connect(
   state => ({
-    isAuthenticated: getIsAuthenticated(state),
+    isAuthenticated: isAuthenticated(state),
     token: getToken(state),
     organizations: getOrganizations(state),
     showModal: getAddOrganizationModalOpen(state),

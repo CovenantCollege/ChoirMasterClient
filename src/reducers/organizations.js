@@ -1,6 +1,6 @@
 import * as actionTypes from '../constants/actionTypes'
 
-export default function organizations(state = { organizationsList: [], fetchingOrganizations: false }, action) {
+export default function organizations(state = { organizationsList: [], isFetching: false }, action) {
   let organizationsList = [];
   switch (action.type) {
     case actionTypes.ORGANIZATION_ADDED:
@@ -8,12 +8,12 @@ export default function organizations(state = { organizationsList: [], fetchingO
         ...state,
         organizationsList: state.organizationsList.concat(action.payload.organization)
       };
-    case actionTypes.ORGANIZATIONS_FETCHED:
-      return { ...state, fetchingOrganizations: true };
-    case actionTypes.ORGANIZATIONS_LOADED:
-      return { ...state, organizationsList: action.payload.organizations, fetchingOrganizations: false };
     case actionTypes.ORGANIZATION_SELECTED:
       return state;
+    case actionTypes.ORGANIZATIONS_REQUESTED:
+      return { ...state, isFetching: true };
+    case actionTypes.ORGANIZATIONS_RECEIVED:
+      return { ...state, organizationsList: action.payload.organizations, isFetching: false };
     case actionTypes.SINGER_ADDED:
       organizationsList = state.organizationsList.map(organization => {
         if(organization.orgId === action.payload.singer.orgId) {
@@ -25,7 +25,7 @@ export default function organizations(state = { organizationsList: [], fetchingO
         }
       });
       return { ...state, organizationsList };
-    case actionTypes.INGERS_LOADED:
+    case actionTypes.SINGERS_LOADED:
       organizationsList = state.organizationsList.map(organization => {
         if(organization.orgId === action.payload.orgId) {
           let updatedOrganization = Object.assign({}, organization);
