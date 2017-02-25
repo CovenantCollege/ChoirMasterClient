@@ -30,10 +30,12 @@ export function loginUser(token, email) {
 }
 
 export function logoutUser() {
-  if(!(Window.localStorage === undefined)) {
-    Window.localStorage.removeItem('token');
+  if(typeof(Storage) !== 'undefined') {
+    if (!(localStorage === undefined)) {
+      localStorage.removeItem('token');
+    }
   }
-  return { type: actionTypes.LOGOUT_REQUESTED };
+  return {type: actionTypes.LOGOUT_REQUESTED};
 }
 
 export function failAuthentication() {
