@@ -10,6 +10,7 @@ import rootReducer from './reducers/index'
 import { loginUser } from './actions/user'
 import jwtDecode from 'jwt-decode'
 import { Router, Route, hashHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
 
 import LoginPage from './components/LoginPage'
 import DashboardPage from './components/DashboardPage'
@@ -25,6 +26,8 @@ const store = createStore(
   middleware
 );
 
+const history = syncHistoryWithStore(hashHistory, store);
+
 const token = localStorage.getItem('token');
 if(token) {
   store.dispatch(loginUser(token, jwtDecode(token).email));
@@ -34,7 +37,7 @@ ReactDOM.render(
   <Provider store={store}>
     <div>
       <Navbar />
-      <Router history={hashHistory}>
+      <Router history={history}>
         <Route path="/" component={App} />
         <Route path="/login" component={LoginPage} />
         <Route path="/dashboard" component={DashboardPage} />
