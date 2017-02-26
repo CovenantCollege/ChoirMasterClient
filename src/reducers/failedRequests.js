@@ -10,6 +10,10 @@ export default function failedRequests(state = {}, action) {
       return { ...state, addOrganizationFailed: true };
     case actionTypes.ADD_ORGANIZATION_FAILED_CLEARED:
       return { ...state, addOrganizationFailed: false };
+    case actionTypes.CHANGE_PASSWORD_FAILED:
+      return { ...state, changePasswordFailed: true, error: action.payload.error };
+    case actionTypes.CHANGE_PASSWORD_FAILED_CLEARED:
+      return { ...state, changePasswordFailed: false, error: undefined };
     case actionTypes.FAILED_REQUESTS_CLEARED:
       return {};
     default:

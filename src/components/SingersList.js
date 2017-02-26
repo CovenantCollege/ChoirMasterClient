@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Alert, Button, Table, Glyphicon } from 'react-bootstrap'
 import { clearAddSingerFailed } from '../actions/singers'
 import { showModal } from '../actions/modal'
-import { getAddSingerFailed } from '../selectors/failedRequests'
+import { addSingerFailed } from '../selectors/failedRequests'
 import * as modalTypes from '../constants/modalTypes'
 
 export class SingersList extends Component {
@@ -57,6 +57,6 @@ export class SingersList extends Component {
 
 export default connect(
   state => ({
-    addSingerFailed: getAddSingerFailed(state)
+    addSingerFailed: addSingerFailed(state)
   })
 )(SingersList);

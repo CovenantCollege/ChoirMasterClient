@@ -32,6 +32,8 @@ export default function authentication(state = {
       };
     case actionTypes.AUTHENTICATION_FAILED:
       return { ...state, isAuthenticationFailed: true };
+    case actionTypes.PASSWORD_CHANGED:
+      return { ...state, email: null, isAuthenticated: false, token: null };
     default:
       return state;
   }

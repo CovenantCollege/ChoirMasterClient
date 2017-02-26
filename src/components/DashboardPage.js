@@ -5,7 +5,7 @@ import { fetchOrganizationsIfNeeded, selectOrganization, clearAddOrganizationFai
 import { changePage } from '../actions/page'
 import { getOrganizations } from '../selectors/organizations'
 import { isAuthenticated, getToken } from '../selectors/user'
-import { getAddOrganizationFailed } from '../selectors/failedRequests'
+import { addOrganizationFailed } from '../selectors/failedRequests'
 import { showModal } from '../actions/modal'
 import * as modalTypes from '../constants/modalTypes'
 
@@ -74,6 +74,6 @@ export default connect(
     isAuthenticated: isAuthenticated(state),
     token: getToken(state),
     organizations: getOrganizations(state),
-    addOrganizationFailed: getAddOrganizationFailed(state)
+    addOrganizationFailed: addOrganizationFailed(state)
   })
 )(DashboardPage);

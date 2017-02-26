@@ -10,7 +10,8 @@ import { isAuthenticated } from '../selectors/user'
 export class Navbar extends Component {
   render() {
     let links = this.props.isAuthenticated ? [
-      <NavItem key="1" eventKey={1} onClick={() => this.props.dispatch(changePage('dashboard'))}>Organizations</NavItem>
+      <NavItem key="1" eventKey={1} onClick={() => this.props.dispatch(changePage('dashboard'))}>Organizations</NavItem>,
+      <NavItem key="2" eventKey={2} onClick={() => this.props.dispatch(changePage('settings'))}>Settings</NavItem>
     ] : null;
     return (
       <NavbarReactBootstrap>
