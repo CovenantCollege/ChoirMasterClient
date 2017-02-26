@@ -48,7 +48,7 @@ export class ChangePasswordModal extends Component {
     return (
       <Modal show={this.props.showModal} onExited={() => this.setState(this.initialState)}>
         <Modal.Header>
-          <Modal.Title>Add Organization</Modal.Title>
+          <Modal.Title>Change Password</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {

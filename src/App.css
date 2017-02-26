@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 
-.organization-btn {
+.grid-btn {
   width: 100%;
   height: 100px;
   white-space: normal;
@@ -26,5 +26,9 @@
 }
 
 .margined-children > :not(:last-child) {
+  margin-bottom: 15px;
+}
+
+.nav-tabs {
   margin-bottom: 15px;
 }

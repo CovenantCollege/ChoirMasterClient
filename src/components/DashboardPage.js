@@ -10,12 +10,6 @@ import { showModal } from '../actions/modal'
 import * as modalTypes from '../constants/modalTypes'
 
 export class DashboardPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { numAddOrganizationButtonClicks: 0 };
-  }
-
   selectOrganization(orgId) {
     this.props.dispatch(selectOrganization(orgId));
   }
@@ -35,7 +29,7 @@ export class DashboardPage extends Component {
       for(let j = 0; j < Math.min(this.props.organizations.length - i * 3, 3); j++) {
         organizationsRowArray[j] = (
           <Col xs={6} md={4} key={j + i * 3}>
-            <Button bsClass="btn btn-default organization-btn" onClick={() => this.selectOrganization(this.props.organizations[j + i * 3].orgId)}>
+            <Button bsClass="btn btn-default grid-btn" onClick={() => this.selectOrganization(this.props.organizations[j + i * 3].orgId)}>
               {this.props.organizations[j + i * 3].name}
             </Button>
           </Col>

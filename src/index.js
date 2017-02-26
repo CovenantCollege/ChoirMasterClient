@@ -16,6 +16,7 @@ import ModalContainer from './components/ModalContainer'
 import LoginPage from './components/LoginPage'
 import DashboardPage from './components/DashboardPage'
 import OrganizationPage from './components/OrganizationPage'
+import ChoirPage from './components/ChoirPage'
 import SettingsPage from './components/SettingsPage'
 
 const middleware = compose(
@@ -45,6 +46,7 @@ ReactDOM.render(
         <Route path="/login" component={LoginPage} />
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/organizations/:orgId" component={OrganizationPage} />
+        <Route path="/organizations/:orgId/choirs/:choirId" component={ChoirPage} />
         <Route path="/settings" component={SettingsPage} />
       </Router>
     </div>

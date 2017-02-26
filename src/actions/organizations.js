@@ -16,7 +16,7 @@ export function loadOrganizations(organizations) {
   return { type: actionTypes.ORGANIZATIONS_LOADED, payload: { organizations } };
 }
 
-export function failAddOrganization(error) {
+function failAddOrganization(error) {
   return { type: actionTypes.ADD_ORGANIZATION_FAILED, payload: { error } };
 }
 
@@ -76,7 +76,19 @@ function fetchOrganizations(token) {
       organization.singers = singersJSON;
       return organization;
     }));
-    dispatch(receiveOrganizations(organizationsJSONWithSingers));
+    let organizationsJSONWithSingersAndChoirs = await Promise.all(organizationsJSONWithSingers.map(async organization => {
+      let choirsResponse = await fetch(config.baseApiUrl + '/organizations/' + organization.orgId + '/choirs', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'jwt ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      });
+      let choirsJSON = await choirsResponse.json();
+      organization.choirs = choirsJSON;
+      return organization;
+    }));
+    dispatch(receiveOrganizations(organizationsJSONWithSingersAndChoirs));
   }
 }
 

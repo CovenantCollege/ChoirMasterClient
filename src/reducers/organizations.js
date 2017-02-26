@@ -50,6 +50,44 @@ export default function organizations(state = { organizationsList: [], isFetchin
         }
       });
       return { ...state, organizationsList };
+    case actionTypes.CHOIR_SELECTED:
+      return state;
+    case actionTypes.CHOIR_ADDED:
+      organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.choir.orgId) {
+          let updatedOrganization = Object.assign({}, organization);
+          updatedOrganization.choirs = (updatedOrganization.choirs ? updatedOrganization.choirs : []).concat(action.payload.choir);
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList };
+    case actionTypes.CHOIRS_LOADED:
+      organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.orgId) {
+          let updatedOrganization = Object.assign({}, organization);
+          updatedOrganization.choirs = action.payload.choirs;
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList };
+    case actionTypes.CHOIR_DELETED:
+      organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.orgId) {
+          let updatedOrganization = JSON.parse(JSON.stringify(organization));
+          let index = updatedOrganization.choirs.findIndex(choir => choir.choirId === action.payload.choirId);
+          if(index !== -1) {
+            updatedOrganization.choirs.splice(index, 1);
+          }
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList };
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button, Modal } from 'react-bootstrap'
-import { deleteSingerFromOrganization, closeDeleteSingerModal } from '../actions/singers'
+import { deleteSingerFromOrganization } from '../actions/singers'
 import { getToken } from '../selectors/user'
 import { shouldShowModal, getModalData } from '../selectors/modal'
 import { getOrgId } from '../selectors/path'

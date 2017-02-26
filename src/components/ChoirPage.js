@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Tabs, Tab } from 'react-bootstrap'
-import SingersList from './SingersList'
-import ChoirsGrid from './ChoirsGrid'
+import { Button } from 'react-bootstrap'
 import { fetchOrganizationsIfNeeded } from '../actions/organizations'
 import { changePage } from '../actions/page'
 import { isAuthenticated, getToken } from '../selectors/user'
 import { getSelectedOrganization } from '../selectors/organizations'
+import { getSelectedChoir } from '../selectors/choirs'
+import { getOrgId, getChoirId } from '../selectors/path'
 
-export class OrganizationPage extends Component {
+export class ChoirPage extends Component {
   componentWillMount() {
     this.props.dispatch(fetchOrganizationsIfNeeded(this.props.token));
   }
@@ -18,22 +18,17 @@ export class OrganizationPage extends Component {
       this.props.dispatch(changePage(''));
       return null;
     }
-    if(this.props.selectedOrganization === undefined) {
+    if(this.props.selectedOrganization === undefined || this.props.selectedChoir === undefined) {
       return null;
     }
     return (
       <div className="container">
         <h2>
-          {this.props.selectedOrganization.name}
+          {this.props.selectedChoir.name}
         </h2>
-        <Tabs defaultActiveKey={1} animation={false} id="organization-tabs">
-          <Tab eventKey={1} title="Choirs">
-            <ChoirsGrid />
-          </Tab>
-          <Tab eventKey={2} title="Singers">
-            <SingersList selectedOrganization={this.props.selectedOrganization} />
-          </Tab>
-        </Tabs>
+        <Button onClick={() => changePage('/organizations/' + this.props.selectedOrganization.orgId)}>
+          {this.props.selectedOrganization.name}
+        </Button>
       </div>
     );
   }
@@ -41,12 +36,15 @@ export class OrganizationPage extends Component {
 
 export default connect(
   (state, props) => {
-    const orgId = parseInt(props.params.orgId, 10);
+    const orgId = getOrgId(state);
+    const choirId = getChoirId(state);
     return {
       isAuthenticated: isAuthenticated(state),
       token: getToken(state),
       selectedOrganization: getSelectedOrganization(state, orgId),
-      orgId
+      selectedChoir: getSelectedChoir(state, orgId, choirId),
+      orgId,
+      choirId
     };
   }
-)(OrganizationPage);
+)(ChoirPage);
