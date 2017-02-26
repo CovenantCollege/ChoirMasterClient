@@ -13,7 +13,7 @@ export function authenticateUser(email, password, remember) {
       body: JSON.stringify({ email, password })
     });
     let json = await response.json();
-    if(json.result === 'success') {
+    if(response.status === 200) {
       if(remember) {
         localStorage.setItem('token', json.token);
       }
@@ -50,8 +50,8 @@ export function clearChangePasswordFailed() {
   return { type: actionTypes.CHANGE_PASSWORD_FAILED_CLEARED };
 }
 
-function failChangePassword(error) {
-  return { type: actionTypes.CHANGE_PASSWORD_FAILED, payload: { error } };
+function failChangePassword(message) {
+  return { type: actionTypes.CHANGE_PASSWORD_FAILED, payload: { message } };
 }
 
 export function changePassword(token, email, oldPassword, newPassword) {
@@ -69,12 +69,11 @@ export function changePassword(token, email, oldPassword, newPassword) {
       })
     });
     let json = await response.json();
-    console.log(response.status);
-    if(json.error) {
-      dispatch(failChangePassword(json.error));
-    } else {
+    if(response.status === 200) {
       dispatch(passwordChanged(oldPassword, newPassword));
       dispatch(changePage('login'));
+    } else {
+      dispatch(failChangePassword(json.message));
     }
   }
 }

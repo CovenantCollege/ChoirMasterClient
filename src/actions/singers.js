@@ -42,31 +42,16 @@ export function addSinger(token, singer, orgId) {
       })
     });
     let json = await response.json();
-    if(json.error) {
-      dispatch(failAddSinger(json.error));
-    } else {
+    if(response.status === 201) {
       dispatch(loadSinger(json));
+    } else {
+      dispatch(failAddSinger(json.error));
     }
-  }
-}
-
-export function fetchSingers(token, orgId) {
-  return async dispatch => {
-    let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/singers', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'jwt ' + token,
-        'Content-Type': 'application/json'
-      }
-    });
-    let json = await response.json();
-    dispatch(loadSingers(json));
   }
 }
 
 export function deleteSingerFromOrganization(token, orgId, singerId) {
   return async dispatch => {
-    alert('Sorry, the delete singer from organization route does not exist yet.'); // TODO remove this
     let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/singers/' + singerId, {
       method: 'DELETE',
       headers: {
@@ -75,11 +60,10 @@ export function deleteSingerFromOrganization(token, orgId, singerId) {
       }
     });
     let json = await response.json();
-    if(json.error) {
-      dispatch(failDeleteSingerFromOrganization(json.error));
-    } else {
-      // TODO delete with singerId and orgId returned from server
+    if(response.status === 204) {
       dispatch(singerDeletedFromOrganization({ singerId, orgId }));
+    } else {
+      dispatch(failDeleteSingerFromOrganization(json.error));
     }
   }
 }

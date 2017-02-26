@@ -37,10 +37,10 @@ export function addOrganization(token, organization) {
       })
     });
     let json = await response.json();
-    if(json.error) {
-      dispatch(failAddOrganization(json.error));
-    } else {
+    if(response.status === 201) {
       dispatch(loadOrganization(json));
+    } else {
+      dispatch(failAddOrganization(json.error));
     }
   }
 }

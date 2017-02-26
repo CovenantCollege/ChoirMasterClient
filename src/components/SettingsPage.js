@@ -5,7 +5,7 @@ import { changePage } from '../actions/page'
 import { isAuthenticated, getToken, getEmail } from '../selectors/user'
 import { showModal } from '../actions/modal'
 import * as modalTypes from '../constants/modalTypes'
-import { changePasswordFailed, getError } from '../selectors/failedRequests'
+import { changePasswordFailed, getMessage } from '../selectors/failedRequests'
 import { clearChangePasswordFailed } from '../actions/user'
 
 export class SettingsPage extends Component {
@@ -20,7 +20,7 @@ export class SettingsPage extends Component {
           this.props.changePasswordFailed ?
             (
               <Alert bsStyle="danger">
-                <strong>Error!</strong> {this.props.error}
+                <strong>Error!</strong> {this.props.message}
               </Alert>
             ) : null
         }
@@ -44,6 +44,6 @@ export default connect(
     token: getToken(state),
     email: getEmail(state),
     changePasswordFailed: changePasswordFailed(state),
-    error: getError(state)
+    message: getMessage(state)
   })
 )(SettingsPage);
