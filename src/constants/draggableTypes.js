@@ -1,0 +1,1 @@
+export const DUMMY_SINGER_CARD = 'DUMMY_SINGER_CARD'
