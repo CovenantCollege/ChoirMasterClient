@@ -27,25 +27,25 @@ const initialState = {
     { dummySingersList:
       [
         [
-          { name: 'Marc Bohler', height: "5' 9\"", voice: 'tenor', id: 12, img: 'https://randomuser.me/api/portraits/med/men/' + 12 + '.jpg' }, 
-          { name: 'Jonathan Austin', height: "6' 0\"", voice: 'alto', id: 32, img: 'https://randomuser.me/api/portraits/med/men/' + 32 + '.jpg' },
-          { name: 'Josh Humphries', height: "6' 0\"", voice: 'alto', id: 33, img: 'https://randomuser.me/api/portraits/med/men/' + 33 + '.jpg' },
-          { name: 'Josh Foster', height: "6' 0\"", voice: 'alto', id: 34, img: 'https://randomuser.me/api/portraits/med/men/' + 34 + '.jpg' },
-          { name: 'Ben Jobson', height: "6' 0\"", voice: 'alto', id: 35, img: 'https://randomuser.me/api/portraits/med/men/' + 35 + '.jpg' }
+          { name: 'Josh Foster', height: "5' 9\"", voice: 'bass', id: 12, img: 'https://randomuser.me/api/portraits/med/men/' + 12 + '.jpg' }, 
+          { name: 'Jonathan Austin', height: "6' 0\"", voice: 'baritone', id: 32, img: 'https://randomuser.me/api/portraits/med/men/' + 32 + '.jpg' },
+          { name: 'Josh Humphries', height: "6' 1\"", voice: 'tenor', id: 33, img: 'https://randomuser.me/api/portraits/med/men/' + 33 + '.jpg' },
+          { name: 'Abby Hynson', height: "6' 2\"", voice: 'alto', id: 34, img: 'https://randomuser.me/api/portraits/med/women/' + 7 + '.jpg' },
+          { name: 'Ben Jobson', height: "6' 3\"", voice: 'soprano', id: 35, img: 'https://randomuser.me/api/portraits/med/men/' + 35 + '.jpg' }
         ],
         [
-          { name: 'Abby Hynson', height: "6' 0\"", voice: 'alto', id: 36, img: 'https://randomuser.me/api/portraits/med/women/' + 7 + '.jpg' },
-          { name: 'David Reed', height: "6' 0\"", voice: 'alto', id: 37, img: 'https://randomuser.me/api/portraits/med/men/' + 37 + '.jpg' },
-          { name: 'Spencer Dent', height: "6' 0\"", voice: 'alto', id: 38, img: 'https://randomuser.me/api/portraits/med/men/' + 38 + '.jpg' },
-          { name: 'Nick Gilbert', height: "6' 0\"", voice: 'alto', id: 39, img: 'https://randomuser.me/api/portraits/med/men/' + 39 + '.jpg' },
-          { name: 'Jonathan Austin', height: "6' 0\"", voice: 'alto', id: 40, img: 'https://randomuser.me/api/portraits/med/men/' + 40 + '.jpg' }
+          { name: 'Marc Bohler', height: "6' 4\"", voice: 'bass', id: 36, img: 'https://randomuser.me/api/portraits/med/men/' + 34 + '.jpg' },
+          { name: 'David Reed', height: "6' 5\"", voice: 'baritone', id: 37, img: 'https://randomuser.me/api/portraits/med/men/' + 37 + '.jpg' },
+          { name: 'Spencer Dent', height: "6' 6\"", voice: 'tenor', id: 38, img: 'https://randomuser.me/api/portraits/med/men/' + 38 + '.jpg' },
+          { name: 'Nick Gilbert', height: "6' 7\"", voice: 'alto', id: 39, img: 'https://randomuser.me/api/portraits/med/men/' + 39 + '.jpg' },
+          { name: 'Jesse Clinton', height: "6' 8\"", voice: 'soprano', id: 40, img: 'https://randomuser.me/api/portraits/med/men/' + 40 + '.jpg' }
         ],
         [
-          { name: 'Jonathan Austin', height: "6' 0\"", voice: 'alto', id: 41, img: 'https://randomuser.me/api/portraits/med/men/' + 41 + '.jpg' },
-          { name: 'Jonathan Austin', height: "6' 0\"", voice: 'alto', id: 42, img: 'https://randomuser.me/api/portraits/med/men/' + 42 + '.jpg' },
-          { name: 'Jonathan Austin', height: "6' 0\"", voice: 'alto', id: 43, img: 'https://randomuser.me/api/portraits/med/men/' + 43 + '.jpg' },
-          { name: 'Jonathan Austin', height: "6' 0\"", voice: 'alto', id: 44, img: 'https://randomuser.me/api/portraits/med/men/' + 44 + '.jpg' },
-          { name: 'Jonathan Austin', height: "6' 0\"", voice: 'alto', id: 45, img: 'https://randomuser.me/api/portraits/med/men/' + 45 + '.jpg' }
+          { name: 'Jay Epperson', height: "6' 9\"", voice: 'bass', id: 41, img: 'https://randomuser.me/api/portraits/med/men/' + 41 + '.jpg' },
+          { name: 'Jared Daniel', height: "6' 10\"", voice: 'baritone', id: 42, img: 'https://randomuser.me/api/portraits/med/men/' + 42 + '.jpg' },
+          { name: 'Ben Copeland', height: "6' 11\"", voice: 'tenor', id: 43, img: 'https://randomuser.me/api/portraits/med/men/' + 43 + '.jpg' },
+          { name: 'Drew Osborn', height: "6' 12\"", voice: 'alto', id: 44, img: 'https://randomuser.me/api/portraits/med/men/' + 44 + '.jpg' },
+          { name: 'Eddie Sunder', height: "7' 0\"", voice: 'soprano', id: 45, img: 'https://randomuser.me/api/portraits/med/men/' + 45 + '.jpg' }
         ]
       ]
     }
