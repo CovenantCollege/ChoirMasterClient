@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
+import { updateDummySingers } from '../actions/dummySingers'
 import { connect } from 'react-redux'
-import { Table } from 'react-bootstrap'
 import DummySingerCard from './DummySingerCard'
+import DummySingerSquare from './DummySingerSquare'
+import { DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
+import { getDummySingers } from '../selectors/dummySingers'
 
 /**
  * This class will eventually be the drag and drop demo
@@ -19,16 +24,24 @@ export class DummySingersList extends Component {
 	 * @return {[type]} [description]
 	 */
 	render() {
-		let dummySingers = null;
+		// If we have no local dummySinger data yet, add it
+		// Otherwise, load server dummySinger data and add it to local state
+
+		let dummySingers = [];
 	  if(this.props.dummySingers !== undefined) {
-	    dummySingers = this.props.dummySingers.map(dummySinger => {
-	      return (
-	      	<div style={{width: '20%', padding: '20px'}}>
-	      		<DummySingerCard singer={dummySinger} />
-	      	</div>
-	      );
-	    });
+	  	console.log("Entered");
+	  	for (let row = 0; row < this.props.dummySingers.length; row++) {
+	  		for (let col = 0; col < this.props.dummySingers[0].length; col++) {
+	  			dummySingers.push(
+						<DummySingerSquare x={row} y={col} key={row + " " + col}>
+	      			<DummySingerCard x={row} y={col} singer={this.props.dummySingers[row][col]} />
+	      		</DummySingerSquare>
+	  			);
+	  		}
+	  	}
 	  }
+	  console.log("Dummy Singers:");
+	  console.log(dummySingers);
 	  return (
 	  	    <div className="margined-children dummy-singers-list">
 						{dummySingers}
@@ -37,4 +50,7 @@ export class DummySingersList extends Component {
 	  	};
 }
 
-export default connect()(DummySingersList);
+export default compose(
+	DragDropContext(HTML5Backend),
+	connect()
+)(DummySingersList);

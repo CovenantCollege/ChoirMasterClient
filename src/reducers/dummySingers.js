@@ -5,8 +5,9 @@ export default function dummySingers(state = { dummySingersList: [], fetchingDum
 		case actionTypes.DUMMY_SINGERS_FETCHED:
 			return {...state, fetchingDummySingers: true};
 		case actionTypes.DUMMY_SINGERS_LOADED:
-			console.log("Payload: " + action.payload.dummySingersList);
 			return {...state, dummySingersList: action.payload.dummySingersList, fetchingDummySingers: false};
+		case actionTypes.DUMMY_SINGERS_UPDATED:
+			return {...state, dummySingersList: action.payload.dummySingersList};
 		default:
 		  return state;
 	};

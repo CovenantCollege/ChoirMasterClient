@@ -11,13 +11,15 @@ import { getIsAuthenticated, getToken } from '../selectors/user'
  */
 export class DummyChoirPage extends Component {
 
-	componentWillMount() {
-		if(this.props.dummySingers.length === 0 && !this.props.fetchingDummySingers) {
-			this.props.dispatch(fetchDummySingers());
-		}
-	}
+	// componentWillMount() {
+	// 	if(this.props.dummySingers.length === 0 && !this.props.fetchingDummySingers) {
+	// 		this.props.dispatch(fetchDummySingers());
+	// 	}
+	// }
 
 	render() {
+		console.log("Choir Page:");
+		console.log(this.props.dummySingers);
 		let choirName = "Covenant College Choir";
 		let dummySingers = [];
 		if (this.props.dummySingers !== undefined) {
