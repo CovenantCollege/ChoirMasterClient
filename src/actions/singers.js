@@ -59,11 +59,10 @@ export function deleteSingerFromOrganization(token, orgId, singerId) {
         'Content-Type': 'application/json'
       }
     });
-    let json = await response.json();
     if(response.status === 204) {
       dispatch(singerDeletedFromOrganization({ singerId, orgId }));
     } else {
-      dispatch(failDeleteSingerFromOrganization(json.error));
+      dispatch(failDeleteSingerFromOrganization());
     }
   }
 }
