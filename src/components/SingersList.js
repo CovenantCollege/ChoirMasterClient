@@ -1,9 +1,8 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { Alert, Button, Table, Glyphicon } from 'react-bootstrap'
+import { Button, Table, Glyphicon } from 'react-bootstrap'
 import { clearAddSingerFailed } from '../actions/singers'
 import { showModal } from '../actions/modal'
-import { addSingerFailed } from '../selectors/failedRequests'
 import * as modalTypes from '../constants/modalTypes'
 
 export class SingersList extends Component {
@@ -25,14 +24,6 @@ export class SingersList extends Component {
     }
     return (
       <div className="margined-children">
-        {
-          this.props.addSingerFailed ?
-          (
-            <Alert bsStyle="danger">
-              <strong>Error!</strong> We were unable to add the singer.
-            </Alert>
-          ) : null
-        }
         <Button bsStyle="success" onClick={() => {
           this.props.dispatch(showModal(modalTypes.ADD_SINGER_MODAL));
           this.props.dispatch(clearAddSingerFailed());
@@ -57,6 +48,5 @@ export class SingersList extends Component {
 
 export default connect(
   state => ({
-    addSingerFailed: addSingerFailed(state)
   })
 )(SingersList);
