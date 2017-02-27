@@ -67,3 +67,40 @@ export function deleteSingerFromOrganization(token, orgId, singerId) {
     }
   }
 }
+
+function requestSingers() {
+  return { type: actionTypes.SINGERS_REQUESTED };
+}
+
+function receiveSingers(orgId, choirId, singers) {
+  return { type: actionTypes.SINGERS_RECEIVED, payload: { orgId, choirId, singers } };
+}
+
+function fetchSingers(token, orgId, choirId) {
+  return async dispatch => {
+    dispatch(requestSingers());
+    let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/choirs/' + choirId + '/singers', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'jwt ' + token,
+        'Content-Type': 'application/json'
+      }
+    });
+    let json = await response.json();
+    dispatch(receiveSingers(orgId, choirId, json));
+  }
+}
+
+function shouldFetchSingers(state, orgId, choirId) {
+  const selectedOrganization = state.organizations.organizationsList.find(organization => organization.orgId === orgId);
+  const selectedChoir = selectedOrganization.choirs.find(choir => choir.choirId === choirId);
+  return selectedChoir.singers === undefined && state.organizations.isFetchingSingersForChoir === false;
+}
+
+export function fetchSingersIfNeeded(token, orgId, choirId) {
+  return (dispatch, getState) => {
+    if(shouldFetchSingers(getState(), orgId, choirId)) {
+      return dispatch(fetchSingers(token, orgId, choirId));
+    }
+  }
+}

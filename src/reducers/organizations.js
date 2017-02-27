@@ -1,6 +1,6 @@
 import * as actionTypes from '../constants/actionTypes'
 
-export default function organizations(state = { organizationsList: [], isFetching: false }, action) {
+export default function organizations(state = { organizationsList: [], isFetching: false, isFetchingSingersForChoir: false }, action) {
   let organizationsList = [];
   switch (action.type) {
     case actionTypes.ORGANIZATION_ADDED:
@@ -14,6 +14,28 @@ export default function organizations(state = { organizationsList: [], isFetchin
       return { ...state, isFetching: true };
     case actionTypes.ORGANIZATIONS_RECEIVED:
       return { ...state, organizationsList: action.payload.organizations, isFetching: false };
+    case actionTypes.SINGERS_REQUESTED:
+      return { ...state, isFetchingSingersForChoir: true };
+    case actionTypes.SINGERS_RECEIVED:
+      organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.orgId) {
+          let updatedOrganization = Object.assign({}, organization);
+          let updatedChoirs = updatedOrganization.choirs.map(choir => {
+            if(choir.choirId === action.payload.choirId) {
+              let updatedChoir = Object.assign({}, choir);
+              updatedChoir.singers = action.payload.singers;
+              return updatedChoir;
+            } else {
+              return choir;
+            }
+          });
+          updatedOrganization.choirs = updatedChoirs;
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList, isFetchingSingersForChoir: false };
     case actionTypes.SINGER_ADDED:
       organizationsList = state.organizationsList.map(organization => {
         if(organization.orgId === action.payload.singer.orgId) {
