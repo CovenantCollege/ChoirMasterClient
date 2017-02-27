@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Table } from 'react-bootstrap'
-import { getToken } from '../selectors/user'
+import DummySingerCard from './DummySingerCard'
 
 /**
  * This class will eventually be the drag and drop demo
@@ -9,33 +9,29 @@ import { getToken } from '../selectors/user'
  */
 export class DummySingersList extends Component {
 
+	/**
+	 * Eventually, I want the layout to be like this:
+	 * <div  style={{ width: '12.5%', height: '12.5%' }}>
+	 * 	<DummySingerSquare>
+	 *  	<DummySingerCard singerData={dummySinger} />
+	 * 	</DummySingerSquare>
+	 * </div>
+	 * @return {[type]} [description]
+	 */
 	render() {
 		let dummySingers = null;
 	  if(this.props.dummySingers !== undefined) {
 	    dummySingers = this.props.dummySingers.map(dummySinger => {
 	      return (
-	        <tr key={dummySinger.id}>
-	          <td>{dummySinger.name}</td>
-	          <td>{dummySinger.height}</td>
-	          <td>{dummySinger.voice}</td>
-	        </tr>
+	      	<div style={{width: '20%', padding: '20px'}}>
+	      		<DummySingerCard singer={dummySinger} />
+	      	</div>
 	      );
 	    });
 	  }
 	  return (
-	  	    <div className="margined-children">
-	  	      <Table striped bordered condensed hover>
-	  	        <thead>
-	  	          <tr>
-	  	            <th>Name</th>
-	  	            <th>Height</th>
-	  	            <th>Voice</th>
-	  	          </tr>
-	  	        </thead>
-	  	        <tbody>
-	  	          {dummySingers}
-	  	        </tbody>
-	  	      </Table>
+	  	    <div className="margined-children dummy-singers-list">
+						{dummySingers}
 	  	    </div>
 	  	  );
 	  	};
