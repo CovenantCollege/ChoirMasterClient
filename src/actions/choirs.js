@@ -55,14 +55,14 @@ export function addChoir(token, orgId, choir) {
 
 export function editChoir(token, orgId, choirId, selected) {
   return async dispatch => {
-    let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/choirs/' + choirId, {
+    let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/choirs/' + choirId + '/singers/', {
       method: 'PUT',
       headers: {
         'Authorization': 'jwt ' + token,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'selectedSingerIds': selected
+        'singerIds': selected
       })
     });
     if(response.status === 204) {
