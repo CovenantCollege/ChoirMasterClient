@@ -14,6 +14,10 @@ export default function failedRequests(state = {}, action) {
       return { ...state, addChoirFailed: true };
     case actionTypes.ADD_CHOIR_FAILED_CLEARED:
       return { ...state, addChoirFailed: false };
+    case actionTypes.EDIT_CHOIR_FAILED:
+      return { ...state, editChoirFailed: true };
+    case actionTypes.EDIT_CHOIR_FAILED_CLEARED:
+      return { ...state, editChoirFailed: false };
     case actionTypes.CHANGE_PASSWORD_FAILED:
       return { ...state, changePasswordFailed: true, message: action.payload.message };
     case actionTypes.CHANGE_PASSWORD_FAILED_CLEARED:
