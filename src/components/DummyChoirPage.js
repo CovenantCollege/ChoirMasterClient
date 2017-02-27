@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import DummySingersList from './DummySingersList'
 import { fetchDummySingers } from '../actions/dummySingers'
 import { getDummySingers, getFetchingDummySingers } from '../selectors/dummySingers'
-import { getIsAuthenticated, getToken } from '../selectors/user'
+import { isAuthenticated, getToken } from '../selectors/user'
 
 /**
  * This page will demo the drag and drop choir
@@ -39,7 +39,7 @@ export class DummyChoirPage extends Component {
 
 export default connect(
 	state => ({
-		isAuthenticated: getIsAuthenticated(state),
+		isAuthenticated: isAuthenticated(state),
     token: getToken(state),
 		dummySingers: getDummySingers(state),
 		fetchingDummySingers: getFetchingDummySingers(state)
