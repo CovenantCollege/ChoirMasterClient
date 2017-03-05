@@ -88,7 +88,19 @@ function fetchOrganizations(token) {
       organization.choirs = choirsJSON;
       return organization;
     }));
-    dispatch(receiveOrganizations(organizationsJSONWithSingersAndChoirs));
+    let organizationsJSONWithSingersAndChoirsAndVenues = await Promise.all(organizationsJSONWithSingersAndChoirs.map(async organization => {
+      let venuesResponse = await fetch(config.baseApiUrl + '/organizations/' + organization.orgId + '/venues', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'jwt ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      });
+      let venuesJSON = await venuesResponse.json();
+      organization.venues = venuesJSON;
+      return organization;
+    }));
+    dispatch(receiveOrganizations(organizationsJSONWithSingersAndChoirsAndVenues));
   }
 }
 

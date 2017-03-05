@@ -17,6 +17,7 @@ import LoginPage from './components/LoginPage'
 import DashboardPage from './components/DashboardPage'
 import OrganizationPage from './components/OrganizationPage'
 import ChoirPage from './components/ChoirPage'
+import VenuePage from './components/VenuePage'
 import SettingsPage from './components/SettingsPage'
 import DummyChoirPage from './components/DummyChoirPage'
 
@@ -80,6 +81,7 @@ ReactDOM.render(
         <Route path="/dashboard" component={DashboardPage} />
         <Route path="/organizations/:orgId" component={OrganizationPage} />
         <Route path="/organizations/:orgId/choirs/:choirId" component={ChoirPage} />
+        <Route path="/organizations/:orgId/venues/:venueId" component={VenuePage} />
         <Route path="/settings" component={SettingsPage} />
       </Router>
     </div>

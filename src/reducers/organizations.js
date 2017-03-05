@@ -135,6 +135,30 @@ export default function organizations(state = { organizationsList: [], isFetchin
         }
       });
       return { ...state, organizationsList };
+    case actionTypes.VENUE_SELECTED:
+      return state;
+    case actionTypes.VENUE_ADDED:
+      organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.venue.orgId) {
+          let updatedOrganization = Object.assign({}, organization);
+          updatedOrganization.venues = (updatedOrganization.venues ? updatedOrganization.venues : []).concat(action.payload.venue);
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList };
+    case actionTypes.VENUES_LOADED:
+      organizationsList = state.organizationsList.map(organization => {
+        if(organization.orgId === action.payload.orgId) {
+          let updatedOrganization = Object.assign({}, organization);
+          updatedOrganization.venues = action.payload.venues;
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList };
     default:
       return state;
   }
