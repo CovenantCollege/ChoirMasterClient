@@ -149,6 +149,7 @@ export class ChoirPage extends Component {
         <Button onClick={() => changePage('/organizations/' + this.props.selectedOrganization.orgId)}>
           {this.props.selectedOrganization.name}
         </Button>
+        <h3>Singers</h3>
         <form>
           <Table striped bordered condensed hover>
             <thead>

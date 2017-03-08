@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Button, Table } from 'react-bootstrap'
 import { fetchOrganizationsIfNeeded } from '../actions/organizations'
 import { changePage } from '../actions/page'
 import { isAuthenticated, getToken } from '../selectors/user'
@@ -34,10 +35,45 @@ export class ChoirPage extends Component {
       return null;
     }
 
+    let performances = [];
+    let header = null;
+    if(this.props.selectedVenue.performances) {
+      performances = this.props.selectedVenue.performances.map(performance => {
+        return (
+          <tr key={performance.performanceId}>
+            <td>{performance.date}</td>
+            <td>{performance.description}</td>
+          </tr>
+        );
+      });
+      header = (
+        <tr>
+          <th>Date</th>
+          <th>Description</th>
+        </tr>
+      );
+    }
+
     if(this.props.selectedVenue) {
       return (
-        <div className="container">
-          <h2>{this.props.selectedVenue.name}</h2>
+        <div className="container margined-children">
+          <h2>
+            {this.props.selectedVenue.name}
+          </h2>
+          <Button onClick={() => changePage('/organizations/' + this.props.selectedOrganization.orgId)}>
+            {this.props.selectedOrganization.name}
+          </Button>
+          <h3>Performances</h3>
+          <form>
+            <Table striped bordered condensed hover>
+              <thead>
+                {header}
+              </thead>
+              <tbody>
+                {performances}
+              </tbody>
+            </Table>
+          </form>
         </div>
       );
     } else {
