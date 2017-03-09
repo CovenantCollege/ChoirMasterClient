@@ -98,18 +98,21 @@ function fetchOrganizations(token) {
       });
       let venuesJSON = await venuesResponse.json();
       organization.venues = venuesJSON;
-      organization.venues = organization.venues.map(venue => {
-        venue.performances = [
-          {
-            date: '4-7-17',
-            description: 'hardcoded performance data in client.. TODO fetch performances'
-          }
-        ]; // TODO fetch performances
-        return venue;
-      });
       return organization;
     }));
-    dispatch(receiveOrganizations(organizationsJSONWithSingersAndChoirsAndVenues));
+    let organizationsJSONWithSingersAndChoirsAndVenuesAndPerformances = await Promise.all(organizationsJSONWithSingersAndChoirsAndVenues.map(async organization => {
+      let performancesResponse = await fetch(config.baseApiUrl + '/organizations/' + organization.orgId + '/performances', {
+        method: 'GET',
+        headers: {
+          'Authorization': 'jwt ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      });
+      let performancesJSON = await performancesResponse.json();
+      organization.performances = performancesJSON;
+      return organization;
+    }));
+    dispatch(receiveOrganizations(organizationsJSONWithSingersAndChoirsAndVenuesAndPerformances));
   }
 }
 

@@ -6,8 +6,9 @@ import { changePage } from '../actions/page'
 import { isAuthenticated, getToken } from '../selectors/user'
 import { getSelectedOrganization } from '../selectors/organizations'
 import { getSelectedVenue } from '../selectors/venues'
+import { getPerformances } from '../selectors/performances'
 
-export class ChoirPage extends Component {
+export class VenuePage extends Component {
   constructor(props) {
     super(props);
 
@@ -37,8 +38,8 @@ export class ChoirPage extends Component {
 
     let performances = [];
     let header = null;
-    if(this.props.selectedVenue.performances) {
-      performances = this.props.selectedVenue.performances.map(performance => {
+    if(this.props.performances) {
+      performances = this.props.performances.map(performance => {
         return (
           <tr key={performance.performanceId}>
             <td>{performance.date}</td>
@@ -91,9 +92,10 @@ export default connect(
       isAuthenticated: isAuthenticated(state),
       token: getToken(state),
       selectedOrganization: getSelectedOrganization(state, orgId),
+      performances: getPerformances(state, orgId, venueId),
       selectedVenue,
       orgId,
       venueId
     };
   }
-)(ChoirPage);
+)(VenuePage);
