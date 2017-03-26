@@ -24,6 +24,10 @@ export function clearAddOrganizationFailed() {
   return { type: actionTypes.ADD_ORGANIZATION_FAILED_CLEARED };
 }
 
+export function selectOrganizationTab(tab) {
+  return { type: actionTypes.ORGANIZATION_TAB_SELECTED, payload: { tab }}
+}
+
 export function addOrganization(token, organization) {
   return async dispatch => {
     let response = await fetch(config.baseApiUrl + '/organizations', {

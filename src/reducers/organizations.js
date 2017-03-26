@@ -1,15 +1,15 @@
 import * as actionTypes from '../constants/actionTypes'
 
-export default function organizations(state = { organizationsList: [], isFetching: false, isFetchingSingersForChoir: false }, action) {
+export default function organizations(state = { organizationsList: [], isFetching: false, isFetchingSingersForChoir: false, organizationTabSelected: 'choirs' }, action) {
   let organizationsList = [];
   switch (action.type) {
     case actionTypes.ORGANIZATION_ADDED:
       return {
         ...state,
-        organizationsList: state.organizationsList.concat(action.payload.organization)
+        organizationsList: state.organizationsList.concat(action.payload.organization),
       };
-    case actionTypes.ORGANIZATION_SELECTED:
-      return state;
+      case actionTypes.ORGANIZATION_SELECTED:
+      return {...state, organizationTabSelected: 'choirs' };
     case actionTypes.ORGANIZATIONS_REQUESTED:
       return { ...state, isFetching: true };
     case actionTypes.ORGANIZATIONS_RECEIVED:
@@ -159,6 +159,8 @@ export default function organizations(state = { organizationsList: [], isFetchin
         }
       });
       return { ...state, organizationsList };
+    case actionTypes.ORGANIZATION_TAB_SELECTED:
+      return { ...state, organizationTabSelected: action.payload.tab };
     default:
       return state;
   }

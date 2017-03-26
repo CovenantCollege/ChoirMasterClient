@@ -4,14 +4,36 @@ import { Alert, Tabs, Tab } from 'react-bootstrap'
 import SingersList from './SingersList'
 import VenuesGrid from './VenuesGrid'
 import ChoirsGrid from './ChoirsGrid'
-import { fetchOrganizationsIfNeeded } from '../actions/organizations'
+import { fetchOrganizationsIfNeeded, selectOrganizationTab } from '../actions/organizations'
 import { changePage } from '../actions/page'
 import { clearAllFailedRequests } from '../actions/failedRequests'
 import { isAuthenticated, getToken } from '../selectors/user'
-import { getSelectedOrganization } from '../selectors/organizations'
+import { getSelectedOrganization, getOrganizationTabSelected } from '../selectors/organizations'
 import { addChoirFailed, addSingerFailed, addVenueFailed } from '../selectors/failedRequests'
 
 export class OrganizationPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.selectTab = this.selectTab.bind(this);
+  }
+
+  selectTab(eventKey) {
+    let selectedTab = 'choirs';
+    switch(eventKey) {
+      case 1:
+        selectedTab = 'choirs';
+        break;
+      case 2:
+        selectedTab = 'singers';
+        break;
+      case 3:
+        selectedTab = 'venues';
+        break;
+    }
+    this.props.dispatch(selectOrganizationTab(selectedTab));
+  }
+
   componentWillMount() {
     this.props.dispatch(fetchOrganizationsIfNeeded(this.props.token));
   }
@@ -23,6 +45,18 @@ export class OrganizationPage extends Component {
     }
     if(this.props.selectedOrganization === undefined) {
       return null;
+    }
+    let activeTabKey = 'choirs';
+    switch(this.props.organizationTabSelected) {
+      case 'choirs':
+        activeTabKey = 1;
+        break;
+      case 'singers':
+        activeTabKey = 2;
+        break;
+      case 'venues':
+        activeTabKey = 3;
+        break;
     }
     return (
       <div className="container">
@@ -53,7 +87,7 @@ export class OrganizationPage extends Component {
         <h2>
           {this.props.selectedOrganization.name}
         </h2>
-        <Tabs defaultActiveKey={1} animation={false} id="organization-tabs">
+        <Tabs activeKey={activeTabKey} animation={false} id="organization-tabs" onSelect={(eventKey, event) => this.selectTab(eventKey)}>
           <Tab eventKey={1} title="Choirs" onClick={() => this.props.dispatch(clearAllFailedRequests())}>
             <ChoirsGrid />
           </Tab>
@@ -77,6 +111,7 @@ export default connect(
       token: getToken(state),
       selectedOrganization: getSelectedOrganization(state, orgId),
       orgId,
+      organizationTabSelected: getOrganizationTabSelected(state),
       addChoirFailed: addChoirFailed(state),
       addSingerFailed: addSingerFailed(state),
       addVenueFailed: addVenueFailed(state)
