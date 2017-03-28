@@ -161,6 +161,17 @@ export default function organizations(state = { organizationsList: [], isFetchin
       return { ...state, organizationsList };
     case actionTypes.ORGANIZATION_TAB_SELECTED:
       return { ...state, organizationTabSelected: action.payload.tab };
+    case actionTypes.PERFORMANCE_ADDED:
+      organizationsList = state.organizationsList.map(organization => {
+        if (organization.orgId === action.payload.orgId) {
+          let updatedOrganization = Object.assign({}, organization);
+          updatedOrganization.performances = (updatedOrganization.performances ? updatedOrganization.performances : []).concat(action.payload.performance);
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList };
     default:
       return state;
   }
