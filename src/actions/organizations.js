@@ -113,7 +113,18 @@ function fetchOrganizations(token) {
         }
       });
       let performancesJSON = await performancesResponse.json();
-      organization.performances = performancesJSON;
+      let performancesWithChoirs = await Promise.all(performancesJSON.map(async performance => {
+        let choirsForPerformance = await fetch(config.baseApiUrl + '/organizations/' + organization.orgId + '/performances/' + performance.performanceId + '/choirs', {
+          method: 'GET',
+          headers: {
+            'Authorization': 'jwt ' + token,
+            'Content-Type': 'application/json'
+          }
+        });
+        performance.choirs = await choirsForPerformance.json();
+        return performance;
+      }));
+      organization.performances = performancesWithChoirs;
       return organization;
     }));
     dispatch(receiveOrganizations(organizationsJSONWithSingersAndChoirsAndVenuesAndPerformances));

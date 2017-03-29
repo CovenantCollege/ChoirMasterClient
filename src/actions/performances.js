@@ -34,7 +34,7 @@ export function addPerformance(token, orgId, venueId, performance) {
         body: JSON.stringify(performance.selected)
       });
       if(putResponse.status === 204) {
-        dispatch(performanceAdded(json, orgId));
+        dispatch(performanceAdded({...json, choirs: performance.selected}, orgId));
       }
     } else {
       dispatch(failAddPerformance(postResponse.error));
