@@ -20,6 +20,7 @@ import ChoirPage from './components/ChoirPage'
 import VenuePage from './components/VenuePage'
 import SettingsPage from './components/SettingsPage'
 import DummyChoirPage from './components/DummyChoirPage'
+import SingerArrangementPage from './components/SingerArrangementPage'
 
 const middleware = compose(
   applyMiddleware(thunk),
@@ -82,6 +83,7 @@ ReactDOM.render(
         <Route path="/organizations/:orgId" component={OrganizationPage} />
         <Route path="/organizations/:orgId/choirs/:choirId" component={ChoirPage} />
         <Route path="/organizations/:orgId/venues/:venueId" component={VenuePage} />
+        <Route path="/organizations/:orgId/performances/:performanceId" component={SingerArrangementPage} />
         <Route path="/settings" component={SettingsPage} />
       </Router>
     </div>

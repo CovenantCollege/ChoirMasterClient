@@ -1,6 +1,6 @@
 import * as actionTypes from '../constants/actionTypes'
 
-export default function organizations(state = { organizationsList: [], isFetching: false, isFetchingSingersForChoir: false, organizationTabSelected: 'choirs' }, action) {
+export default function organizations(state = { organizationsList: [], isFetching: false, isFetchingSingersForChoir: [], organizationTabSelected: 'choirs' }, action) {
   let organizationsList = [];
   switch (action.type) {
     case actionTypes.ORGANIZATION_ADDED:
@@ -15,7 +15,7 @@ export default function organizations(state = { organizationsList: [], isFetchin
     case actionTypes.ORGANIZATIONS_RECEIVED:
       return { ...state, organizationsList: action.payload.organizations, isFetching: false };
     case actionTypes.SINGERS_REQUESTED:
-      return { ...state, isFetchingSingersForChoir: true };
+      return { ...state, isFetchingSingersForChoir: state.isFetchingSingersForChoir.concat(action.payload.choirId) };
     case actionTypes.SINGERS_RECEIVED:
       organizationsList = state.organizationsList.map(organization => {
         if(organization.orgId === action.payload.orgId) {
@@ -35,7 +35,8 @@ export default function organizations(state = { organizationsList: [], isFetchin
           return organization;
         }
       });
-      return { ...state, organizationsList, isFetchingSingersForChoir: false };
+      let updatedIsFetchingSingersForChoir = state.isFetchingSingersForChoir.splice(state.isFetchingSingersForChoir.findIndex(choirId => choirId === action.payload.choirId), 1);
+      return { ...state, organizationsList, isFetchingSingersForChoir: updatedIsFetchingSingersForChoir };
     case actionTypes.SINGER_ADDED:
       organizationsList = state.organizationsList.map(organization => {
         if(organization.orgId === action.payload.singer.orgId) {

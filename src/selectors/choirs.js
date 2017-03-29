@@ -7,6 +7,11 @@ export const getChoirs = state => {
   return selectedOrganization ? selectedOrganization.choirs || [] : undefined;
 };
 
+export const getChoirsInOrganization = (state, orgId) => {
+  const selectedOrganization = getSelectedOrganization(state, orgId);
+  return selectedOrganization ? selectedOrganization.choirs || [] : undefined;
+};
+
 export const getSelectedChoir = (state, orgId, choirId) => {
   const selectedOrganization = getSelectedOrganization(state, orgId);
   if(selectedOrganization) {

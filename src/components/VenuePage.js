@@ -151,6 +151,11 @@ export class VenuePage extends Component {
             <tr key={performance.performanceId}>
               <td>{dateformat(performance.date, "mmmm d, yyyy")}</td>
               <td>{performance.description}</td>
+              <td>
+                <Button bsSize="xsmall" onClick={() => {
+                  this.props.dispatch(changePage('organizations/' + this.props.selectedOrganization.orgId + '/performances/' + performance.performanceId))
+                }}>View</Button>
+              </td>
             </tr>
           );
         });
@@ -161,6 +166,7 @@ export class VenuePage extends Component {
             <tr>
               <th>Date</th>
               <th>Description</th>
+              <th>View</th>
             </tr>
           </thead>
           <tbody>
@@ -181,7 +187,7 @@ export class VenuePage extends Component {
           <h2>
             {this.props.selectedVenue.name}
           </h2>
-          <Button onClick={() => changePage('/organizations/' + this.props.selectedOrganization.orgId)}>
+          <Button onClick={() => this.props.dispatch(changePage('/organizations/' + this.props.selectedOrganization.orgId))}>
             {this.props.selectedOrganization.name}
           </Button>
           {

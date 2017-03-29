@@ -67,8 +67,8 @@ export function deleteSingerFromOrganization(token, orgId, singerId) {
   }
 }
 
-function requestSingers() {
-  return { type: actionTypes.SINGERS_REQUESTED };
+function requestSingers(choirId) {
+  return { type: actionTypes.SINGERS_REQUESTED, payload: { choirId } };
 }
 
 function receiveSingers(orgId, choirId, singers) {
@@ -77,7 +77,7 @@ function receiveSingers(orgId, choirId, singers) {
 
 function fetchSingers(token, orgId, choirId) {
   return async dispatch => {
-    dispatch(requestSingers());
+    dispatch(requestSingers(choirId));
     let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/choirs/' + choirId + '/singers', {
       method: 'GET',
       headers: {
@@ -93,7 +93,7 @@ function fetchSingers(token, orgId, choirId) {
 function shouldFetchSingers(state, orgId, choirId) {
   const selectedOrganization = state.organizations.organizationsList.find(organization => organization.orgId === orgId);
   const selectedChoir = selectedOrganization.choirs.find(choir => choir.choirId === choirId);
-  return selectedChoir.singers === undefined && state.organizations.isFetchingSingersForChoir === false;
+  return selectedChoir.singers === undefined && state.organizations.isFetchingSingersForChoir.findIndex(c => c === choirId);
 }
 
 export function fetchSingersIfNeeded(token, orgId, choirId) {

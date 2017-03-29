@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import config from '../configuration';
 import { changePage } from './page'
+import { fetchSingersIfNeeded } from './singers'
 import * as actionTypes from '../constants/actionTypes'
 
 export function selectOrganization(orgId) {
@@ -128,6 +129,11 @@ function fetchOrganizations(token) {
       return organization;
     }));
     dispatch(receiveOrganizations(organizationsJSONWithSingersAndChoirsAndVenuesAndPerformances));
+    organizationsJSONWithSingersAndChoirsAndVenuesAndPerformances.forEach(organization => {
+      organization.choirs.forEach(choir => {
+        dispatch(fetchSingersIfNeeded(token, choir.orgId, choir.choirId));
+      });
+    });
   }
 }
 
