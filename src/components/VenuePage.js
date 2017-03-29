@@ -131,7 +131,7 @@ export class VenuePage extends Component {
       );
       performanceDescriptionInput = (
         <FormGroup>
-          <h3>Date</h3>
+          <h3>Description</h3>
           <FormControl
             type="text"
             placeholder="Enter description"
