@@ -146,7 +146,7 @@ export class VenuePage extends Component {
       performancesHeader = <h3>Performances</h3>;
       let performances = [];
       if(this.props.performances) {
-        performances = this.props.performances.map(performance => {
+        performances = this.props.performances.sort((a, b) => new Date(a.date) - new Date(b.date)).map(performance => {
           return (
             <tr key={performance.performanceId}>
               <td>{dateformat(performance.date, "mmmm d, yyyy")}</td>
