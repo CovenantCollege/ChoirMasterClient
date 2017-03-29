@@ -8,6 +8,7 @@ import { isAuthenticated, getToken } from '../selectors/user'
 import { getSelectedOrganization } from '../selectors/organizations'
 import { getSelectedVenue } from '../selectors/venues'
 import { getPerformances } from '../selectors/performances'
+import dateformat from 'dateformat'
 
 export class VenuePage extends Component {
   constructor(props) {
@@ -148,7 +149,7 @@ export class VenuePage extends Component {
         performances = this.props.performances.map(performance => {
           return (
             <tr key={performance.performanceId}>
-              <td>{performance.date}</td>
+              <td>{dateformat(performance.date, "mmmm d, yyyy")}</td>
               <td>{performance.description}</td>
             </tr>
           );
