@@ -6,6 +6,9 @@ import { isAuthenticated, getToken } from '../selectors/user'
 import { getSelectedOrganization } from '../selectors/organizations'
 import { getSelectedPerformance } from '../selectors/performances'
 import { getChoirs } from '../selectors/choirs'
+import { getGrid } from '../selectors/grid'
+import SingerGutter from './SingerGutter'
+import PerformanceGrid from './PerformanceGrid'
 
 export class SingerArrangementPage extends Component {
   fetchDataIfNeeded() {
@@ -28,14 +31,13 @@ export class SingerArrangementPage extends Component {
     if (this.props.selectedOrganization === undefined) {
       return null;
     }
-
-    return <div className="container">
-      {
-        this.props.singers.map(singer => {
-          return <div id={singer.singerId}>{singer.name}</div>;
-        })
-      }
-    </div>
+    console.log("Help... " + this.props.singers)
+    return (
+        <div className="container">
+            <SingerGutter singers={this.props.singers} />
+            <PerformanceGrid rows={this.props.grid.rows} cols={this.props.grid.cols} />
+        </div>
+    );
   }
 }
 
@@ -46,6 +48,7 @@ export default connect(
     const selectedPerformance = getSelectedPerformance(state, orgId, performanceId);
     let choirsInOrganization = getChoirs(state, orgId);
     let singers = [];
+    console.log("OK... " + state.grid.rows);
     if(choirsInOrganization !== undefined) {
       choirsInOrganization.forEach(choir => {
         if(selectedPerformance.choirs.findIndex(c => c === choir.choirId) !== -1) {
@@ -57,10 +60,12 @@ export default connect(
         }
       });
     }
+    console.log("Stuff: " + singers)
     return {
       isAuthenticated: isAuthenticated(state),
       token: getToken(state),
       selectedOrganization: getSelectedOrganization(state, orgId),
+      grid: getGrid(state),
       singers,
       selectedPerformance,
       orgId
