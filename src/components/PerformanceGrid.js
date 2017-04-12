@@ -8,7 +8,8 @@ import { getGrid } from '../selectors/grid'
 
 function renderSquare(row, col, width) {
 	return (
-		<div className="performance-grid-box" style={{width:width}}></div>
+		// <GridSquare width={width} row={row} col={col} />
+		<div key={row + " " + col} className="performance-grid-box" style={{width:width}}></div>
 	);
 }
 
