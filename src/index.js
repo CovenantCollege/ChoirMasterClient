@@ -55,11 +55,7 @@ const initialState = {
         ]
       ]
     },
-  grid:
-    {
-      rows: 1,
-      cols: 1
-    }
+  grid:{rows:2, cols:2}
 };
 
 const store = createStore(

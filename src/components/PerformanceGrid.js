@@ -6,24 +6,31 @@ import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { getGrid } from '../selectors/grid'
 
+function renderSquare(row, col, width) {
+	return (
+		<div className="performance-grid-box" style={{width:width}}></div>
+	);
+}
+
 /**
  * This class will eventually be the drag and drop demo
  * It will get passed a list of dummy singers from the DummyChoirPage component
  */
 export class PerformanceGrid extends Component {
 
-	/**
-	 * Eventually, I want the layout to be like this:
-	 * <div  style={{ width: '12.5%', height: '12.5%' }}>
-	 * 	<DummySingerSquare>
-	 *  	<DummySingerCard singerData={dummySinger} />
-	 * 	</DummySingerSquare>
-	 * </div>
-	 * @return {[type]} [description]
-	 */
 	render() {
-		return(
-			<div>{this.props.rows} {this.props.cols}</div>
+		let squares = [];
+		let width = (1.0/this.props.cols)*100.0
+		console.log("Width: " + width);
+		for (var row = 0; row < this.props.rows; row++) {
+			for (var col = 0; col < this.props.cols; col++) {
+				squares.push(renderSquare(row, col, width+'%'));
+			}
+		}
+		return (
+			<div className="performance-grid">
+					{squares}
+			</div>
 		);
 	}
 }

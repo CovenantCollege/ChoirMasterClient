@@ -17,10 +17,19 @@ export class SingerGutter extends Component {
     	}
 
 		console.log('gutter: ' + singers);
-		return <div className="container"> 
+		return <div className="container" style={{width:'25%', height:'75vw', float:'left'}}>
+		  <h3 style={{margin:'0'}}>Singers:</h3>
+		  <hr />
 		  {
 			singers.map(singer => {
-				return <div id={singer.singerId}>{singer.name}</div>
+				console.log(singer);
+				return <div id={singer.singerId}>
+					{singer.name}
+					<ul>
+						<li>{singer.height}</li>
+						<li>{singer.voice}</li>
+					</ul>
+				</div>
 			})
 		  }
 		</div>

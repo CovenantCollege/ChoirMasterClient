@@ -22,3 +22,28 @@ body {
 .list-item-centered {
 	text-align: center;
 }
+
+.performance-grid {
+	width: 75%;
+	float: left; 
+	display: flex; 
+	flex-wrap: wrap;
+}
+
+.performance-grid-box {
+	display: flex;
+	background-color: #DDD; 
+	border: solid 2px #fff;
+}
+
+.performance-grid-box:before {
+	content: "";
+	float: left;
+	padding-top: 100%;
+}
+
+.performance-grid-box div {
+	/*display: flex;*/
+	/*flex-direction: row; */
+	flex: 1 0 auto;
+}
