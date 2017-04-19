@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { loadDummySingers } from '../actions/dummySingers'
 import { DropTarget } from 'react-dnd'
 import * as draggableTypes from '../constants/draggableTypes'
-import { getDummySingers } from '../selectors/dummySingers'
 import { STORE } from '../index'
 
 function moveDummySingerCard(sourceX, sourceY, targetX, targetY) {
@@ -27,10 +26,9 @@ function collect(connect, monitor) {
 		connectDropTarget: connect.dropTarget(),
 		isOver: monitor.isOver()
 	}
-};
+}
 
 export class DummySingerSquare extends Component {
-
 	render() {
 		const { x, y, connectDropTarget, isOver } = this.props;
 		return connectDropTarget(
@@ -39,7 +37,6 @@ export class DummySingerSquare extends Component {
 			</div>
 		);
 	}
-
 }
 
 DummySingerSquare.propTypes = {

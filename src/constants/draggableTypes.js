@@ -1,1 +1,2 @@
-export const DUMMY_SINGER_CARD = 'DUMMY_SINGER_CARD'
+export const DUMMY_SINGER_CARD = 'DUMMY_SINGER_CARD';
+export const SINGER_CARD = 'SINGER_CARD';

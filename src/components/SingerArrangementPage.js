@@ -37,7 +37,7 @@ export class SingerArrangementPage extends Component {
           <GridSizeForm rows={this.props.grid.rows} cols={this.props.grid.cols} />
           {/*<div className="drag-container">
             <SingerGutter singers={this.props.singers} />*/}
-            <PerformanceGrid rows={this.props.grid.rows} cols={this.props.grid.cols} />
+            <PerformanceGrid rows={this.props.grid.rows} cols={this.props.grid.cols} singers={this.props.singers} />
           {/*</div>*/}
         </div>
     );
