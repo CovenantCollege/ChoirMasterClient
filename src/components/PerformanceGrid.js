@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
-import { updateGrid } from '../actions/grid'
 import { connect } from 'react-redux'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { getGrid } from '../selectors/grid'
 import SingerSquare from './SingerSquare'
 import SingerCard from './SingerCard'
 
@@ -18,6 +16,7 @@ function renderSquare(row, col, singer) {
 
 export class PerformanceGrid extends Component {
   render() {
+    console.log(this.props.singers);
     let singersIndex = 0;
     let rows = [];
     for (let row = 0; row < this.props.rows; row++) {

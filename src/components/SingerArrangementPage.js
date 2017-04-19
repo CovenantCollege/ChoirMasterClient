@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchOrganizationsIfNeeded } from '../actions/organizations'
+import { fetchGridIfNeeded } from '../actions/grid'
 import { changePage } from '../actions/page'
 import { isAuthenticated, getToken } from '../selectors/user'
 import { getSelectedOrganization } from '../selectors/organizations'
 import { getSelectedPerformance } from '../selectors/performances'
 import { getChoirs } from '../selectors/choirs'
 import { getGrid } from '../selectors/grid'
-import SingerGutter from './SingerGutter'
 import PerformanceGrid from './PerformanceGrid'
 import GridSizeForm from './GridSizeForm'
 
 export class SingerArrangementPage extends Component {
   fetchDataIfNeeded() {
     this.props.dispatch(fetchOrganizationsIfNeeded(this.props.token));
+    // this.props.dispatch(fetchGridIfNeeded(this.props.token, this.props.orgId, this.props.performanceId));
   }
 
   componentWillMount() {
@@ -37,7 +38,12 @@ export class SingerArrangementPage extends Component {
           <GridSizeForm rows={this.props.grid.rows} cols={this.props.grid.cols} />
           {/*<div className="drag-container">
             <SingerGutter singers={this.props.singers} />*/}
-            <PerformanceGrid rows={this.props.grid.rows} cols={this.props.grid.cols} singers={this.props.singers} />
+            <PerformanceGrid
+              rows={this.props.grid.rows}
+              cols={this.props.grid.cols}
+              singers={this.props.singers}
+              orgId={this.props.orgId}
+              performanceId={this.props.selectedPerformance.performanceId} />
           {/*</div>*/}
         </div>
     );
@@ -53,7 +59,10 @@ export default connect(
     let singers = [];
     if(choirsInOrganization !== undefined) {
       choirsInOrganization.forEach(choir => {
+        console.log(selectedPerformance.choirs);
         if(selectedPerformance.choirs.findIndex(c => c === choir.choirId) !== -1) {
+          console.log(choir.choirId);
+          console.log(choir.singers);
           if(choir.singers !== undefined) {
             choir.singers.forEach(singer => {
               singers.push(singer);
