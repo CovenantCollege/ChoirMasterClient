@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Image, ListGroup, ListGroupItem } from 'react-bootstrap'
 import { DragSource } from 'react-dnd'
 import * as draggableTypes from '../constants/draggableTypes'
 

@@ -6,7 +6,7 @@ import * as draggableTypes from '../constants/draggableTypes'
 // import { STORE } from '../index'
 
 function moveSingerCard(sourceX, sourceY, targetX, targetY) {
-  console.log('TODO move singer');
+  console.log('TODO move singer ' + sourceX + ', ' + sourceY + ', ' + targetX + ', ' + targetY);
   // let current_state = Object.assign([], STORE.getState().singers.singersList);
   // let temp = current_state[sourceX][sourceY];
   // current_state[sourceX][sourceY] = current_state[targetX][targetY];
@@ -31,7 +31,7 @@ export class SingerSquare extends Component {
   render() {
     const { x, y, connectDropTarget, isOver } = this.props;
     return connectDropTarget(
-      <div className='performance-grid-box'>
+      <div className={'performance-grid-box' + (isOver ? ' hover' : '')}>
         {this.props.children}
       </div>
     );

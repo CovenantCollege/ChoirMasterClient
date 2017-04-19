@@ -97,3 +97,7 @@ body {
   float: left;
   position: relative;
 }
+
+.hover {
+  background-color: #bbb;
+}
