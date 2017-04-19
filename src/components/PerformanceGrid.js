@@ -16,15 +16,14 @@ function renderSquare(row, col, singer) {
 
 export class PerformanceGrid extends Component {
   render() {
-    console.log(this.props.singers);
-    let singersIndex = 0;
     let rows = [];
     for (let row = 0; row < this.props.rows; row++) {
       let squares = [];
       for (let col = 0; col < this.props.cols; col++) {
-        const singer = singersIndex < this.props.singers.length ? this.props.singers[singersIndex] : null;
+        const singer = this.props.singers.find(singer => {
+          return singer.x === col && singer.y === row;
+        });
         squares.push(renderSquare(row, col, singer));
-        singersIndex++;
       }
       rows.push(
         <div key={row} className='performance-grid-row'>

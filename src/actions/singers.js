@@ -68,10 +68,12 @@ export function deleteSingerFromOrganization(token, orgId, singerId) {
 }
 
 function requestSingers(choirId) {
+  console.log('requesting singers for choir ' + choirId);
   return { type: actionTypes.SINGERS_REQUESTED, payload: { choirId } };
 }
 
 function receiveSingers(orgId, choirId, singers) {
+  console.log('receiving singers for choir ' + choirId);
   return { type: actionTypes.SINGERS_RECEIVED, payload: { orgId, choirId, singers } };
 }
 
@@ -94,9 +96,6 @@ function shouldFetchSingers(state, orgId, choirId) {
   const selectedOrganization = state.organizations.organizationsList.find(organization => organization.orgId === orgId);
   const selectedChoir = selectedOrganization.choirs.find(choir => choir.choirId === choirId);
   let shouldFetchChoirs = selectedChoir.singers === undefined && state.organizations.isFetchingSingersForChoir.findIndex(c => c === choirId) === -1;
-  console.log(state.organizations.isFetchingSingersForChoir.findIndex(c => c === choirId));
-  console.log(choirId);
-  console.log(shouldFetchChoirs);
   return shouldFetchChoirs;
 }
 

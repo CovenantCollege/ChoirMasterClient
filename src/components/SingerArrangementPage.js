@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchOrganizationsIfNeeded } from '../actions/organizations'
-import { fetchGridIfNeeded } from '../actions/grid'
+import { fetchGridIfNeeded, updateGrid } from '../actions/grid'
 import { changePage } from '../actions/page'
 import { isAuthenticated, getToken } from '../selectors/user'
 import { getSelectedOrganization } from '../selectors/organizations'
@@ -12,17 +12,51 @@ import PerformanceGrid from './PerformanceGrid'
 import GridSizeForm from './GridSizeForm'
 
 export class SingerArrangementPage extends Component {
+  constructor(props) {
+    super(props);
+
+    this.setState({ singerList: [] });
+
+    this.fetchDataIfNeeded = this.fetchDataIfNeeded.bind(this);
+    this.placeSingersIfNeeded = this.placeSingersIfNeeded.bind(this);
+  }
+
   fetchDataIfNeeded() {
     this.props.dispatch(fetchOrganizationsIfNeeded(this.props.token));
-    // this.props.dispatch(fetchGridIfNeeded(this.props.token, this.props.orgId, this.props.performanceId));
+    this.props.dispatch(fetchGridIfNeeded(this.props.token, this.props.orgId, this.props.performanceId));
+  }
+
+  placeSingersIfNeeded() {
+    // console.log(this.props.gridSingers);
+    // if(this.props.gridSingers.length === 0) {
+    //   let singerList = [];
+    //   this.props.singers.forEach((singer, i) => {
+    //     singerList = singerList.concat({ singer, x: i % this.props.grid.columns, y: parseInt(Math.floor(i / this.props.grid.columns)) });
+    //   });
+    //   let grid = JSON.parse(JSON.stringify(this.props.grid));
+    //   grid.singerLists[this.props.selectedPerformance.performanceId] = singerList;
+    //   this.props.dispatch(updateGrid(grid));
+    // }
+    if(this.state !== null && this.state.singerList.length === 0) {
+      let singerList = [];
+      this.props.singers.forEach((singer, i) => {
+        singerList = singerList.concat({ singer, x: i % this.props.grid.columns, y: parseInt(Math.floor(i / this.props.grid.columns)) });
+      });
+      this.setState({ singerList });
+    }
   }
 
   componentWillMount() {
+    if(this.state === null) {
+      this.setState({ singerList: [] });
+    }
     this.fetchDataIfNeeded();
+    this.placeSingersIfNeeded();
   }
 
   componentDidUpdate() {
     this.fetchDataIfNeeded();
+    this.placeSingersIfNeeded();
   }
 
   render() {
@@ -41,7 +75,7 @@ export class SingerArrangementPage extends Component {
             <PerformanceGrid
               rows={this.props.grid.rows}
               cols={this.props.grid.cols}
-              singers={this.props.singers}
+              singers={this.state ? this.state.singerList : []}
               orgId={this.props.orgId}
               performanceId={this.props.selectedPerformance.performanceId} />
           {/*</div>*/}
@@ -59,10 +93,7 @@ export default connect(
     let singers = [];
     if(choirsInOrganization !== undefined) {
       choirsInOrganization.forEach(choir => {
-        console.log(selectedPerformance.choirs);
         if(selectedPerformance.choirs.findIndex(c => c === choir.choirId) !== -1) {
-          console.log(choir.choirId);
-          console.log(choir.singers);
           if(choir.singers !== undefined) {
             choir.singers.forEach(singer => {
               singers.push(singer);
@@ -71,11 +102,14 @@ export default connect(
         }
       });
     }
+    const grid = getGrid(state);
+    const gridSingers = grid.singerLists[performanceId];
     return {
       isAuthenticated: isAuthenticated(state),
       token: getToken(state),
       selectedOrganization: getSelectedOrganization(state, orgId),
-      grid: getGrid(state),
+      grid,
+      gridSingers: gridSingers || [],
       singers,
       selectedPerformance,
       orgId
