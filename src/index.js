@@ -54,8 +54,7 @@ const initialState = {
           { name: 'Eddie Sunder', height: "7' 0\"", voice: 'soprano', id: 45, img: 'https://randomuser.me/api/portraits/med/men/' + 45 + '.jpg' }
         ]
       ]
-    },
-  grid:{rows:2, cols:2}
+    }
 };
 
 const store = createStore(
