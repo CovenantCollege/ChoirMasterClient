@@ -59,3 +59,4 @@ export const GRID_LOADED = 'GRID_LOADED';
 export const GRID_UPDATED = 'GRID_UPDATED';
 export const GRID_REQUESTED = 'GRID_REQUESTED';
 export const GRID_RECEIVED = 'GRID_RECEIVED';
+export const SINGER_MOVED = 'SINGER_MOVED';

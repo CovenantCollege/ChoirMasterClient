@@ -9,7 +9,7 @@ import { getPerformanceId } from '../selectors/path'
  * @param  {rows: <rows>, cols: <cols>} The number of rows and cols in the grid
  */
 export function loadGrid(grid) {
-  return { type: actionTypes.GRID_LOADED, payload: {grid:grid} };
+  return { type: actionTypes.GRID_LOADED, payload: { grid} };
 }
 
 /**
@@ -17,6 +17,10 @@ export function loadGrid(grid) {
  */
 export function updateGrid(grid) {
   return { type: actionTypes.GRID_UPDATED, payload: { grid } };
+}
+
+export function moveSinger(sourceX, sourceY, targetX, targetY, singerId, performanceId) {
+  return { type: actionTypes.SINGER_MOVED, payload: { sourceX, sourceY, targetX, targetY, singerId, performanceId }};
 }
 
 function requestGrid(performanceId) {
@@ -47,10 +51,11 @@ function fetchGrid(token, orgId, performanceId) {
 }
 
 function shouldFetchGrid(state, performanceId) {
-  return state.grid.singersList === undefined && performanceId !== undefined && state.grid.isFetchingGrid.findIndex(p => p === performanceId) === -1;
+  return (state.grid.singerLists === undefined || state.grid.singerLists[performanceId] === undefined) && performanceId !== undefined && state.grid.isFetchingGrid.findIndex(p => p === performanceId) === -1;
 }
 
 export function fetchGridIfNeeded(token, orgId, performanceId) {
+  console.log('fetching grid if needed');
   return (dispatch, getState) => {
     const state = getState();
     const performanceId = performanceId !== undefined ? performanceId : getPerformanceId(state);

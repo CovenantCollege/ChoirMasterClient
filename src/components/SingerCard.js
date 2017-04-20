@@ -6,7 +6,7 @@ import * as draggableTypes from '../constants/draggableTypes'
 
 const singerCardSource = {
   beginDrag(props) {
-    return {x: props.x, y: props.y};
+    return { x: props.x, y: props.y, singerId: props.singer.singerId, performanceId: props.performanceId };
   }
 };
 

@@ -22,7 +22,34 @@ export default function grid(state = { rows: 4, cols: 6, isFetchingGrid: [], sin
           [action.payload.performanceId]: action.payload.singerList
         }
       };
+    case actionTypes.SINGER_MOVED:
+      let singerLists = JSON.parse(JSON.stringify(state.singerLists));
+      let singerList = singerLists[action.payload.performanceId];
+      let getSingerToReplaceIndex = () => {
+        return singerList.findIndex(gridSinger => gridSinger.x === action.payload.targetX && gridSinger.y === action.payload.targetY);
+      };
+      let singerToMoveIndex = singerList.findIndex(gridSinger => gridSinger.singerId === action.payload.singerId);
+      if(singerToMoveIndex !== -1) {
+        singerList.splice(singerToMoveIndex, 1);
+        let singerToReplaceIndex = getSingerToReplaceIndex();
+        if(singerToReplaceIndex !== -1) {
+          let singerToReplaceId = singerList[singerToReplaceIndex].singerId;
+          let singerToReplace = singerList.splice(singerToReplaceIndex, 1);
+          singerList.push({ singerId: singerToReplaceId, x: action.payload.sourceX, y: action.payload.sourceY });
+        }
+      } else {
+        let singerToReplaceIndex = getSingerToReplaceIndex();
+        if(singerToReplaceIndex !== -1) {
+          if (singerList[singerToReplaceIndex].x === action.payload.targetX && singerList[singerToReplaceIndex].y === action.payload.targetY) {
+            return state;
+          }
+        }
+      }
+      singerList.push({ singerId: action.payload.singerId, x: action.payload.targetX, y: action.payload.targetY });
+      singerLists[action.payload.performanceId] = singerList;
+      return { ...state, singerLists };
+      break;
     default:
       return state;
-  };
+  }
 }

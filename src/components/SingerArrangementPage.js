@@ -16,10 +16,13 @@ import GridSizeForm from './GridSizeForm'
 import SingerSquare from './SingerSquare'
 import SingerCard from './SingerCard'
 
-function renderSquare(row, col, singer) {
+function renderSquare(row, col, singer, performanceId) {
+  if(performanceId === undefined) {
+    return null;
+  }
   return (
-    <SingerSquare key={row + '-' + col} x={row} y={col}>
-      <SingerCard x={row} y={col} singer={singer} />
+    <SingerSquare key={row + '-' + col} x={col} y={row} performanceId={performanceId} singerId={singer ? singer.singerId : -1}>
+      <SingerCard x={col} y={row} singer={singer} performanceId={performanceId} />
     </SingerSquare>
   );
 }
@@ -67,15 +70,15 @@ export class SingerArrangementPage extends Component {
     if (this.props.selectedOrganization === undefined) {
       return null;
     }
-    const singers = this.state ? this.state.singerList : [];
+    console.log(this.props.gridSingers);
     let rows = [];
     for (let row = 0; row < this.props.grid.rows; row++) {
       let squares = [];
       for (let col = 0; col < this.props.grid.cols; col++) {
-        const singer = singers.find(singer => {
-          return singer.x === col && singer.y === row;
+        const gridSinger = this.props.gridSingers.find(gridSinger => {
+          return gridSinger.x === col && gridSinger.y === row;
         });
-        squares.push(renderSquare(row, col, singer));
+        squares.push(renderSquare(row, col, gridSinger ? this.props.singers.find(singer => singer.singerId === gridSinger.singerId) : undefined, this.props.selectedPerformance.performanceId));
       }
       rows.push(
         <div key={row} className='performance-grid-row'>
@@ -91,7 +94,7 @@ export class SingerArrangementPage extends Component {
         <div className="performance-grid">
           <div className='performance-grid-row'>
             {
-              this.props.singers ? this.props.singers.map((singer, i) => renderSquare(i, 0, singer)) : null
+              this.props.singers ? this.props.singers.filter(singer => !this.props.gridSingers.find(s => s.singerId === singer.singerId)).map((singer, i) => renderSquare(i, 0, singer, this.props.selectedPerformance.performanceId)) : null
             }
           </div>
         </div>
@@ -126,6 +129,13 @@ export default compose(
       }
       const grid = getGrid(state);
       const gridSingers = grid.singerLists[performanceId];
+      // const gridSingers = [
+      //   {
+      //     singer: JSON.parse('{"name":"Josh Humpherys","height":67,"voice":"Bass 1","orgId":1,"singerId":1}'),
+      //     x: 0,
+      //     y: 0
+      //   }
+      // ];
       return {
         isAuthenticated: isAuthenticated(state),
         token: getToken(state),
