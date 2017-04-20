@@ -35,7 +35,8 @@ export default function organizations(state = { organizationsList: [], isFetchin
           return organization;
         }
       });
-      let updatedIsFetchingSingersForChoir = state.isFetchingSingersForChoir.splice(state.isFetchingSingersForChoir.findIndex(choirId => choirId === action.payload.choirId), 1);
+      let updatedIsFetchingSingersForChoir = JSON.parse(JSON.stringify(state.isFetchingSingersForChoir));
+      updatedIsFetchingSingersForChoir.splice(state.isFetchingSingersForChoir.findIndex(choirId => choirId === action.payload.choirId), 1);
       return { ...state, organizationsList, isFetchingSingersForChoir: updatedIsFetchingSingersForChoir };
     case actionTypes.SINGER_ADDED:
       organizationsList = state.organizationsList.map(organization => {
