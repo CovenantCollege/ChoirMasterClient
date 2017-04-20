@@ -101,3 +101,12 @@ body {
 .hover {
   background-color: #bbb;
 }
+
+.center-container {
+  width: 100%;
+}
+
+.center-container > * {
+  display: block;
+  margin: auto;
+}
