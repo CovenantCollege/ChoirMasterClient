@@ -5,7 +5,7 @@ import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Button } from 'react-bootstrap'
 import { fetchOrganizationsIfNeeded } from '../actions/organizations'
-import { fetchGridIfNeeded, updateGrid } from '../actions/grid'
+import { fetchGridIfNeeded, updateSingerList } from '../actions/grid'
 import { changePage } from '../actions/page'
 import { isAuthenticated, getToken } from '../selectors/user'
 import { getSelectedOrganization } from '../selectors/organizations'
@@ -35,6 +35,7 @@ export class SingerArrangementPage extends Component {
 
     this.fetchDataIfNeeded = this.fetchDataIfNeeded.bind(this);
     this.placeSingers = this.placeSingers.bind(this);
+    this.save = this.save.bind(this);
   }
 
   fetchDataIfNeeded() {
@@ -43,10 +44,15 @@ export class SingerArrangementPage extends Component {
   }
 
   placeSingers() {
-      let singerList = this.props.singers.map((singer, i) => {
-        return { singer, x: i % this.props.grid.columns, y: parseInt(Math.floor(i / this.props.grid.columns)) };
-      });
-      this.setState({ singerList });
+    const cols = this.props.grid.cols;
+    let singerList = this.props.singers.map((singer, i) => {
+      return { singerId: singer.singerId, x: i % cols, y: parseInt(Math.floor(i / cols)) };
+    });
+    this.props.dispatch(updateSingerList(singerList, this.props.selectedPerformance.performanceId));
+  }
+
+  save() {
+
   }
 
   componentWillMount() {
@@ -70,7 +76,6 @@ export class SingerArrangementPage extends Component {
     if (this.props.selectedOrganization === undefined) {
       return null;
     }
-    console.log(this.props.gridSingers);
     let rows = [];
     for (let row = 0; row < this.props.grid.rows; row++) {
       let squares = [];
@@ -89,7 +94,7 @@ export class SingerArrangementPage extends Component {
     return (
       <div className="container margined-container">
         <div className="center-container">
-          <Button bsStyle="success">Place Singers</Button>
+          <Button bsStyle="success" onClick={this.placeSingers}>Place Singers</Button>
         </div>
         <div className="performance-grid">
           <div className='performance-grid-row'>
@@ -101,6 +106,9 @@ export class SingerArrangementPage extends Component {
         <GridSizeForm rows={this.props.grid.rows} cols={this.props.grid.cols} />
         <div className="performance-grid">
           {rows}
+        </div>
+        <div className="center-container">
+          <Button bsStyle="success" onClick={this.save}>Save Arrangement</Button>
         </div>
       </div>
     );

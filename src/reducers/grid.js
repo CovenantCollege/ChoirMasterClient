@@ -1,6 +1,7 @@
 import * as actionTypes from '../constants/actionTypes'
 
 export default function grid(state = { rows: 4, cols: 6, isFetchingGrid: [], singerLists: {} }, action) {
+  let singerLists;
   switch (action.type) {
     case actionTypes.GRID_LOADED:
       return { ...state, rows: action.payload.grid.rows, cols: action.payload.grid.cols };
@@ -23,7 +24,7 @@ export default function grid(state = { rows: 4, cols: 6, isFetchingGrid: [], sin
         }
       };
     case actionTypes.SINGER_MOVED:
-      let singerLists = JSON.parse(JSON.stringify(state.singerLists));
+      singerLists = JSON.parse(JSON.stringify(state.singerLists));
       let singerList = singerLists[action.payload.performanceId];
       let getSingerToReplaceIndex = () => {
         return singerList.findIndex(gridSinger => gridSinger.x === action.payload.targetX && gridSinger.y === action.payload.targetY);
@@ -49,6 +50,10 @@ export default function grid(state = { rows: 4, cols: 6, isFetchingGrid: [], sin
       singerLists[action.payload.performanceId] = singerList;
       return { ...state, singerLists };
       break;
+    case actionTypes.SINGER_LIST_UPDATED:
+      singerLists = JSON.parse(JSON.stringify(state.singerLists));
+      singerLists[action.payload.performanceId] = action.payload.singerList;
+      return { ...state, singerLists };
     default:
       return state;
   }

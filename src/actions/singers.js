@@ -68,12 +68,10 @@ export function deleteSingerFromOrganization(token, orgId, singerId) {
 }
 
 function requestSingers(choirId) {
-  console.log('requesting singers for choir ' + choirId);
   return { type: actionTypes.SINGERS_REQUESTED, payload: { choirId } };
 }
 
 function receiveSingers(orgId, choirId, singers) {
-  console.log('receiving singers for choir ' + choirId);
   return { type: actionTypes.SINGERS_RECEIVED, payload: { orgId, choirId, singers } };
 }
 

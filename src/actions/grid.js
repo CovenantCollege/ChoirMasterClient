@@ -19,6 +19,10 @@ export function updateGrid(grid) {
   return { type: actionTypes.GRID_UPDATED, payload: { grid } };
 }
 
+export function updateSingerList(singerList, performanceId) {
+  return { type: actionTypes.SINGER_LIST_UPDATED, payload: { singerList, performanceId }};
+}
+
 export function moveSinger(sourceX, sourceY, targetX, targetY, singerId, performanceId) {
   return { type: actionTypes.SINGER_MOVED, payload: { sourceX, sourceY, targetX, targetY, singerId, performanceId }};
 }
@@ -55,7 +59,6 @@ function shouldFetchGrid(state, performanceId) {
 }
 
 export function fetchGridIfNeeded(token, orgId, performanceId) {
-  console.log('fetching grid if needed');
   return (dispatch, getState) => {
     const state = getState();
     const performanceId = performanceId !== undefined ? performanceId : getPerformanceId(state);
