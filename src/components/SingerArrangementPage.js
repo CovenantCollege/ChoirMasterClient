@@ -5,7 +5,7 @@ import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Button } from 'react-bootstrap'
 import { fetchOrganizationsIfNeeded } from '../actions/organizations'
-import { fetchGridIfNeeded, updateSingerList } from '../actions/grid'
+import { fetchGridIfNeeded, updateSingerList, saveGrid } from '../actions/grid'
 import { changePage } from '../actions/page'
 import { isAuthenticated, getToken } from '../selectors/user'
 import { getSelectedOrganization } from '../selectors/organizations'
@@ -52,7 +52,7 @@ export class SingerArrangementPage extends Component {
   }
 
   save() {
-
+    this.props.dispatch(saveGrid(this.props.token, this.props.orgId, this.props.selectedPerformance.performanceId, this.props.gridSingers));
   }
 
   componentWillMount() {

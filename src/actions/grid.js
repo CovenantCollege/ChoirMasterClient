@@ -27,6 +27,26 @@ export function moveSinger(sourceX, sourceY, targetX, targetY, singerId, perform
   return { type: actionTypes.SINGER_MOVED, payload: { sourceX, sourceY, targetX, targetY, singerId, performanceId }};
 }
 
+export function saveGrid(token, orgId, performanceId, gridSingers) {
+  return async dispatch => {
+    dispatch(requestGrid(performanceId));
+    let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/performances/' + performanceId + '/grid/singers', {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'jwt ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(gridSingers)
+    });
+    // let json = await response.json();
+    // if (response.status == 200) {
+    //   dispatch(receiveGrid(orgId, performanceId, json));
+    // } else {
+    //   // TODO: how to handle 404 errors?
+    // }
+  };
+}
+
 function requestGrid(performanceId) {
   return { type: actionTypes.GRID_REQUESTED, payload: { performanceId } };
 }

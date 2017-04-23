@@ -20,7 +20,9 @@ export function addPerformance(token, orgId, venueId, performance) {
       },
       body: JSON.stringify({
         date: performance.date,
-        description: performance.description
+        description: performance.description,
+        width: 6,
+        height: 4
       })
     });
     if(postResponse.status === 201) {
