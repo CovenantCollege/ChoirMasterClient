@@ -5,7 +5,7 @@ export default function grid(state = { rows: 4, cols: 6, isFetchingGrid: [], sin
     case actionTypes.GRID_LOADED:
       return { ...state, rows: action.payload.grid.rows, cols: action.payload.grid.cols };
     case actionTypes.GRID_UPDATED:
-      return { ...action.payload.grid };
+      return { ...state, ...action.payload.grid };
     case actionTypes.GRID_REQUESTED:
       return {
         ...state,
