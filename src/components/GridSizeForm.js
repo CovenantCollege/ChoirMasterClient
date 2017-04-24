@@ -8,7 +8,7 @@ import HTML5Backend from 'react-dnd-html5-backend'
 export class GridSpinner extends Component {
   constructor(props) {
     super(props);
-    this.state = {rows: 4, cols: 6 };
+    this.state = {rows: props.rows, cols: props.cols };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,7 +24,7 @@ export class GridSpinner extends Component {
   }
 
   handleSubmit(event) {
-    this.props.dispatch(updateGrid({ rows: parseInt(this.state.rows), cols: parseInt(this.state.cols) }));
+    this.props.handleSubmit(this.state.cols, this.state.rows);
     event.preventDefault();
   }
 

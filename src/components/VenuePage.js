@@ -46,7 +46,9 @@ export class VenuePage extends Component {
       this.props.dispatch(addPerformance(this.props.token, this.props.orgId, this.props.venueId, {
         date: this.state.dateInput,
         description: this.state.descriptionInput,
-        selected: this.state.selected
+        selected: this.state.selected,
+        width: parseInt(this.state.widthInput, 10),
+        height: parseInt(this.state.heightInput, 10)
       }));
       this.setState({ isEditing: false, dateInputInvalid: false, dateInput: '', descriptionInput: '' });
     }
@@ -84,6 +86,7 @@ export class VenuePage extends Component {
     let savePerformanceButton;
     let performanceDateInput;
     let performanceDescriptionInput;
+    let gridSizeInput;
 
     if(this.state.isEditing) {
       choirSelectionHeader = <h3>Choirs</h3>;
@@ -138,6 +141,27 @@ export class VenuePage extends Component {
             onChange={e => this.setState({ descriptionInput: e.target.value })}
             onKeyDown={this.onKeyDown}
             id="descriptionInput"
+          />
+          <FormControl.Feedback />
+        </FormGroup>
+      );
+      gridSizeInput = (
+        <FormGroup>
+          <h3>Grid Size</h3>
+          <h5>Width</h5>
+          <FormControl
+            type="number"
+            onChange={e => this.setState({ widthInput: e.target.value })}
+            onKeyDown={this.onKeyDown}
+            id="widthInput"
+          />
+          <FormControl.Feedback />
+          <h5>Height</h5>
+          <FormControl
+            type="number"
+            onChange={e => this.setState({ heightInput: e.target.value })}
+            onKeyDown={this.onKeyDown}
+            id="heightInput"
           />
           <FormControl.Feedback />
         </FormGroup>
@@ -202,6 +226,7 @@ export class VenuePage extends Component {
           {addPerformanceButton}
           {performanceDateInput}
           {performanceDescriptionInput}
+          {gridSizeInput}
           {choirSelectionHeader}
           {choirSelectionTable}
           {savePerformanceButton}

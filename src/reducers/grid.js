@@ -54,6 +54,10 @@ export default function grid(state = { rows: 4, cols: 6, isFetchingGrid: [], sin
       singerLists = JSON.parse(JSON.stringify(state.singerLists));
       singerLists[action.payload.performanceId] = action.payload.singerList;
       return { ...state, singerLists };
+    case actionTypes.GRID_SIZE_RECEIVED:
+      return { ...state, rows: action.payload.gridSize.height, cols: action.payload.gridSize.width };
+    case actionTypes.GRID_SIZE_UPDATED:
+      return { ...state, rows: action.payload.height, cols: action.payload.width };
     default:
       return state;
   }

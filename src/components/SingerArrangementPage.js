@@ -5,7 +5,8 @@ import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Button } from 'react-bootstrap'
 import { fetchOrganizationsIfNeeded } from '../actions/organizations'
-import { fetchGridIfNeeded, updateSingerList, saveGrid } from '../actions/grid'
+import { fetchGridIfNeeded, updateSingerList, saveGrid, updateGrid } from '../actions/grid'
+import { updatePerformanceGridSize } from '../actions/performances'
 import { changePage } from '../actions/page'
 import { isAuthenticated, getToken } from '../selectors/user'
 import { getSelectedOrganization } from '../selectors/organizations'
@@ -31,16 +32,24 @@ export class SingerArrangementPage extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { singerList: [] };
+    this.state = {
+      singerList: []
+      // fetchedGridSize: false
+    };
 
     this.fetchDataIfNeeded = this.fetchDataIfNeeded.bind(this);
     this.placeSingers = this.placeSingers.bind(this);
     this.save = this.save.bind(this);
+    this.updateGridSize = this.updateGridSize.bind(this);
   }
 
   fetchDataIfNeeded() {
     this.props.dispatch(fetchOrganizationsIfNeeded(this.props.token));
     this.props.dispatch(fetchGridIfNeeded(this.props.token, this.props.orgId, this.props.performanceId));
+    // if(this.state.fetchedGridSize === false && this.props.orgId !== undefined && this.props.selectedPerformance !== undefined) {
+    //   this.props.dispatch(fetchGridSize(this.props.token, this.props.orgId, this.props.selectedPerformance.performanceId));
+    //   this.setState({ fetchedGridSize: true });
+    // }
   }
 
   placeSingers() {
@@ -55,17 +64,20 @@ export class SingerArrangementPage extends Component {
     this.props.dispatch(saveGrid(this.props.token, this.props.orgId, this.props.selectedPerformance.performanceId, this.props.gridSingers));
   }
 
+  updateGridSize(width, height) {
+    this.props.dispatch(updateGrid({ rows: height, cols: width }));
+    this.props.dispatch(updatePerformanceGridSize(this.props.token, this.props.orgId, this.props.selectedPerformance.performanceId, width, height));
+  }
+
   componentWillMount() {
     if(this.state === null) {
       this.setState({ singerList: [] });
     }
     this.fetchDataIfNeeded();
-    // this.placeSingersIfNeeded();
   }
 
   componentDidUpdate() {
     this.fetchDataIfNeeded();
-    // this.placeSingersIfNeeded();
   }
 
   render() {
@@ -77,9 +89,9 @@ export class SingerArrangementPage extends Component {
       return null;
     }
     let rows = [];
-    for (let row = 0; row < this.props.grid.rows; row++) {
+    for (let row = 0; row < this.props.selectedPerformance.height; row++) {
       let squares = [];
-      for (let col = 0; col < this.props.grid.cols; col++) {
+      for (let col = 0; col < this.props.selectedPerformance.width; col++) {
         const gridSinger = this.props.gridSingers.find(gridSinger => {
           return gridSinger.x === col && gridSinger.y === row;
         });
@@ -103,7 +115,7 @@ export class SingerArrangementPage extends Component {
             }
           </div>
         </div>
-        <GridSizeForm rows={this.props.grid.rows} cols={this.props.grid.cols} />
+        <GridSizeForm rows={this.props.selectedPerformance.height} cols={this.props.selectedPerformance.width} handleSubmit={this.updateGridSize} />
         <div className="performance-grid">
           {rows}
         </div>

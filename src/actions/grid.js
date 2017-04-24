@@ -38,14 +38,35 @@ export function saveGrid(token, orgId, performanceId, gridSingers) {
       },
       body: JSON.stringify(gridSingers)
     });
-    // let json = await response.json();
-    // if (response.status == 200) {
-    //   dispatch(receiveGrid(orgId, performanceId, json));
-    // } else {
-    //   // TODO: how to handle 404 errors?
-    // }
+    let json = await response.json();
+    if (response.status != 200) {
+      console.log('failed to save grid');
+    }
   };
 }
+
+// export function fetchGridSize(token, orgId, performanceId) {
+//   return async dispatch => {
+//     dispatch(requestGrid(performanceId));
+//     let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/performances/' + performanceId + '/grid/singers', {
+//       method: 'GET',
+//       headers: {
+//         'Authorization': 'jwt ' + token,
+//         'Content-Type': 'application/json'
+//       }
+//     });
+//     let json = await response.json();
+//     if (response.status == 200) {
+//       dispatch(receiveGridSize(orgId, performanceId, json));
+//     } else {
+//       // TODO error handling
+//     }
+//   };
+// }
+//
+// function receiveGridSize(orgId, performanceId, gridSize) {
+//   return { type: actionTypes.GRID_SIZE_RECEIVED, payload: { orgId, performanceId, gridSize } };
+// }
 
 function requestGrid(performanceId) {
   return { type: actionTypes.GRID_REQUESTED, payload: { performanceId } };
