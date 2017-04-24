@@ -35,7 +35,8 @@ export default function organizations(state = { organizationsList: [], isFetchin
           return organization;
         }
       });
-      let updatedIsFetchingSingersForChoir = state.isFetchingSingersForChoir.splice(state.isFetchingSingersForChoir.findIndex(choirId => choirId === action.payload.choirId), 1);
+      let updatedIsFetchingSingersForChoir = JSON.parse(JSON.stringify(state.isFetchingSingersForChoir));
+      updatedIsFetchingSingersForChoir.splice(state.isFetchingSingersForChoir.findIndex(choirId => choirId === action.payload.choirId), 1);
       return { ...state, organizationsList, isFetchingSingersForChoir: updatedIsFetchingSingersForChoir };
     case actionTypes.SINGER_ADDED:
       organizationsList = state.organizationsList.map(organization => {
@@ -167,6 +168,26 @@ export default function organizations(state = { organizationsList: [], isFetchin
         if (organization.orgId === action.payload.orgId) {
           let updatedOrganization = Object.assign({}, organization);
           updatedOrganization.performances = (updatedOrganization.performances ? updatedOrganization.performances : []).concat(action.payload.performance);
+          return updatedOrganization;
+        } else {
+          return organization;
+        }
+      });
+      return { ...state, organizationsList };
+    case actionTypes.PERFORMANCE_GRID_SIZE_UPDATED:
+      organizationsList = state.organizationsList.map(organization => {
+        if (organization.orgId === action.payload.orgId) {
+          let updatedOrganization = Object.assign({}, organization);
+          updatedOrganization.performances = (updatedOrganization.performances ? updatedOrganization.performances : []).map(performance => {
+            if(performance.performanceId === action.payload.performanceId) {
+              let updatedPerformance = Object.assign({}, performance);
+              updatedPerformance.width = action.payload.width;
+              updatedPerformance.height = action.payload.height;
+              return updatedPerformance;
+            } else {
+              return performance;
+            }
+          });
           return updatedOrganization;
         } else {
           return organization;

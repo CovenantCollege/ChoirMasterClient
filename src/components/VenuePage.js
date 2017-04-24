@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Alert, Button, FormControl, FormGroup, Glyphicon, Table } from 'react-bootstrap'
+import { Alert, Button, ControlLabel, FormControl, FormGroup, Glyphicon, Table } from 'react-bootstrap'
 import { fetchOrganizationsIfNeeded } from '../actions/organizations'
 import { addPerformance } from '../actions/performances'
 import { changePage } from '../actions/page'
@@ -19,6 +19,9 @@ export class VenuePage extends Component {
       dateInput: '',
       descriptionInput: '',
       dateInputInvalid: false,
+      descriptionInputInvalid: false,
+      widthInputInvalid: false,
+      heightInputInvalid: false,
       selected: []
     };
 
@@ -40,13 +43,19 @@ export class VenuePage extends Component {
   }
 
   saveChanges() {
-    if(this.state.dateInput === '') {
-      this.setState({ dateInputInvalid: true });
+    const dateInputInvalid = this.state.dateInput === '';
+    const descriptionInputInvalid = this.state.descriptionInput === '';
+    const widthInputInvalid = this.state.widthInput === undefined || parseInt(this.state.widthInput, 10) < 1;
+    const heightInputInvalid = this.state.heightInput === undefined || parseInt(this.state.heightInput, 10) < 1;
+    if(dateInputInvalid || descriptionInputInvalid || widthInputInvalid || heightInputInvalid) {
+      this.setState({ dateInputInvalid, descriptionInputInvalid, widthInputInvalid, heightInputInvalid });
     } else {
       this.props.dispatch(addPerformance(this.props.token, this.props.orgId, this.props.venueId, {
         date: this.state.dateInput,
         description: this.state.descriptionInput,
-        selected: this.state.selected
+        selected: this.state.selected,
+        width: parseInt(this.state.widthInput, 10),
+        height: parseInt(this.state.heightInput, 10)
       }));
       this.setState({ isEditing: false, dateInputInvalid: false, dateInput: '', descriptionInput: '' });
     }
@@ -84,6 +93,8 @@ export class VenuePage extends Component {
     let savePerformanceButton;
     let performanceDateInput;
     let performanceDescriptionInput;
+    let widthInput;
+    let heightInput;
 
     if(this.state.isEditing) {
       choirSelectionHeader = <h3>Choirs</h3>;
@@ -118,7 +129,7 @@ export class VenuePage extends Component {
       );
       performanceDateInput = (
         <FormGroup validationState={this.state.dateInputInvalid ? 'error' : null}>
-          <h3>Date</h3>
+          <ControlLabel>Date</ControlLabel>
           <FormControl
             type="date"
             placeholder="Enter date"
@@ -130,14 +141,38 @@ export class VenuePage extends Component {
         </FormGroup>
       );
       performanceDescriptionInput = (
-        <FormGroup>
-          <h3>Description</h3>
+        <FormGroup validationState={this.state.descriptionInputInvalid ? 'error' : null}>
+          <ControlLabel>Description</ControlLabel>
           <FormControl
             type="text"
             placeholder="Enter description"
             onChange={e => this.setState({ descriptionInput: e.target.value })}
             onKeyDown={this.onKeyDown}
             id="descriptionInput"
+          />
+          <FormControl.Feedback />
+        </FormGroup>
+      );
+      widthInput = (
+        <FormGroup validationState={this.state.widthInputInvalid ? 'error' : null}>
+          <ControlLabel>Width</ControlLabel>
+          <FormControl
+            type="number"
+            onChange={e => this.setState({ widthInput: e.target.value })}
+            onKeyDown={this.onKeyDown}
+            id="widthInput"
+          />
+          <FormControl.Feedback />
+        </FormGroup>
+      );
+      heightInput = (
+        <FormGroup validationState={this.state.heightInputInvalid ? 'error' : null}>
+          <ControlLabel>Height</ControlLabel>
+          <FormControl
+            type="number"
+            onChange={e => this.setState({ heightInput: e.target.value })}
+            onKeyDown={this.onKeyDown}
+            id="heightInput"
           />
           <FormControl.Feedback />
         </FormGroup>
@@ -193,7 +228,18 @@ export class VenuePage extends Component {
           {
             this.state.dateInputInvalid ? (
               <Alert bsStyle="danger">
-                <strong>Error!</strong> Date cannot be left blank.
+                {
+                  this.state.dateInputInvalid ? <div><strong>Error!</strong> Date cannot be left blank.</div> : null
+                }
+                {
+                  this.state.descriptionInputInvalid ? <div><strong>Error!</strong> Description cannot be left blank.</div> : null
+                }
+                {
+                  this.state.widthInputInvalid ? <div><strong>Error!</strong> Width must be greater than zero.</div> : null
+                }
+                {
+                  this.state.heightInputInvalid ? <div><strong>Error!</strong> Height must be greater than zero.</div> : null
+                }
               </Alert>
             ): null
           }
@@ -202,6 +248,8 @@ export class VenuePage extends Component {
           {addPerformanceButton}
           {performanceDateInput}
           {performanceDescriptionInput}
+          {widthInput}
+          {heightInput}
           {choirSelectionHeader}
           {choirSelectionTable}
           {savePerformanceButton}

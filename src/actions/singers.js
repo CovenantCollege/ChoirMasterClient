@@ -93,7 +93,8 @@ function fetchSingers(token, orgId, choirId) {
 function shouldFetchSingers(state, orgId, choirId) {
   const selectedOrganization = state.organizations.organizationsList.find(organization => organization.orgId === orgId);
   const selectedChoir = selectedOrganization.choirs.find(choir => choir.choirId === choirId);
-  return selectedChoir.singers === undefined && state.organizations.isFetchingSingersForChoir.findIndex(c => c === choirId);
+  let shouldFetchChoirs = selectedChoir.singers === undefined && state.organizations.isFetchingSingersForChoir.findIndex(c => c === choirId) === -1;
+  return shouldFetchChoirs;
 }
 
 export function fetchSingersIfNeeded(token, orgId, choirId) {
