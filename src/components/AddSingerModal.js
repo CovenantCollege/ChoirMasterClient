@@ -51,7 +51,7 @@ export class AddSingerModal extends Component {
       }
     };
 
-    this.state = {
+    this.initialState = this.state = {
       nameInput: '',
       heightInput: 0,
       voiceInput: 'S1',
@@ -89,6 +89,7 @@ export class AddSingerModal extends Component {
         },
         this.props.orgId
       ));
+      this.setState(this.initialState);
     }
   }
 
