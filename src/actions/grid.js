@@ -23,8 +23,8 @@ export function updateSingerList(singerList, performanceId) {
   return { type: actionTypes.SINGER_LIST_UPDATED, payload: { singerList, performanceId }};
 }
 
-export function moveSinger(sourceX, sourceY, targetX, targetY, singerId, performanceId) {
-  return { type: actionTypes.SINGER_MOVED, payload: { sourceX, sourceY, targetX, targetY, singerId, performanceId }};
+export function moveSinger(sourceX, sourceY, targetX, targetY, sourceSingerId, targetSingerId, performanceId) {
+  return { type: actionTypes.SINGER_MOVED, payload: { sourceX, sourceY, targetX, targetY, sourceSingerId, targetSingerId, performanceId }};
 }
 
 export function saveGrid(token, orgId, performanceId, gridSingers) {

@@ -6,14 +6,14 @@ import * as draggableTypes from '../constants/draggableTypes'
 import { moveSinger } from '../actions/grid'
 import { STORE } from '../index'
 
-function moveSingerCard(sourceX, sourceY, targetX, targetY, singerId, performanceId) {
-  STORE.dispatch(moveSinger(sourceX, sourceY, targetX, targetY, singerId, performanceId));
+function moveSingerCard(sourceX, sourceY, targetX, targetY, sourceSingerId, targetSingerId, performanceId) {
+  STORE.dispatch(moveSinger(sourceX, sourceY, targetX, targetY, sourceSingerId, targetSingerId, performanceId));
 }
 
 const singerSquareTarget = {
   drop(props, monitor) {
     const item = monitor.getItem();
-    moveSingerCard(item.x, item.y, props.x, props.y, item.singerId, item.performanceId);
+    moveSingerCard(item.x, item.y, props.x, props.y, item.singerId, props.singerId, item.performanceId);
   }
 };
 

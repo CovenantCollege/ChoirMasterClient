@@ -27,9 +27,9 @@ export default function grid(state = { rows: 4, cols: 6, isFetchingGrid: [], sin
       singerLists = JSON.parse(JSON.stringify(state.singerLists));
       let singerList = singerLists[action.payload.performanceId];
       let getSingerToReplaceIndex = () => {
-        return singerList.findIndex(gridSinger => gridSinger.x === action.payload.targetX && gridSinger.y === action.payload.targetY);
+        return singerList.findIndex(gridSinger => gridSinger.singerId === action.payload.targetSingerId);
       };
-      let singerToMoveIndex = singerList.findIndex(gridSinger => gridSinger.singerId === action.payload.singerId);
+      let singerToMoveIndex = singerList.findIndex(gridSinger => gridSinger.singerId === action.payload.sourceSingerId);
       if(singerToMoveIndex !== -1) {
         singerList.splice(singerToMoveIndex, 1);
         let singerToReplaceIndex = getSingerToReplaceIndex();
@@ -44,9 +44,11 @@ export default function grid(state = { rows: 4, cols: 6, isFetchingGrid: [], sin
           if (singerList[singerToReplaceIndex].x === action.payload.targetX && singerList[singerToReplaceIndex].y === action.payload.targetY) {
             return state;
           }
+        } else if(action.payload.targetSingerId !== -1) {
+          return state;
         }
       }
-      singerList.push({ singerId: action.payload.singerId, x: action.payload.targetX, y: action.payload.targetY });
+      singerList.push({ singerId: action.payload.sourceSingerId, x: action.payload.targetX, y: action.payload.targetY });
       singerLists[action.payload.performanceId] = singerList;
       return { ...state, singerLists };
       break;
