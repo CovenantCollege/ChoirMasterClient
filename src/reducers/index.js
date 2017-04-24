@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import user from './user';
 import organizations from './organizations'
-import dummySingers from './dummySingers'
 import failedRequests from './failedRequests'
 import grid from './grid'
 import modal from './modal'
@@ -13,7 +12,6 @@ const rootReducer = combineReducers({
   organizations,
   failedRequests,
   modal,
-  dummySingers,
   grid
 });
 
