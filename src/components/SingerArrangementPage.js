@@ -91,17 +91,33 @@ export class SingerArrangementPage extends Component {
     let rows = [];
     for (let row = 0; row < this.props.selectedPerformance.height; row++) {
       let squares = [];
+      squares.push(<div className="performance-grid-box performance-grid-box-edge"></div>);
       for (let col = 0; col < this.props.selectedPerformance.width; col++) {
         const gridSinger = this.props.gridSingers.find(gridSinger => {
           return gridSinger.x === col && gridSinger.y === row;
         });
         squares.push(renderSquare(row, col, gridSinger ? this.props.singers.find(singer => singer.singerId === gridSinger.singerId) : undefined, this.props.selectedPerformance.performanceId));
       }
+      squares.push(<div className="performance-grid-box performance-grid-box-edge"></div>);
       rows.push(
         <div key={row} className='performance-grid-row'>
           {squares}
         </div>
       );
+    }
+    let singersQueue = [];
+    if(this.props.singers && this.props.gridSingers && this.props.singers.length !== this.props.gridSingers.length) {
+      if (this.props.gridSingers && this.props.singers && this.props.gridSingers.length !== this.props.singers.length) {
+        singersQueue.push(<div className="performance-grid-box performance-grid-box-edge"></div>);
+        if (this.props.singers) {
+          singersQueue.push(
+            this.props.singers
+              .filter(singer => !this.props.gridSingers.find(s => s.singerId === singer.singerId))
+              .map((singer, i) => renderSquare(i, 0, singer, this.props.selectedPerformance.performanceId))
+          );
+        }
+      }
+      singersQueue.push(<div className="performance-grid-box performance-grid-box-edge"></div>);
     }
     return (
       <div className="container margined-container">
@@ -110,9 +126,7 @@ export class SingerArrangementPage extends Component {
         </div>
         <div className="performance-grid">
           <div className='performance-grid-row'>
-            {
-              this.props.singers ? this.props.singers.filter(singer => !this.props.gridSingers.find(s => s.singerId === singer.singerId)).map((singer, i) => renderSquare(i, 0, singer, this.props.selectedPerformance.performanceId)) : null
-            }
+            {singersQueue}
           </div>
         </div>
         <GridSizeForm rows={this.props.selectedPerformance.height} cols={this.props.selectedPerformance.width} handleSubmit={this.updateGridSize} />
