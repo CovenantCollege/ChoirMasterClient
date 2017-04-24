@@ -5,7 +5,7 @@ import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Button } from 'react-bootstrap'
 import { fetchOrganizationsIfNeeded } from '../actions/organizations'
-import { fetchGridIfNeeded, updateSingerList, saveGrid, updateGrid } from '../actions/grid'
+import { fetchGridIfNeeded, arrangeSingers, saveGrid, updateGrid } from '../actions/grid'
 import { updatePerformanceGridSize } from '../actions/performances'
 import { changePage } from '../actions/page'
 import { isAuthenticated, getToken } from '../selectors/user'
@@ -34,7 +34,6 @@ export class SingerArrangementPage extends Component {
 
     this.state = {
       singerList: []
-      // fetchedGridSize: false
     };
 
     this.fetchDataIfNeeded = this.fetchDataIfNeeded.bind(this);
@@ -46,18 +45,15 @@ export class SingerArrangementPage extends Component {
   fetchDataIfNeeded() {
     this.props.dispatch(fetchOrganizationsIfNeeded(this.props.token));
     this.props.dispatch(fetchGridIfNeeded(this.props.token, this.props.orgId, this.props.performanceId));
-    // if(this.state.fetchedGridSize === false && this.props.orgId !== undefined && this.props.selectedPerformance !== undefined) {
-    //   this.props.dispatch(fetchGridSize(this.props.token, this.props.orgId, this.props.selectedPerformance.performanceId));
-    //   this.setState({ fetchedGridSize: true });
-    // }
   }
 
   placeSingers() {
-    const cols = this.props.grid.cols;
-    let singerList = this.props.singers.map((singer, i) => {
-      return { singerId: singer.singerId, x: i % cols, y: parseInt(Math.floor(i / cols)) };
-    });
-    this.props.dispatch(updateSingerList(singerList, this.props.selectedPerformance.performanceId));
+    // const cols = this.props.grid.cols;
+    // let singerList = this.props.singers.map((singer, i) => {
+    //   return { singerId: singer.singerId, x: i % cols, y: parseInt(Math.floor(i / cols)) };
+    // });
+    // this.props.dispatch(updateSingerList(singerList, this.props.selectedPerformance.performanceId));
+    this.props.dispatch(arrangeSingers(this.props.token, this.props.orgId, this.props.selectedPerformance.performanceId));
   }
 
   save() {
@@ -91,14 +87,14 @@ export class SingerArrangementPage extends Component {
     let rows = [];
     for (let row = 0; row < this.props.selectedPerformance.height; row++) {
       let squares = [];
-      squares.push(<div className="performance-grid-box performance-grid-box-edge"></div>);
+      squares.push(<div className="performance-grid-box performance-grid-box-edge" key='begin'></div>);
       for (let col = 0; col < this.props.selectedPerformance.width; col++) {
         const gridSinger = this.props.gridSingers.find(gridSinger => {
           return gridSinger.x === col && gridSinger.y === row;
         });
         squares.push(renderSquare(row, col, gridSinger ? this.props.singers.find(singer => singer.singerId === gridSinger.singerId) : undefined, this.props.selectedPerformance.performanceId));
       }
-      squares.push(<div className="performance-grid-box performance-grid-box-edge"></div>);
+      squares.push(<div className="performance-grid-box performance-grid-box-edge" key='end'></div>);
       rows.push(
         <div key={row} className='performance-grid-row'>
           {squares}
@@ -108,7 +104,7 @@ export class SingerArrangementPage extends Component {
     let singersQueue = [];
     if(this.props.singers && this.props.gridSingers && this.props.singers.length !== this.props.gridSingers.length) {
       if (this.props.gridSingers && this.props.singers && this.props.gridSingers.length !== this.props.singers.length) {
-        singersQueue.push(<div className="performance-grid-box performance-grid-box-edge"></div>);
+        singersQueue.push(<div className="performance-grid-box performance-grid-box-edge" key="begin"></div>);
         if (this.props.singers) {
           singersQueue.push(
             this.props.singers
@@ -117,12 +113,12 @@ export class SingerArrangementPage extends Component {
           );
         }
       }
-      singersQueue.push(<div className="performance-grid-box performance-grid-box-edge"></div>);
+      singersQueue.push(<div className="performance-grid-box performance-grid-box-edge" key="end"></div>);
     }
     return (
       <div className="container margined-container">
         <div className="center-container">
-          <Button bsStyle="success" onClick={this.placeSingers}>Place Singers</Button>
+          <Button bsStyle="success" onClick={this.placeSingers}>Arrange Singers</Button>
         </div>
         <div className="performance-grid">
           <div className='performance-grid-row'>
@@ -163,13 +159,6 @@ export default compose(
       }
       const grid = getGrid(state);
       const gridSingers = grid.singerLists[performanceId];
-      // const gridSingers = [
-      //   {
-      //     singer: JSON.parse('{"name":"Josh Humpherys","height":67,"voice":"Bass 1","orgId":1,"singerId":1}'),
-      //     x: 0,
-      //     y: 0
-      //   }
-      // ];
       return {
         isAuthenticated: isAuthenticated(state),
         token: getToken(state),

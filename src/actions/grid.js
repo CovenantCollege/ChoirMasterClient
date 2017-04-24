@@ -108,3 +108,21 @@ export function fetchGridIfNeeded(token, orgId, performanceId) {
     }
   };
 }
+
+export function arrangeSingers(token, orgId, performanceId) {
+  return async dispatch => {
+    let response = await fetch(config.baseApiUrl + '/organizations/' + orgId + '/performances/' + performanceId + '/grid/singers/algorithm', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'jwt ' + token,
+        'Content-Type': 'application/json'
+      }
+    });
+    let json = await response.json();
+    if (response.status == 200) {
+      dispatch(receiveGrid(orgId, performanceId, json));
+    } else {
+      // TODO: how to handle 404 errors?
+    }
+  }
+}
